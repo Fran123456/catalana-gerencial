@@ -1,0 +1,12 @@
+{
+  "Dashboard":"Inicio",
+  "Users":"Usuarios",
+  "password":"contraseña",
+  "New user":"Nuevo usuario",
+  ":data created successfully":":data creado correctamente",
+
+
+  "name":"nombre",
+  "email":"correo electronico",
+  "photo":"Foto"
+}

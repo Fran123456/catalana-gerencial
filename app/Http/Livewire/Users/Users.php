@@ -19,8 +19,6 @@ class Users extends Component
    public $search;
   // public $users;
 
-
-
     public function clean(){//de sistema
      $this->name= "";
      $this->email= "";
@@ -32,13 +30,12 @@ class Users extends Component
     public function render()
     {
       if($this->search==null|| $this->search ==""){
-        $users = User::paginate(5);
+        $users = User::orderBy('id','desc')->paginate(5);
       }else{
-        $users =User::where('name','like', '%'.$this->search.'%')->paginate(5);
+        $users =User::where('name','like', '%'.$this->search.'%')->orderBy('id','desc')->paginate(5);
       }
        return view('livewire.users.users', compact('users'));
     }
-
 
     public function store(){
       $this->validate([

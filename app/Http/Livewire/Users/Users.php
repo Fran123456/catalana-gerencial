@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
 
 class Users extends Component
 {
@@ -17,6 +18,7 @@ class Users extends Component
    public $password;
    public $idUser;
    public $search;
+   public $role;
   // public $users;
 
     public function clean(){//de sistema
@@ -25,16 +27,18 @@ class Users extends Component
      $this->password= "";
      $this->idUser ="";
      $this->search ="";
+     $this->role ="";
     }
 
     public function render()
     {
+      $roles = Role::all();
       if($this->search==null|| $this->search ==""){
         $users = User::orderBy('id','desc')->paginate(5);
       }else{
         $users =User::where('name','like', '%'.$this->search.'%')->orderBy('id','desc')->paginate(5);
       }
-       return view('livewire.users.users', compact('users'));
+       return view('livewire.users.users', compact('users','roles'));
     }
 
     public function store(){
@@ -43,11 +47,12 @@ class Users extends Component
         'email'=>'required|email',
         'password'=> 'required',
       ]);
-       User::create([
+       $u =User::create([
         'name' => $this->name,
         'email' => $this->email,
         'password' => Hash::make($this->password)
       ]);
+      $u->assignRole($role);
       session()->flash('message', ':data created successfully');
       $this->clean();
       $this->emit("send");

@@ -26,10 +26,21 @@
             </div>
 
           <!-- Email input -->
-            <div class="mb-4">
+            <div class="mb-3">
               <input wire:model="email"  placeholder="{{__('email')}}" type="email" class="form-control" />
               @error('email') <span class="text-danger">{{$message}}</span> @enderror
             </div>
+
+            <!-- Role input -->
+              <div class="mb-4 text-left">
+                <small> <strong>{{__('roles')}}</strong> </small>
+                <select wire:model="role" placeholder="{{__('roles')}}"  class="form-control">
+                  @foreach ($roles as $key => $role)
+                    <option value="{{$role->name}}">{{$role->name}}</option>
+                  @endforeach
+                </select>
+                @error('email') <span class="text-danger">{{$message}}</span> @enderror
+              </div>
 
             <!-- Password input -->
             <div class=" mb-4">

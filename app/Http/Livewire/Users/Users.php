@@ -11,23 +11,34 @@ use Illuminate\Support\Facades\Auth;
 class Users extends Component
 {
    use WithPagination;
+   protected $paginationTheme = 'tailwind'; //deshabilitar si se quiere utilizar la generica
    public $name;
    public $email;
    public $password;
    public $idUser;
+   public $search;
+  // public $users;
+
+
 
     public function clean(){//de sistema
      $this->name= "";
      $this->email= "";
      $this->password= "";
      $this->idUser ="";
+     $this->search ="";
     }
 
     public function render()
     {
-       $users = User::paginate(10);
+      if($this->search==null|| $this->search ==""){
+        $users = User::paginate(5);
+      }else{
+        $users =User::where('name','like', '%'.$this->search.'%')->paginate(5);
+      }
        return view('livewire.users.users', compact('users'));
     }
+
 
     public function store(){
       $this->validate([

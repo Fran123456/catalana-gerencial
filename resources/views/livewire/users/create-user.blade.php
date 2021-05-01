@@ -1,8 +1,15 @@
 <div class="">
   <!-- Button trigger modal -->
-  <button type="button" wire:click="clean" class="btn btn-primary mb-2" data-toggle="modal" data-target="#exampleModal">
-    <i class="fas fa-user"></i>
-  </button>
+<div class="row mb-2">
+  <div class="col-md-11">
+    <input type="text"  class="form-control" placeholder="{{__('Search')}}" wire:model="search" />
+  </div>
+  <div class="col-md-1">
+    <button type="button" wire:click="clean" class="btn btn-primary mb-2" data-toggle="modal" data-target="#exampleModal">
+      <i class="fas fa-user"></i>
+    </button>
+  </div>
+</div>
 
   <!-- Modal -->
   <div wire:ignore.self class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

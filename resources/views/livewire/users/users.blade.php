@@ -28,6 +28,11 @@
     @include('livewire.users.table-users')
   </div>
 
+    <div class="text-center">
+      {{$users->links()}}
+    </div>
+
+
   <div class="col-md-12">
     @include('livewire.users.edit-user')
     @include('livewire.users.delete-user')

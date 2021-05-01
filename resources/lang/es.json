@@ -1,5 +1,4 @@
 {
-
   "to":"de",
   "Showing":"Mostrando",
   "of":"de",
@@ -11,6 +10,7 @@
   "New user":"Nuevo usuario",
   "Update user":"Actualizar usuario",
   "Delete user":"Eliminar usuario",
+  "manage users":"administrar usuarios",
 
   ":data created successfully":":data creado correctamente",
   ":data successfully removed":":data eliminado correctamente",

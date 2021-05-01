@@ -58,7 +58,7 @@
         </header>-->
 
         <!-- Page Content -->
-        <main class="container my-5">
+        <main class="container my-3">
             {{ $slot }}
         </main>
 

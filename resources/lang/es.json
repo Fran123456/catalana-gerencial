@@ -3,8 +3,13 @@
   "Users":"Usuarios",
   "password":"contraseña",
   "New user":"Nuevo usuario",
-  ":data created successfully":":data creado correctamente",
+  "Update user":"Actualizar usuario",
+  "Delete user":"Eliminar usuario",
 
+  ":data created successfully":":data creado correctamente",
+  ":data successfully removed":":data eliminado correctamente",
+  ":data successfully updated":":data actualizado correctamente",
+  "Do you want to remove user :data from the system?":"¿Quiere eliminar al usuario :data del sistema?",
 
   "name":"nombre",
   "email":"correo electronico",

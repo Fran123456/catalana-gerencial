@@ -1,6 +1,4 @@
 <!-- Button trigger modal -->
-
-
   <div  wire:ignore.self  class="modal fade" id="exampleModal-edit" tabindex="-1"  aria-labelledby="exampleModalLabel"aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -20,6 +18,20 @@
               <input readonly wire:model="email"  value="{{$email}}" placeholder="{{__('email')}}" type="email" class="form-control" />
               @error('email') <span>{{$message}}</span> @enderror
             </div>
+
+            <!-- Role input -->
+              <div class="mb-4 text-left" >
+                <small> <strong>{{__('roles')}}</strong> </small>
+                <select wire:model="role" placeholder="{{__('roles')}}"  class="form-control">
+                  @foreach ($roles as $key => $ro)
+                      <option @if ($role == $ro->name) selected  @endif  value="{{$ro->name}}">{{$ro->name}}</option>
+                  @endforeach
+                </select>
+                @error('email') <span class="text-danger">{{$message}}</span> @enderror
+            </div>
+
+
+
 
         </div>
         <div class="modal-footer">

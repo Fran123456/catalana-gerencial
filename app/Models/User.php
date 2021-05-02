@@ -20,6 +20,8 @@ class User extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
     use HasRoles;
+
+    //protected $guard_name = 'api';
     /**
      * The attributes that are mass assignable.
      *
@@ -61,10 +63,7 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    public function roles()
-    {
-      return $this->belongsToMany(Role::class)->withTimestamps();
-    }
+
 
 
 

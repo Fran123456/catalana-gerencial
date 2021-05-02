@@ -19,6 +19,7 @@ class Users extends Component
    public $idUser;
    public $search;
    public $role;
+   public $status;
   // public $users;
 
     public function clean(){//de sistema
@@ -28,6 +29,10 @@ class Users extends Component
      $this->idUser ="";
      $this->search ="";
      $this->role ="";
+    }
+
+    public function mount(){
+    //  $this->role =  Auth::user()->roles[0]->name;
     }
 
     public function render()
@@ -52,7 +57,7 @@ class Users extends Component
         'email' => $this->email,
         'password' => Hash::make($this->password)
       ]);
-      $u->assignRole($role);
+      $u->assignRole($this->role);
       session()->flash('message', ':data created successfully');
       $this->clean();
       $this->emit("send");
@@ -79,6 +84,12 @@ class Users extends Component
         'name' => $this->name,
         'email' => $this->email,
       ]);
+      $user = User::find($this->idUser);
+      if($user->roles[0]->name != $this->name){
+        $user->removeRole($user->roles[0]->name);
+        $user->assignRole($this->role);
+      }
+
       session()->flash('message-update', ':data successfully updated');
       $this->emit("update");
     }
@@ -87,6 +98,7 @@ class Users extends Component
       $this->name = $user->name;
       $this->email = $user->email;
       $this->idUser = $user->id;
+      $this->role =$user->roles[0]->name;
      //  $this->password = $user->password;
     }
 

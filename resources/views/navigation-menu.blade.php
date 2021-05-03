@@ -24,7 +24,7 @@
 
             <ul class="navbar-nav ">
                 <x-jet-nav-link href="{{ route('roles') }}" :active="request()->routeIs('roles')">
-                    {{ __('Roles and permissions') }} 
+                    {{ __('Roles and permissions') }}
                 </x-jet-nav-link>
             </ul>
 
@@ -97,6 +97,14 @@
 
                             <x-jet-dropdown-link href="{{ route('profile.show') }}">
                                 {{ __('Profile') }}
+                            </x-jet-dropdown-link>
+
+                            <x-jet-dropdown-link href="{{ route('language', 'es') }}">
+                                {{ __('Spanish') }}
+                            </x-jet-dropdown-link>
+
+                            <x-jet-dropdown-link href="{{ route('language', 'en') }}">
+                                {{ __('English') }}
                             </x-jet-dropdown-link>
 
                             @if (Laravel\Jetstream\Jetstream::hasApiFeatures())

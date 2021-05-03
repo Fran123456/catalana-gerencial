@@ -24,7 +24,14 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 })->name('dashboard');
 
 
+//user
 Route::middleware(['auth:sanctum', 'verified'])->get('users', [UserController::class,'users'])->name('users');
 
 //Role
 Route::middleware(['auth:sanctum', 'verified'])->get('/roles', [RoleController::class,'roles'])->name('roles');
+
+//language
+Route::get('/lang/{language}', function ($language) {
+    Session::put('language',$language);
+   return redirect()->back();
+})->name('language')->middleware('translate');

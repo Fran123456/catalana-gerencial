@@ -12,6 +12,8 @@
   "Update user":"Actualizar usuario",
   "Delete user":"Eliminar usuario",
   "manage users":"administrar usuarios",
+  "Spanish":"Español",
+  "English":"Ingles",
 
   ":data created successfully":":data creado correctamente",
   ":data successfully removed":":data eliminado correctamente",
@@ -21,7 +23,7 @@
   "name":"nombre",
   "email":"correo electronico",
   "photo":"Foto",
-  
+
   "Roles and permissions":"Roles y permisos",
   "Manage roles and permissions":"Administrar roles y permisos",
   "Not results found for :data":"No hay resultados para :data",

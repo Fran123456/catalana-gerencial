@@ -1,19 +1,6 @@
 <?php
 
 namespace App\Http\Livewire\Users;
-<<<<<<< HEAD
-
-use Livewire\Component;
-use App\Models\User;
-
-class Users extends Component
-{
-    public function render()
-    {
-       $users = User::all();
-       return view('livewire.users.users', compact('users'));
-    }
-=======
 use Livewire\WithPagination;
 use Livewire\Component;
 use App\Models\User;
@@ -33,6 +20,7 @@ class Users extends Component
    public $search;
    public $role;
    public $status;
+   protected $queryString=['search' => ['except'=>'']];
   // public $users;
 
     public function clean(){//de sistema
@@ -115,5 +103,4 @@ class Users extends Component
      //  $this->password = $user->password;
     }
 
->>>>>>> 7142dc6edcdc397893db6440e88cd16fa3938d7d
 }

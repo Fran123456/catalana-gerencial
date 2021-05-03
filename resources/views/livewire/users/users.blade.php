@@ -1,26 +1,6 @@
 <div>
   <div class="col-md-12">
-<<<<<<< HEAD
-    <table class="table">
-      <thead class="thead-dark">
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">First</th>
-          <th scope="col">Last</th>
-          <th scope="col">Handle</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-=======
+
     @if (session()->has('message'))
         <div class="alert alert-success" id="message">
           {{ __(session('message') , ['data'=> 'Usuario']) }}
@@ -87,5 +67,5 @@
   </script>
 
 
->>>>>>> 7142dc6edcdc397893db6440e88cd16fa3938d7d
+
 </div>

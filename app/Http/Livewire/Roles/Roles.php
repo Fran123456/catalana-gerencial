@@ -21,7 +21,7 @@ class Roles extends Component
         }
         else{
             $roles = Role::where('name','like', '%'.$this->search_role.'%')->orderBy('name','ASC')->paginate(2);
-        }    
+        }
 
         return view('livewire.roles.roles', compact('roles','search'));
     }

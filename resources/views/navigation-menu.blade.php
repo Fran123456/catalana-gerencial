@@ -22,6 +22,12 @@
                 </x-jet-nav-link>
             </ul>
 
+            <ul class="navbar-nav ">
+                <x-jet-nav-link href="{{ route('roles') }}" :active="request()->routeIs('roles')">
+                    {{ __('Roles and permissions') }} 
+                </x-jet-nav-link>
+            </ul>
+
 
 
             <!-- Right Side Of Navbar -->

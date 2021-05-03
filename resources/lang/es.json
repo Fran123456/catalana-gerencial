@@ -20,5 +20,10 @@
 
   "name":"nombre",
   "email":"correo electronico",
-  "photo":"Foto"
+  "photo":"Foto",
+  
+  "Roles and permissions":"Roles y permisos",
+  "Manage roles and permissions":"Administrar roles y permisos",
+  "Not results found for :data":"No hay resultados para :data",
+  "on page :data":"en la página :data"
 }

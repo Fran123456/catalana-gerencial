@@ -1,0 +1,24 @@
+{
+  "to":"de",
+  "Showing":"Mostrando",
+  "of":"de",
+  "results":"resultados",
+  "Search":"Buscar",
+  "roles":"roles",
+  "Dashboard":"Inicio",
+  "Users":"Usuarios",
+  "password":"contraseña",
+  "New user":"Nuevo usuario",
+  "Update user":"Actualizar usuario",
+  "Delete user":"Eliminar usuario",
+  "manage users":"administrar usuarios",
+
+  ":data created successfully":":data creado correctamente",
+  ":data successfully removed":":data eliminado correctamente",
+  ":data successfully updated":":data actualizado correctamente",
+  "Do you want to remove user :data from the system?":"¿Quiere eliminar al usuario :data del sistema?",
+
+  "name":"nombre",
+  "email":"correo electronico",
+  "photo":"Foto"
+}

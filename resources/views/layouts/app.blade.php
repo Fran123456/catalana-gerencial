@@ -39,6 +39,15 @@
           src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.js"
         ></script>
 
+<<<<<<< HEAD
+=======
+        @stack('modals')
+
+        @livewireScripts
+
+        @stack('scripts')
+
+>>>>>>> 7142dc6edcdc397893db6440e88cd16fa3938d7d
     </head>
     <body class="font-sans antialiased bg-light">
         <x-jet-banner />
@@ -52,6 +61,7 @@
         </header>-->
 
         <!-- Page Content -->
+<<<<<<< HEAD
         <main class="container my-5">
             {{ $slot }}
         </main>
@@ -61,5 +71,12 @@
         @livewireScripts
 
         @stack('scripts')
+=======
+        <main class="container my-3">
+            {{ $slot }}
+        </main>
+
+
+>>>>>>> 7142dc6edcdc397893db6440e88cd16fa3938d7d
     </body>
 </html>

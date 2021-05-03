@@ -10,6 +10,10 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+<<<<<<< HEAD
+=======
+use Spatie\Permission\Models\Role;
+>>>>>>> 7142dc6edcdc397893db6440e88cd16fa3938d7d
 
 class User extends Authenticatable
 {
@@ -19,6 +23,11 @@ class User extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
     use HasRoles;
+<<<<<<< HEAD
+=======
+
+    //protected $guard_name = 'api';
+>>>>>>> 7142dc6edcdc397893db6440e88cd16fa3938d7d
     /**
      * The attributes that are mass assignable.
      *
@@ -59,4 +68,12 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+<<<<<<< HEAD
+=======
+
+
+
+
+
+>>>>>>> 7142dc6edcdc397893db6440e88cd16fa3938d7d
 }

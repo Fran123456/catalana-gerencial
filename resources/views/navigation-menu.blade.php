@@ -1,3 +1,11 @@
+<style media="screen">
+.dropdown-menu.show {
+  display: block;
+  background-color: #fffefe;
+  border: 3px solid #dee2e6;
+}
+</style>
+
 <nav class="navbar navbar-expand-md navbar-light bg-white border-bottom sticky-top">
     <div class="container">
         <!-- Logo -->
@@ -96,15 +104,15 @@
                             </h6>
 
                             <x-jet-dropdown-link href="{{ route('profile.show') }}">
-                                {{ __('Profile') }}
+                                <i class="fas fa-user"></i> {{ __('Profile') }}
                             </x-jet-dropdown-link>
 
                             <x-jet-dropdown-link href="{{ route('language', 'es') }}">
-                                {{ __('Spanish') }}
+                              <i class="fas fa-language"></i>  {{ __('Spanish') }}
                             </x-jet-dropdown-link>
 
                             <x-jet-dropdown-link href="{{ route('language', 'en') }}">
-                                {{ __('English') }}
+                              <i class="fas fa-language"></i>   {{ __('English') }}
                             </x-jet-dropdown-link>
 
                             @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
@@ -119,7 +127,7 @@
                             <x-jet-dropdown-link href="{{ route('logout') }}"
                                                  onclick="event.preventDefault();
                                                          document.getElementById('logout-form').submit();">
-                                {{ __('Log out') }}
+                                <i class="fas fa-sign-out-alt"></i> {{ __('Log out') }}
                             </x-jet-dropdown-link>
                             <form method="POST" id="logout-form" action="{{ route('logout') }}">
                                 @csrf

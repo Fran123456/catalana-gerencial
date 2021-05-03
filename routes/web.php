@@ -32,6 +32,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/roles', [RoleController::
 
 //language
 Route::get('/lang/{language}', function ($language) {
-    Session::put('language',$language);
+  //  Session::put('language',$language);
+   session()->put('locale', $language);
    return redirect()->back();
 })->name('language')->middleware('translate');

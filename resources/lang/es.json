@@ -5,6 +5,7 @@
   "results":"resultados",
   "Search":"Buscar",
   "roles":"roles",
+  "role":"rol",
   "Dashboard":"Inicio",
   "Users":"Usuarios",
   "password":"contraseña",
@@ -14,6 +15,14 @@
   "manage users":"administrar usuarios",
   "Spanish":"Español",
   "English":"Ingles",
+  "Manage Account":"Administra tu cuenta",
+  "Profile":"Perfil",
+  "Photo":"Foto",
+  "Select A New Photo":"Selecciona una nueva foto",
+
+
+  "Log out":"Salir",
+
 
   ":data created successfully":":data creado correctamente",
   ":data successfully removed":":data eliminado correctamente",

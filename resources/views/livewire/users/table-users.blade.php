@@ -2,7 +2,7 @@
   <thead class="thead-dark">
     <tr>
       <th scope="col" class="text-center" width="40px">#</th>
-      <th scope="col" class="text-center">{{ strtoupper(__('name')) }}</th>
+      <th scope="col" class="text-center">{{ strtoupper(trans('messages.name')) }}</th>
       <th scope="col" class="text-center">{{ strtoupper(__('email')) }}</th>
       <th scope="col" class="text-center">{{ strtoupper(__('role')) }}</th>
       <th width="70px" scope="col" class="text-center"><i class="fas fa-edit"></i></th>

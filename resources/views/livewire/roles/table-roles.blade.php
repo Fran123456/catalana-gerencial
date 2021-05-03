@@ -1,8 +1,8 @@
 <table class="table table-hover">
   <thead class="thead-dark">
     <tr>
-      <th scope="col" class="text-center" width="30px">#</th>      
-      <th scope="col" class="text-center">Rol</th>
+      <th scope="col" class="text-center" width="30px">#</th>
+      <th scope="col" class="text-center">{{strtoupper(__('role'))}}</th>
       <th width="70px" scope="col" class="text-center"><i class="fas fa-edit"></i></th>
       <th width="70px" scope="col" class="text-center"><i class="fas fa-trash"></i></th>
     </tr>
@@ -22,8 +22,8 @@
         @if ($page>1)
         {{mb_strtolower(__('on page :data', ['data' => $page]),'UTF-8')}}</strong></p>
         @else
-            </strong></p>    
+            </strong></p>
         @endif
-    @endif    
-  </tbody>  
+    @endif
+  </tbody>
 </table>

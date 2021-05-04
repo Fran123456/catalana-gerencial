@@ -36,5 +36,11 @@
   "Roles and permissions":"Roles y permisos",
   "Manage roles and permissions":"Administrar roles y permisos",
   "Not results found for :data":"No hay resultados para :data",
-  "on page :data":"en la página :data"
+  "on page :data":"en la página :data",
+  "Assigned users":"Usuarios asignados",
+  "Update role":"Actualizar rol",
+  "Role's name":"Nombre del rol",
+  "New role":"Nuevo rol",
+  "Delete role":"Eliminar rol",
+  "Do you want to remove role :data from the system?":"¿Quiere eliminar el rol :data del sistema?"
 }

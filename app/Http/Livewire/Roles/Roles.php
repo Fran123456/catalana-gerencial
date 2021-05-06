@@ -73,6 +73,7 @@ class Roles extends Component
           ]);
            $role =Role::create([
             'name' => $this->role_name,
+            'guard_name' => 'web'
           ]);          
           session()->flash('message', ':data created successfully');
           $this->clean();

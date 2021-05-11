@@ -5,18 +5,23 @@ namespace App\Http\Livewire\Roles;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class Roles extends Component
 {
     use WithPagination;
     public $search_role;
-    public $pagination_size = 2;
+    public $pagination_size = 5;
 
     public $role_name;
     public $role_id;
 
-    protected $queryString=['search_role' => ['except'=>'']];
+    public $permissions;
+
+    protected $queryString=['search_role' => ['except'=>'']];    
+
+    protected $listeners=['showFlashMessage'];
 
     public function render()
     {
@@ -28,7 +33,7 @@ class Roles extends Component
                 ->leftJoin('model_has_roles','roles.id','=','model_has_roles.role_id')
                 ->groupBy('roles.id')
                 ->orderBy('roles.name','ASC')
-                ->paginate(2);
+                ->paginate($this->pagination_size);
         }
         else{
             //$roles = Role::where('name','like', '%'.$this->search_role.'%')->orderBy('name','ASC')->paginate(2);
@@ -40,7 +45,6 @@ class Roles extends Component
                 ->orderBy('roles.name','ASC')
                 ->paginate($this->pagination_size);
         }    
-
         return view('livewire.roles.roles', compact('roles','search'));
     }
 
@@ -48,6 +52,11 @@ class Roles extends Component
         $role = Role::find($id);
         $this->asigned($role);
      }
+    
+     public function getRoleForPermissions($id){
+      $role = Role::find($id);      
+      $this->emit('newSelectedRole',$role->id);
+   }
 
      private function asigned($role){
         $this->role_name = $role->name;
@@ -56,38 +65,42 @@ class Roles extends Component
 
       public function update(){
         $this->validate([
-          'role_name'=>'required',          
-        ]);
-  
-        $role = Role::where('id', $this->role_id)->update([
-          'name' => $this->role_name,          
+          'role_name'=>'required|unique:roles,name',          
         ]);        
-  
+        Role::where('id', $this->role_id)->update([
+          'name' => $this->role_name,          
+        ]);            
         session()->flash('message-update', ':data successfully updated');
-        $this->emit("update");
+        $this->emit("update");        
       }
-
+      
       public function store(){
         $this->validate([
-            'role_name'=>'required',            
-          ]);
-           $role =Role::create([
-            'name' => $this->role_name,
-            'guard_name' => 'web'
-          ]);          
-          session()->flash('message', ':data created successfully');
-          $this->clean();
-          $this->emit("send");
+          'role_name'=>'required|unique:roles,name',
+          ]);                  
+        Role::create([
+          'name' => $this->role_name,
+          'guard_name' => 'web'
+        ]);          
+        session()->flash('message', ':data created successfully');
+        $this->clean();
+        $this->emit("send");
       }      
 
       public function destroy($id){
         Role::destroy($id);
         session()->flash('message-destroy', ':data successfully removed');
         $this->emit("destroy");
-      }
+      }      
 
       public function clean(){
-        $this->role_name='';
         $this->role_id='';
-      }      
+        $this->role_name='';
+      }    
+
+      public function showFlashMessage(){
+        session()->flash('permissions-update', ':data successfully updated');
+        $this->emit("close_modal");
+        $this->render();
+      }
 }

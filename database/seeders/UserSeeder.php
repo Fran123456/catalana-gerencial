@@ -31,7 +31,7 @@ class UserSeeder extends Seeder
 
         User::create([
           'name' => 'Luis Pérez',
-          'email' => 'perezluisues@g  mail.com',
+          'email' => 'perezluisues@gmail.com',
           'password' => Hash::make('paginaazul'),
         ])->assignRole('Tactico y Estrategico');
     }

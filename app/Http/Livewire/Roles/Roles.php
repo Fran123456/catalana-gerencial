@@ -35,11 +35,10 @@ class Roles extends Component
                 ->orderBy('roles.name','ASC')
                 ->paginate($this->pagination_size);
         }
-        else{
-            //$roles = Role::where('name','like', '%'.$this->search_role.'%')->orderBy('name','ASC')->paginate(2);
+        else{            
             $roles=DB::table('roles')
                 ->select('roles.id','roles.name',DB::raw('count(model_has_roles.role_id) as conteo'))
-                ->leftJoin('model_has_roles','roles.id','=','model_has_roles.role_id')                    
+                ->leftJoin('model_has_roles','roles.id','=','model_has_roles.role_id')
                 ->where('name','like', '%'.$this->search_role.'%')
                 ->groupBy('roles.id')
                 ->orderBy('roles.name','ASC')

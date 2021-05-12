@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Permissions;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Spatie\Permission\Models\Permission;
@@ -13,7 +14,7 @@ class Permissions extends Component
 {
     public $permissions;
     public $selected_role_id;
-    public $selected_role;
+    public $selected_role;    
 
     public $checkboxes;
     public $control = 0;
@@ -29,7 +30,7 @@ class Permissions extends Component
         if($this->selected_role != null){            
             $this->permissions = DB::table('permissions')
                                 ->select('*')
-                                ->get();                   
+                                ->get();
             foreach ($this->permissions as $key => $permission) {                                
                 $exists = DB::table('role_has_permissions')                            
                             ->where('role_id','=',$this->selected_role->id)
@@ -57,16 +58,18 @@ class Permissions extends Component
     }    
 
     public function updateCheckbox(){
-        foreach ($this->checkboxes as $key => $checkbox) {
-            $permission = Permission::find($key+1);            
-            if($this->selected_role->hasPermissionTo($permission->name) && $checkbox == false){
-                $this->selected_role->revokePermissionTo($permission->name);
-            }
-            if($this->selected_role->hasPermissionTo($permission->name) == false && $checkbox == true){                
-                $this->selected_role->givePermissionTo($permission->name);
-            }
+        if(Auth::user()->hasPermissionTo('assign_permissions')){
+            foreach ($this->checkboxes as $key => $checkbox) {
+                $permission = Permission::find($key+1);            
+                if($this->selected_role->hasPermissionTo($permission->name) && $checkbox == false){
+                    $this->selected_role->revokePermissionTo($permission->name);
+                }
+                if($this->selected_role->hasPermissionTo($permission->name) == false && $checkbox == true){                
+                    $this->selected_role->givePermissionTo($permission->name);
+                }
+            }        
+            session()->flash('message-update', ':data successfully updated');        
+            $this->emit("showFlashMessage");
         }        
-        session()->flash('message-update', ':data successfully updated');        
-        $this->emit("showFlashMessage");
     }
 }

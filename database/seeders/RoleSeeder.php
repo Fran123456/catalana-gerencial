@@ -30,8 +30,8 @@ class RoleSeeder extends Seeder
       Permission::create(['name'=>'retrieve_permissions'])->syncRoles([$tactico,$estrategico,$ambos]);      
       Permission::create(['name'=>'assign_permissions'])->syncRoles([$tactico,$estrategico,$ambos]);      
 
-      Permission::create(['name'=>'depruenauno']);
-      Permission::create(['name'=>'depruenados']);
-      Permission::create(['name'=>'depruenatersddfo']);
+      Permission::create(['name'=>'first_test']);
+      Permission::create(['name'=>'second_test']);
+      Permission::create(['name'=>'third_test']);
     }
 }

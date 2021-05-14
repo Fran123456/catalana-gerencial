@@ -21,12 +21,10 @@ class Permissions extends Component
 
     public $new = [];
 
-    protected $listeners = ['newSelectedRole'];
+    protected $listeners = ['newSelectedRole','newSelectedPermissions'];
             
     public function render()
-    {
-        //$chequeo= array();     
-        //$this->cleanCheckboxes();        
+    {        
         if($this->selected_role != null){            
             $this->permissions = DB::table('permissions')
                                 ->select('*')
@@ -72,4 +70,7 @@ class Permissions extends Component
             $this->emit("showFlashMessage");
         }        
     }
+    public function closingModal(){
+        $this->emit("close_modal");
+    }        
 }

@@ -15,11 +15,13 @@ class Roles extends Component
     public $pagination_size = 5;
 
     public $role_name;
-    public $role_id;
-
-    public $permissions;
+    public $role_id;        
 
     protected $queryString=['search_role' => ['except'=>'']];    
+
+    protected $rules = [
+      'role_name'=>'required|unique:roles,name|alpha',
+    ];
 
     protected $listeners=['showFlashMessage'];
 
@@ -50,6 +52,7 @@ class Roles extends Component
     public function getRole($id){
         $role = Role::find($id);
         $this->asigned($role);
+        $this->resetValidation();
      }
     
      public function getRoleForPermissions($id){
@@ -63,20 +66,19 @@ class Roles extends Component
       }
 
       public function update(){
-        $this->validate([
-          'role_name'=>'required|unique:roles,name',          
-        ]);        
+        /*$this->validate([
+          'role_name'=>'required|unique:roles,name',
+        ]);*/
+        $this->validate();
         Role::where('id', $this->role_id)->update([
           'name' => $this->role_name,          
         ]);            
         session()->flash('message-update', ':data successfully updated');
-        $this->emit("update");        
+        $this->emit("update");
       }
       
-      public function store(){
-        $this->validate([
-          'role_name'=>'required|unique:roles,name',
-          ]);                  
+      public function store(){                  
+        $this->validate();     
         Role::create([
           'name' => $this->role_name,
           'guard_name' => 'web'
@@ -95,6 +97,7 @@ class Roles extends Component
       public function clean(){
         $this->role_id='';
         $this->role_name='';
+        $this->resetValidation();
       }    
 
       public function showFlashMessage(){

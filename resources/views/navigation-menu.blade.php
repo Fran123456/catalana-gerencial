@@ -30,11 +30,13 @@
                 </x-jet-nav-link>
             </ul>
 
+            @can('retrieve_roles')
             <ul class="navbar-nav ">
                 <x-jet-nav-link href="{{ route('roles') }}" :active="request()->routeIs('roles')">
                     {{ __('Roles and permissions') }}
                 </x-jet-nav-link>
             </ul>
+            @endcan
 
 
 

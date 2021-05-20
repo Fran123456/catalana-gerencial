@@ -1,3 +1,6 @@
+
+
+
 <table class="table">
   <thead class="thead-dark">
     <tr>
@@ -7,6 +10,7 @@
       <th scope="col" class="text-center">{{ strtoupper(__('role')) }}</th>
       <th width="70px" scope="col" class="text-center"><i class="fas fa-edit"></i></th>
       <th width="70px" scope="col" class="text-center"><i class="fas fa-trash"></i></th>
+
     </tr>
   </thead>
   <tbody>
@@ -16,8 +20,9 @@
         <td><img height="40" width="40" src="{{$user->profile_photo_url}}" class="img-thumbnail"> {{$user->name}}</td>
         <td>{{$user->email}}</td>
         <td>
+            {{-- <h3 onclick="mostrarPermisos()">  PRUEBA  </h3> --}}
           @foreach ($user->roles as $key => $role)
-            <span>{{$role->name}}</span>
+            <span data-toggle="modal" data-target="#permisos-{{$user->id}}">{{$role->name}}</span>
           @endforeach
         </td>
         <td class="text-center" >
@@ -35,7 +40,10 @@
           @endif
 
         </td>
+
       </tr>
     @endforeach
   </tbody>
+
+@include('user.permisos')
 </table>

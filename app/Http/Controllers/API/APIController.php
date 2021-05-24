@@ -10,6 +10,7 @@ use App\Models\Position;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class APIController extends Controller
 {
@@ -32,18 +33,18 @@ class APIController extends Controller
         $three = Department::all();
         $four = Position::all();
 
-        dd($one,$two,$three,$four);
+        dd($one,$two,$three,$four);        
     }
 
     public function getAllEnterprises(){
         $url = "http://ccpcatalana.com/api/public/api/gerenciales/empresas/".$this->token;        
-        
-        $response =  $this->requestMethod($url);
                 
-        foreach ($response as $enterprise) {            
+        $response = Http::get($url)->json();
+                
+        foreach ($response as $enterprise) {
             Enterprise::create([
-                'enterprise' => array_pop($enterprise),
-                'id' => array_pop($enterprise),
+                'enterprise' => $enterprise['empresa'],
+                'id' => $enterprise['id'],
                 'created_at' => Date::now(),
                 'updated_at' => Date::now()
             ]);
@@ -53,13 +54,13 @@ class APIController extends Controller
     public function getAllAreas(){
         $url = "http://ccpcatalana.com/api/public/api/gerenciales/areas/".$this->token;
 
-        $response = $this->requestMethod($url);
+        $response = Http::get($url)->json();
 
         foreach ($response as $area) {            
             Area::create([
-                'enterprise_id' => array_pop($area),
-                'area' => array_pop($area),
-                'id' => array_pop($area),
+                'enterprise_id' => $area['empresa_id'],
+                'area' => $area['area'],
+                'id' => $area['id'],
                 'created_at' => Date::now(),
                 'updated_at' => Date::now()
             ]);            
@@ -69,13 +70,13 @@ class APIController extends Controller
     public function getAllDepartments(){
         $url = "http://ccpcatalana.com/api/public/api/gerenciales/departamentos/".$this->token;
 
-        $response = $this->requestMethod($url);
+        $response = Http::get($url)->json();
 
-        foreach ($response as $area) {
+        foreach ($response as $department) {
             Department::create([
-                'area_id' => array_pop($area),
-                'department' => array_pop($area),
-                'id' => array_pop($area),
+                'area_id' => $department['area_id'],
+                'department' => $department['departamento'],
+                'id' => $department['id'],
                 'created_at' => Date::now(),
                 'updated_at' => Date::now()
             ]);            
@@ -85,18 +86,19 @@ class APIController extends Controller
     public function getAllPositions(){
         $url = "http://ccpcatalana.com/api/public/api/gerenciales/cargos/".$this->token;
 
-        $response = $this->requestMethod($url);
+        $response = Http::get($url)->json();
 
-        foreach ($response as $area) {
+        foreach ($response as $position) {
             Position::create([                
-                'position' => array_pop($area),
-                'id' => array_pop($area),
+                'position' => $position['cargo'],
+                'id' => $position['id'],
                 'created_at' => Date::now(),
                 'updated_at' => Date::now()
             ]);            
         }
     }
 
+    //sustituido por Http:get($url)->json()
     public function requestMethod($url){
         $cliente = curl_init();
         curl_setopt($cliente, CURLOPT_URL, $url);

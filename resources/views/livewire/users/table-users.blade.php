@@ -22,7 +22,7 @@
         <td>
             {{-- <h3 onclick="mostrarPermisos()">  PRUEBA  </h3> --}}
           @foreach ($user->roles as $key => $role)
-            <span data-toggle="modal" data-target="#permisos-{{$user->id}}">{{$role->name}}</span>
+            <span >{{$role->name}}</span> <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#permisos-{{$user->id}}" type="button"><i class="fas fa-eye"></i></button>
           @endforeach
         </td>
         <td class="text-center" >

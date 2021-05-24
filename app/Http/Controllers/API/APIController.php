@@ -16,12 +16,7 @@ class APIController extends Controller
 {
     public $token="uDmLdfuTK9bucf9SghFq";
     
-    public function getAllInformation(){                
-        
-        DB::delete("DELETE FROM positions");
-        DB::delete("DELETE FROM departments");
-        DB::delete("DELETE FROM areas");
-        DB::delete("DELETE FROM enterprises");
+    public function getAllInformation(){            
 
         $this->getAllEnterprises();
         $this->getAllAreas();
@@ -39,16 +34,13 @@ class APIController extends Controller
     public function getAllEnterprises(){
         $url = "http://ccpcatalana.com/api/public/api/gerenciales/empresas/".$this->token;        
                 
-        $response = Http::get($url)->json();
-                
+        $response = Http::get($url)->json();        
         foreach ($response as $enterprise) {
-            Enterprise::create([
+            Enterprise::firstOrCreate([
                 'enterprise' => $enterprise['empresa'],
-                'id' => $enterprise['id'],
-                'created_at' => Date::now(),
-                'updated_at' => Date::now()
+                'id' => $enterprise['id'],                
             ]);
-        }        
+        }
     }
 
     public function getAllAreas(){
@@ -57,12 +49,10 @@ class APIController extends Controller
         $response = Http::get($url)->json();
 
         foreach ($response as $area) {            
-            Area::create([
+            Area::firstOrCreate([
                 'enterprise_id' => $area['empresa_id'],
                 'area' => $area['area'],
-                'id' => $area['id'],
-                'created_at' => Date::now(),
-                'updated_at' => Date::now()
+                'id' => $area['id'],                
             ]);            
         }
     }
@@ -73,12 +63,10 @@ class APIController extends Controller
         $response = Http::get($url)->json();
 
         foreach ($response as $department) {
-            Department::create([
+            Department::firstOrCreate([
                 'area_id' => $department['area_id'],
                 'department' => $department['departamento'],
-                'id' => $department['id'],
-                'created_at' => Date::now(),
-                'updated_at' => Date::now()
+                'id' => $department['id'],                
             ]);            
         }
     }
@@ -89,11 +77,9 @@ class APIController extends Controller
         $response = Http::get($url)->json();
 
         foreach ($response as $position) {
-            Position::create([                
+            Position::firstOrCreate([
                 'position' => $position['cargo'],
-                'id' => $position['id'],
-                'created_at' => Date::now(),
-                'updated_at' => Date::now()
+                'id' => $position['id'],                
             ]);            
         }
     }

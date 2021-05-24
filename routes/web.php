@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Role\RoleController;
+use App\Http\Controllers\API\APIController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,3 +37,7 @@ Route::get('/lang/{language}', function ($language) {
    session()->put('locale', $language);
    return redirect()->back();
 })->name('language')->middleware('translate');
+
+
+//API
+Route::middleware(['auth:sanctum', 'verified'])->get('api-consumption', [APIController::class,'getAllInformation'])->name('getAllInformation');

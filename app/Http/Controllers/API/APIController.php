@@ -33,14 +33,30 @@ class APIController extends Controller
 
     public function getAllEnterprises(){
         $url = "http://ccpcatalana.com/api/public/api/gerenciales/empresas/".$this->token;        
-                
-        $response = Http::get($url)->json();        
-        foreach ($response as $enterprise) {
+        
+        $response = Http::get($url)->json(); 
+        //la siguiente las descomentas para la segunda vez que traigas los datos
+        //array_pop($response);  
+
+        foreach ($response as $enterprise){
             Enterprise::firstOrCreate([
                 'enterprise' => $enterprise['empresa'],
                 'id' => $enterprise['id'],                
             ]);
         }
+        $query = DB::select("SELECT id,enterprise as empresa FROM enterprises");
+        foreach ($query as $i => $after) {
+            $flag = 0;
+            foreach ($response as $j => $before) {
+                if($after->id == $before['id']){
+                    $flag = 1;
+                    break 1;
+                }
+            }
+            if($flag == 0){
+                Enterprise::destroy($after->id);
+            }
+        }        
     }
 
     public function getAllAreas(){

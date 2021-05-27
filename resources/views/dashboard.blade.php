@@ -1,11 +1,7 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="h4 font-weight-bold">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
-   <br>
-    <div class="col-md-4">
+
+
+  <!--  <div class="col-md-4">
         <div class="card">
             <img
               width="400" height="250" src="http://ccpcatalana.com/assets/img/informacion.jpg"class="card-img-top" alt="..."
@@ -16,17 +12,19 @@
                </p>
                <a href="#!" class="btn btn-primary">Button</a>
             </div>
-        </div>        
-    </div>
-    
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-body">
-            <form action="{{route('getAllInformation')}}">
-                <button type="submit">Traer info</button>
-            </form>
-            </div>
         </div>
+    </div>-->
+
+    <!--  <div class="card">
+          <div class="card-body">
+          <form action="{{route('getAllInformation')}}">
+              <button type="submit">Traer info</button>
+          </form>
+          </div>
+      </div>-->
+
+    <div class="col-md-4">
+        <livewire:data.data/>
     </div>
 
 

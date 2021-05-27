@@ -15,8 +15,8 @@ use Illuminate\Support\Facades\Http;
 class APIController extends Controller
 {
     public $token="uDmLdfuTK9bucf9SghFq";
-    
-    public function getAllInformation(){            
+
+    public function getAllInformation(){
 
         $this->getAllEnterprises();
         $this->getAllAreas();
@@ -28,20 +28,20 @@ class APIController extends Controller
         $three = Department::all();
         $four = Position::all();
 
-        dd($one,$two,$three,$four);        
+      //  dd($one,$two,$three,$four);
     }
 
     public function getAllEnterprises(){
-        $url = "http://ccpcatalana.com/api/public/api/gerenciales/empresas/".$this->token;        
-        
-        $response = Http::get($url)->json(); 
+        $url = "http://ccpcatalana.com/api/public/api/gerenciales/empresas/".$this->token;
+
+        $response = Http::get($url)->json();
         //la siguiente las descomentas para la segunda vez que traigas los datos
-        //array_pop($response);  
+        //array_pop($response);
 
         foreach ($response as $enterprise){
             Enterprise::firstOrCreate([
                 'enterprise' => $enterprise['empresa'],
-                'id' => $enterprise['id'],                
+                'id' => $enterprise['id'],
             ]);
         }
         $query = DB::select("SELECT id,enterprise as empresa FROM enterprises");
@@ -56,7 +56,7 @@ class APIController extends Controller
             if($flag == 0){
                 Enterprise::destroy($after->id);
             }
-        }        
+        }
     }
 
     public function getAllAreas(){
@@ -64,12 +64,12 @@ class APIController extends Controller
 
         $response = Http::get($url)->json();
 
-        foreach ($response as $area) {            
+        foreach ($response as $area) {
             Area::firstOrCreate([
                 'enterprise_id' => $area['empresa_id'],
                 'area' => $area['area'],
-                'id' => $area['id'],                
-            ]);            
+                'id' => $area['id'],
+            ]);
         }
     }
 
@@ -82,8 +82,8 @@ class APIController extends Controller
             Department::firstOrCreate([
                 'area_id' => $department['area_id'],
                 'department' => $department['departamento'],
-                'id' => $department['id'],                
-            ]);            
+                'id' => $department['id'],
+            ]);
         }
     }
 
@@ -95,8 +95,8 @@ class APIController extends Controller
         foreach ($response as $position) {
             Position::firstOrCreate([
                 'position' => $position['cargo'],
-                'id' => $position['id'],                
-            ]);            
+                'id' => $position['id'],
+            ]);
         }
     }
 
@@ -107,7 +107,7 @@ class APIController extends Controller
         curl_setopt($cliente, CURLOPT_HTTPGET, TRUE);
         curl_setopt($cliente, CURLOPT_RETURNTRANSFER, true);
         $remote_server_output = curl_exec($cliente);
-        curl_close($cliente);        
+        curl_close($cliente);
         return json_decode($remote_server_output, true);;
     }
 }

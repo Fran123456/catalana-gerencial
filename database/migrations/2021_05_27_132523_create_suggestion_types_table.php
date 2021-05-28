@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePositionsTable extends Migration
+class CreateSuggestionTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreatePositionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('positions', function (Blueprint $table) {
-            
+        Schema::create('suggestion_types', function (Blueprint $table) {
             $table->unsignedBigInteger('id')->primary();            
-            $table->string('position');
-            $table->timestamps();                                    
+            $table->string('suggestion_type',200)->nullable();
+            //$table->smallInteger('status')->nullable();
+            $table->boolean('status')->nullable();
         });
     }
 
@@ -28,6 +28,6 @@ class CreatePositionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('positions');
+        Schema::dropIfExists('suggestion_types');
     }
 }

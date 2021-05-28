@@ -5,13 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Enterprise extends Model
+class Publication extends Model
 {
-    use HasFactory;    
+    use HasFactory;
+
+    public $timestamps = false;
 
     protected $fillable = [
         'id',
-        'enterprise',        
+        'title',
+        'type',
+        'date',
+        'year'
     ];
-
 }

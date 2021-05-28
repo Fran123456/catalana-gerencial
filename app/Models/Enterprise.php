@@ -14,4 +14,11 @@ class Enterprise extends Model
         'enterprise',        
     ];
 
+    public function areas(){
+        return $this->hasMany(Area::class);
+    }
+
+    public function employees(){
+        return $this->hasMany(Employee::class);
+    }
 }

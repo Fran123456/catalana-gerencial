@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PublicationEmployee extends Model
+class WeekSchedule extends Model
 {
     use HasFactory;
 
@@ -13,9 +13,12 @@ class PublicationEmployee extends Model
 
     protected $fillable = [
         'id',
-        'employee_id',
-        'publication_id',
-        'seen',        
-    ];
-    
+        'day',
+        'exit_time',
+        'entry_time',
+        'break',
+        'lunch',
+        'day_name',
+        'schedule_id',
+    ];    
 }

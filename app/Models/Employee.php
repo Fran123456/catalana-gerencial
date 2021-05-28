@@ -26,4 +26,20 @@ class Employee extends Model
         'coordinator',
         'boss_list',
     ];
+
+    public function enterprise(){
+        return $this->belongsTo(Enterprise::class);
+    }
+
+    public function area(){
+        return $this->belongsTo(Area::class);
+    }
+
+    public function department(){
+        return $this->belongsTo(Department::class);
+    }
+
+    public function publicationEmployee(){
+        return $this->hasMany(PublicationEmployee::class);
+    }
 }

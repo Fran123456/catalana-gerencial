@@ -20,4 +20,8 @@ class Suggestion extends Model
         'reading',
         'employee_id',
     ];
+
+    public function suggestionType(){
+        return $this->belongsTo(SuggestionType::class);
+    }    
 }

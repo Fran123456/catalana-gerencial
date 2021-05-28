@@ -14,4 +14,16 @@ class Area extends Model
         'area',
         'enterprise_id'
     ];
+
+    public function enterprise(){
+        return $this->belongsTo(Enterprise::class);
+    }
+
+    public function departments(){
+        return $this->hasMany(Department::class);
+    }
+    
+    public function employees(){
+        return $this->hasMany(Employee::class);
+    }
 }

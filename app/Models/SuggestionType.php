@@ -16,4 +16,8 @@ class SuggestionType extends Model
         'suggestion_type',
         'status',        
     ];
+
+    public function suggestions(){
+        return $this->hasMany(Suggestion::class);
+    }
 }

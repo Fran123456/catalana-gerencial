@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Role\RoleController;
 use App\Http\Controllers\API\APIController;
+use App\Http\Controllers\Suggestions\SuggestionsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +38,12 @@ Route::get('/lang/{language}', function ($language) {
    session()->put('locale', $language);
    return redirect()->back();
 })->name('language')->middleware('translate');
+
+//suggestions
+
+Route::middleware(['auth:sanctum', 'verified'])->prefix('suggestion')->group(function(){
+  Route::get('/home', [SuggestionsController::class,'home'])->name('suggestions-home');
+});
 
 
 //API

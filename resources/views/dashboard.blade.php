@@ -16,7 +16,7 @@
              <h5 class="card-title">CAPACITACIONES</h5>
              <p class="card-text">
              </p>
-             <div wire:loading.remove>
+             <div>
                 <a  class="btn btn-primary"><i class="fas fa-chevron-circle-right"></i></a>
              </div>
           </div>
@@ -35,7 +35,7 @@
              <h5 class="card-title">PUBLICACIONES</h5>
              <p class="card-text">
              </p>
-             <div wire:loading.remove>
+             <div>
                 <a  class="btn btn-primary"><i class="fas fa-chevron-circle-right"></i></a>
              </div>
           </div>
@@ -57,8 +57,8 @@
              <h5 class="card-title">BUZON SUGERENCIAS</h5>
              <p class="card-text">
              </p>
-             <div wire:loading.remove>
-                <a  class="btn btn-primary"><i class="fas fa-chevron-circle-right"></i></a>
+             <div>
+                <a href="{!! route('suggestions-home') !!}"  class="btn btn-primary"><i class="fas fa-chevron-circle-right"></i></a>
              </div>
           </div>
       </div>

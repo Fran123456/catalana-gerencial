@@ -12,7 +12,7 @@
      </span>
     </div>
       <div class="card-body text-center">
-         <h5 class="card-title">Actualizar información</h5>
+         <h5 class="card-title">ACTUALIZAR INFORMACION</h5>
          <p class="card-text">
          </p>
 

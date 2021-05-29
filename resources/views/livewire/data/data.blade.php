@@ -42,7 +42,6 @@
 
 <script type="text/javascript">
 Livewire.on('send',() => {
-
     setTimeout(function(){$("#message").fadeOut('fast');}, 1000);
 })
 </script>

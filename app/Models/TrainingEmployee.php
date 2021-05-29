@@ -17,6 +17,8 @@ class TrainingEmployee extends Model
         'training_id',
         'score',
         'date',
+        'taken',
+        'seen'
     ];    
 
     public function training(){

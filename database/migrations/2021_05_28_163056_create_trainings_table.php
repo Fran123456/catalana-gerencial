@@ -16,11 +16,17 @@ class CreateTrainingsTable extends Migration
         Schema::create('trainings', function (Blueprint $table) {
             $table->unsignedBigInteger('id')->primary();            
             $table->string('training',300)->nullable();
-            $table->string('type',300)->nullable();
+            $table->string('training_type')->nullable();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->time('hour')->nullable();
             $table->integer('year')->nullable();
+
+            $table->foreign('training_type')
+                ->references('training_type')
+                ->on('training_types')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 

@@ -12,6 +12,9 @@ use App\Models\Publication;
 use App\Models\PublicationEmployee;
 use App\Models\Suggestion;
 use App\Models\SuggestionType;
+use App\Models\Training;
+use App\Models\TrainingEmployee;
+use App\Models\TrainingType;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
@@ -22,7 +25,7 @@ class APIController extends Controller
 {
     public $token="uDmLdfuTK9bucf9SghFq";
 
-    public function getAllInformation(){
+    public function getAllInformation(){        
 
         $this->getAllEnterprises();
         $this->getAllAreas();
@@ -32,15 +35,16 @@ class APIController extends Controller
         $this->getAllSuggestionType();
         $this->getAllSuggestion();
         $this->getAllPublication();
-        $this->getAllPublicationEmployee();
+        $this->getAllPublicationEmployee();        
+        $this->getAllTrainingType();
+        $this->getAllTraining();
+        $this->getAllTrainingEmployee();
     }
 
     public function getAllEnterprises(){
         $url = "http://ccpcatalana.com/api/public/api/gerenciales/empresas/".$this->token;
 
-        $response = Http::get($url)->json();
-        //la siguiente las descomentas para la segunda vez que traigas los datos
-        //array_pop($response);
+        $response = Http::get($url)->json();        
 
         foreach ($response as $enterprise){
             Enterprise::firstOrCreate([
@@ -303,5 +307,95 @@ class APIController extends Controller
                 PublicationEmployee::destroy($after->id);
             }
         }
+    }
+
+    public function getAllTrainingType(){
+        $url = "http://ccpcatalana.com/api/public/api/gerenciales/tipos/capacitaciones/".$this->token;
+
+        $response = Http::get($url)->json();
+
+        foreach ($response as $i => $type) {
+            TrainingType::firstOrCreate([                
+                'text'=>array_pop($type),
+                'training_type' => array_pop($type),
+                'id' => $i+1
+            ]);
+        }
+        $query = DB::select("SELECT training_type FROM training_types");
+        foreach ($query as $i => $after) {
+            $flag = 0;
+            foreach ($response as $j => $before) {
+                array_pop($before);
+                if($after->training_type == array_pop($before)){
+                    $flag = 1;
+                    break 1;
+                }
+            }
+            if($flag == 0){
+                DB::select('DELETE FROM training_types WHERE type = ?',[$after->training_type]);
+            }
+        }        
+    }
+
+    public function getAllTraining(){
+        $url = "http://ccpcatalana.com/api/public/api/gerenciales/capacitaciones/".$this->token;
+
+        $response = Http::get($url)->json();
+
+        foreach ($response as $training){
+            Training::firstOrCreate([
+                'id' => $training['id'],      
+                'training' => $training['capacitacion'],
+                'training_type'=>$training['tipo'],
+                'start_date'=>$training['fecha_inicio'],
+                'end_date'=>$training['fecha_fin'],
+                'hour'=> $training['hora'],
+                'year'=>intval($training['year']),
+            ]);                        
+        }
+        $query = DB::select("SELECT id FROM trainings");
+        foreach ($query as $i => $after) {
+            $flag = 0;
+            foreach ($response as $j => $before) {
+                if($after->id == $before['id']){
+                    $flag = 1;
+                    break 1;
+                }
+            }
+            if($flag == 0){
+                Training::destroy($after->id);
+            }
+        }        
+    }
+
+    public function getAllTrainingEmployee(){
+        $url = "http://ccpcatalana.com/api/public/api/gerenciales/capacitaciones/empleados/".$this->token;
+
+        $response = Http::get($url)->json();
+
+        foreach ($response as $training) {
+            TrainingEmployee::firstOrCreate([
+                'id' => $training['id'],      
+                'employee_id' => $training['empleado_id'],
+                'training_id' => $training['capacitacion_id'],
+                //'date'=>Carbon::createFromTimeString(($training['fecha'])),
+                'score' => $training['nota'],
+                'taken' => $training['resuelto'],
+                'seen' => $training['lectura']
+            ]);
+        }
+        $query = DB::select("SELECT id FROM training_employees");
+        foreach ($query as $i => $after) {
+            $flag = 0;
+            foreach ($response as $j => $before) {
+                if($after->id == $before['id']){
+                    $flag = 1;
+                    break 1;
+                }
+            }
+            if($flag == 0){
+                TrainingEmployee::destroy($after->id);
+            }
+        }        
     }
 }

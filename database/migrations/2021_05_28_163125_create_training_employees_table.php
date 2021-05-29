@@ -19,6 +19,8 @@ class CreateTrainingEmployeesTable extends Migration
             $table->unsignedBigInteger('training_id')->nullable();
             $table->decimal('score')->nullable();// dudas con el tipo
             $table->date('date')->nullable();
+            $table->string('taken')->nullable();
+            $table->string('seen')->nullable();
 
             $table->foreign('employee_id')
                 ->references('id')

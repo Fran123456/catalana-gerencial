@@ -14,7 +14,7 @@ class Training extends Model
     protected $fillable = [
         'id',
         'training',
-        'type',
+        'training_type',
         'start_date',
         'end_date',
         'hour',
@@ -23,6 +23,5 @@ class Training extends Model
 
     public function trainingEmployee(){
         return $this->hasMany(TrainingEmployee::class);
-    }
-
+    }    
 }

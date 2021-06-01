@@ -43,6 +43,8 @@ Route::get('/lang/{language}', function ($language) {
 
 Route::middleware(['auth:sanctum', 'verified'])->prefix('suggestion')->group(function(){
   Route::get('/home', [SuggestionsController::class,'home'])->name('suggestions-home');
+  Route::get('/reports/strategic/types/{typeId}/{format}/{yi}/{yf}', [SuggestionsController::class,'reportSuggestionsByType'])->name('suggestions-strategic-type');
+  Route::get('/reports/tactical/date/{typeId}/{format}/{fi}/{ff}', [SuggestionsController::class,'reportSuggestionsByDate'])->name('suggestions-tactical-date');
 });
 
 

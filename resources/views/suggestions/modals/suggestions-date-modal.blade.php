@@ -3,14 +3,14 @@
   type="button"
   class="btn btn-primary"
   data-mdb-toggle="modal"
-  data-mdb-target="#sugerencias-tipo">
+  data-mdb-target="#sugerencias-date">
   <i class="fas fa-chevron-circle-right"></i>
 </button>
 
 <!-- Modal -->
 <div
   class="modal fade"
-  id="sugerencias-tipo"
+  id="sugerencias-date"
   tabindex="-1"
   aria-labelledby="exampleModalLabel"
   aria-hidden="true">
@@ -24,22 +24,23 @@
         <div class="row">
           <div class="col-md-12 text-left">
             <label>Tipo de sugerencia</label>
-            <select required class="form-control" name="" id="option">
+            <select required class="form-control" name="" id="option-type-date">
               @foreach ($types as $key => $value)
                 <option value="{{$value->id}}">{{$value->suggestion_type}}</option>
               @endforeach
+              <option value="0">TODAS</option>
             </select>
           </div>
           <div class="col-md-6 text-left">
             <br>
-            <label for="">Año inicial</label>
-            <input id="yeari" class="form-control" required type="number" min="2000" name="" value="">
+            <label for="">Fecha inicial</label>
+            <input id="datei-date" class="form-control" required type="date"  name="" value="{{$help::dateYear()}}">
           </div>
 
           <div class="col-md-6 text-left">
             <br>
-            <label for="">Año final</label>
-            <input id="yearf" class="form-control" required type="number" min="2000" name="" value="">
+            <label for="">Fecha final</label>
+            <input id="datef-date" class="form-control" required type="date"  name="" value="{{$help::dateYear()}}">
           </div>
         </div>
 
@@ -48,13 +49,23 @@
         <button type="button" class="btn btn-primary" data-mdb-dismiss="modal">
           <i class="fas fa-window-close fa-2x"></i>
         </button>
-        <a href="#" class="btn btn-success"><i class="fas fa-file-excel fa-2x"></i></a>
-        <a href="#" class="btn btn-danger"><i class="fas fa-file-pdf fa-2x"></i></a>
+        <button type="button" class="btn btn-success" onclick="reporte('excel')" name="button"><i class="fas fa-file-excel fa-2x"></i></button>
+
+        <button type="button" class="btn btn-danger" onclick="reporte('pdf')" name="button"><i class="fas fa-file-pdf fa-2x"></i></button>
       </div>
     </div>
   </div>
 </div>
 
 <script type="text/javascript">
-  
+function reporte(type){
+ var datei =  $("#datei-date").val();
+ var datef  = $("#datef-date").val();
+ var typeId =$("#option-type-date").val();
+
+ if(datei==null ||datei == "")datei = "no";
+ if(datef==null ||datef == "")datef= "no";
+    window.open("{{$help::url()}}suggestion/reports/tactical/date/" + typeId + "/"+type+"/"+datei+"/"+datef, "_blank");
+   return false;
+ }
 </script>

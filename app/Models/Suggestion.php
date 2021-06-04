@@ -24,4 +24,10 @@ class Suggestion extends Model
     public function suggestionType(){
         return $this->belongsTo(SuggestionType::class);
     }    
+
+    public function employee(){
+        return $this->belongsTo(Employee::class);
+    }    
+
+
 }

@@ -49,15 +49,15 @@
           <i class="fas fa-window-close fa-2x"></i>
         </button>
 
-        <button type="button" class="btn btn-success" onclick="reporte('excel')" name="button"><i class="fas fa-file-excel fa-2x"></i></button>
-        <button type="button" class="btn btn-danger" onclick="reporte('pdf')" name="button"><i class="fas fa-file-pdf fa-2x"></i></button>
+        <button type="button" class="btn btn-success" onclick="reporteType('excel')" name="button"><i class="fas fa-file-excel fa-2x"></i></button>
+        <button type="button" class="btn btn-danger" onclick="reporteType('pdf')" name="button"><i class="fas fa-file-pdf fa-2x"></i></button>
       </div>
     </div>
   </div>
 </div>
 
 <script type="text/javascript">
-function reporte(type){
+function reporteType(type){
  var yeari =  $("#yeari-type").val();
  var yearf  = $("#yearf-type").val();
  var typeId = $("#option-type").val();

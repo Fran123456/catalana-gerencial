@@ -17,7 +17,7 @@
              <p class="card-text">
              </p>
              <div>
-                <a  class="btn btn-primary"><i class="fas fa-chevron-circle-right"></i></a>
+                <a href="{!! route('training-home') !!} " class="btn btn-primary"><i class="fas fa-chevron-circle-right"></i></a>
              </div>
           </div>
       </div>

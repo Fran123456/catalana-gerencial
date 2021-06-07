@@ -28,6 +28,8 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 
 //user
 Route::middleware(['auth:sanctum', 'verified'])->get('users', [UserController::class,'users'])->name('users');
+//print users
+Route::middleware(['auth:sanctum', 'verified'])->get('users/print', [UserController::class,'printUsers'])->name('print_users');
 
 //Role
 Route::middleware(['auth:sanctum', 'verified'])->get('/roles', [RoleController::class,'roles'])->name('roles');

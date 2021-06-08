@@ -118,4 +118,7 @@
             @endif            
         </tbody>
     </table>  
+    @php
+        $table[$key] = null;
+    @endphp
 @endforeach

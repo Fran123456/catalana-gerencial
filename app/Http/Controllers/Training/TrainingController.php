@@ -20,6 +20,8 @@ class TrainingController extends Controller
 {
   public function __construct(){
     set_time_limit(8000000);
+    ini_set('memory_limit', '512M');
+
     $this->middleware('auth');
   }
 
@@ -57,12 +59,13 @@ class TrainingController extends Controller
           foreach($query as $key => $training){
             $submitted = TrainingEmployee::where('training_id','=',$training->id)
                           ->where('taken','=','si')
-                          ->with('employee','employee.enterprise','employee.area','employee.department','employee.position')
+                          //->with('employee','employee.enterprise','employee.area','employee.department','employee.position')
+                          ->with('employee')
                           ->get();
           array_push($tomados,$submitted);
           $unsubmitted = TrainingEmployee::where('training_id','=',$training->id)
                           ->whereNull('taken')
-                          ->with('employee','employee.enterprise','employee.area','employee.department','employee.position')
+                          ->with('employee')
                           ->get();
           array_push($no_tomados,$unsubmitted);
           }  
@@ -73,16 +76,15 @@ class TrainingController extends Controller
           $query = Training::where('id','=',$trainingId)->get();
           $submitted = TrainingEmployee::where('training_id','=',$trainingId)
                           ->where('taken','=','si')
-                          ->with('employee','employee.enterprise','employee.area','employee.department','employee.position')
+                          ->with('employee')
                           ->get();
           array_push($tomados,$submitted);
           $unsubmitted = TrainingEmployee::where('training_id','=',$trainingId)
                           ->whereNull('taken')
-                          ->with('employee','employee.enterprise','employee.area','employee.department','employee.position')
+                          ->with('employee')
                           ->get();
           array_push($no_tomados,$unsubmitted);
-        } 
-
+        }         
         if($type == 'pdf'){        
           $pdf = PDF::loadView('pdf-reports.capacitaciones.r4-tactico', compact('query','text','tipo','tomados','no_tomados'));
           return $pdf->setPaper('A4','landscape')->stream($text.'.pdf');
@@ -114,18 +116,18 @@ class TrainingController extends Controller
             $approved = TrainingEmployee::where('training_id','=',$training->id)
                           ->where('score','>=','8')
                           ->whereNotNull('score')
-                          ->with('employee','employee.enterprise','employee.area','employee.department','employee.position')
+                          ->with('employee')
                           ->get();
           array_push($aprobados,$approved);
           $failed = TrainingEmployee::where('training_id','=',$training->id)
                           ->where('score','<','8')
                           ->whereNotNull('score')
-                          ->with('employee','employee.enterprise','employee.area','employee.department','employee.position')
+                          ->with('employee')
                           ->get();
           array_push($reprobados,$failed);
           $none = TrainingEmployee::where('training_id','=',$training->id)                            
                             ->whereNull('score')
-                            ->with('employee','employee.enterprise','employee.area','employee.department','employee.position')
+                            ->with('employee')
                             ->get();
           array_push($sin_nota,$none);
           }  
@@ -137,18 +139,18 @@ class TrainingController extends Controller
         $approved = TrainingEmployee::where('training_id','=',$trainingId)
                           ->where('score','>=','8')
                           ->whereNotNull('score')
-                          ->with('employee','employee.enterprise','employee.area','employee.department','employee.position')
+                          ->with('employee')
                           ->get();
           array_push($aprobados,$approved);
           $failed = TrainingEmployee::where('training_id','=',$trainingId)
                           ->where('score','<','8')
                           ->whereNotNull('score')
-                          ->with('employee','employee.enterprise','employee.area','employee.department','employee.position')
+                          ->with('employee')
                           ->get();
           array_push($reprobados,$failed);
           $none = TrainingEmployee::where('training_id','=',$trainingId)                            
                             ->whereNull('score')
-                            ->with('employee','employee.enterprise','employee.area','employee.department','employee.position')
+                            ->with('employee')
                             ->get();
           array_push($sin_nota,$none);
       }

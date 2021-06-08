@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Training;
 
 use App\Exports\Trainings\TrainingR4_Export;
+use App\Exports\Trainings\TrainingR5_Export;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Help\Help;
@@ -44,10 +45,10 @@ class TrainingController extends Controller
  public function r4_($type, $trainingId){
   if(Auth::user()->hasPermissionTo('trainings_tactical')){
         $query = '';
-        $text = 'Modulo_Capacitaciones';      
+        $text = 'Modulo_Capacitaciones_Empleados_que_resuelven_y_no_resuelven_capacitación';      
         $tipo = '';
-        $aprobados = [];
-        $reprobados = [];
+        $tomados = [];
+        $no_tomados = [];
 
         if($trainingId == 0){//flujo cuando son todos los tipos los requeridos
           $tipo = "TODAS";
@@ -56,14 +57,14 @@ class TrainingController extends Controller
           foreach($query as $key => $training){
             $submitted = TrainingEmployee::where('training_id','=',$training->id)
                           ->where('taken','=','si')
-                          ->with('employee')
+                          ->with('employee','employee.enterprise','employee.area','employee.department','employee.position')
                           ->get();
-          array_push($aprobados,$submitted);
+          array_push($tomados,$submitted);
           $unsubmitted = TrainingEmployee::where('training_id','=',$training->id)
                           ->whereNull('taken')
-                          ->with('employee')
+                          ->with('employee','employee.enterprise','employee.area','employee.department','employee.position')
                           ->get();
-          array_push($reprobados,$unsubmitted);
+          array_push($no_tomados,$unsubmitted);
           }  
         }
         else{//flujo cuando se especifica de qué tipo se quiere
@@ -72,21 +73,22 @@ class TrainingController extends Controller
           $query = Training::where('id','=',$trainingId)->get();
           $submitted = TrainingEmployee::where('training_id','=',$trainingId)
                           ->where('taken','=','si')
-                          ->with('employee')
+                          ->with('employee','employee.enterprise','employee.area','employee.department','employee.position')
                           ->get();
-          array_push($aprobados,$submitted);
+          array_push($tomados,$submitted);
           $unsubmitted = TrainingEmployee::where('training_id','=',$trainingId)
                           ->whereNull('taken')
-                          ->with('employee')
+                          ->with('employee','employee.enterprise','employee.area','employee.department','employee.position')
                           ->get();
-          array_push($reprobados,$unsubmitted);
-        }        
+          array_push($no_tomados,$unsubmitted);
+        } 
+
         if($type == 'pdf'){        
-          $pdf = PDF::loadView('pdf-reports.capacitaciones.r4-tactico', compact('query','text','tipo','aprobados','reprobados'));
+          $pdf = PDF::loadView('pdf-reports.capacitaciones.r4-tactico', compact('query','text','tipo','tomados','no_tomados'));
           return $pdf->setPaper('A4','landscape')->stream($text.'.pdf');
         }
         elseif ($type == 'excel') {            
-          return Excel::download(new TrainingR4_Export($query,$text,$tipo,$aprobados,$reprobados),$text.'.xlsx');
+          return Excel::download(new TrainingR4_Export($query,$text,$tipo,$tomados,$no_tomados),$text.'.xlsx');
         }  
   }
   else{
@@ -95,9 +97,70 @@ class TrainingController extends Controller
  }
 
  //Reporte de lista de notas de empleados aprobados y reprobados por capacitación
- public function r5_(){
+ public function r5_($type, $trainingId){
   if(Auth::user()->hasPermissionTo('trainings_tactical')){
+      $query = '';
+      $text = 'Modulo_Capacitaciones';      
+      $tipo = '';
+      $aprobados = [];
+      $reprobados = [];
+      $sin_nota = [];
 
+      if($trainingId == 0){//flujo cuando son todos los tipos los requeridos
+        $tipo = "TODAS";
+          $text = $text."_Todos";
+          $query = Training::all();
+          foreach($query as $key => $training){
+            $approved = TrainingEmployee::where('training_id','=',$training->id)
+                          ->where('score','>=','8')
+                          ->whereNotNull('score')
+                          ->with('employee','employee.enterprise','employee.area','employee.department','employee.position')
+                          ->get();
+          array_push($aprobados,$approved);
+          $failed = TrainingEmployee::where('training_id','=',$training->id)
+                          ->where('score','<','8')
+                          ->whereNotNull('score')
+                          ->with('employee','employee.enterprise','employee.area','employee.department','employee.position')
+                          ->get();
+          array_push($reprobados,$failed);
+          $none = TrainingEmployee::where('training_id','=',$training->id)                            
+                            ->whereNull('score')
+                            ->with('employee','employee.enterprise','employee.area','employee.department','employee.position')
+                            ->get();
+          array_push($sin_nota,$none);
+          }  
+      }      
+      else{
+        $tipo = Training::where('id','=',$trainingId)->get()->first();
+        $text = $text."_".$tipo->training;
+        $query = Training::where('id','=',$trainingId)->get();
+        $approved = TrainingEmployee::where('training_id','=',$trainingId)
+                          ->where('score','>=','8')
+                          ->whereNotNull('score')
+                          ->with('employee','employee.enterprise','employee.area','employee.department','employee.position')
+                          ->get();
+          array_push($aprobados,$approved);
+          $failed = TrainingEmployee::where('training_id','=',$trainingId)
+                          ->where('score','<','8')
+                          ->whereNotNull('score')
+                          ->with('employee','employee.enterprise','employee.area','employee.department','employee.position')
+                          ->get();
+          array_push($reprobados,$failed);
+          $none = TrainingEmployee::where('training_id','=',$trainingId)                            
+                            ->whereNull('score')
+                            ->with('employee','employee.enterprise','employee.area','employee.department','employee.position')
+                            ->get();
+          array_push($sin_nota,$none);
+      }
+      //dd($aprobados,$reprobados);    
+      $text = $text."_aprobados_y_reprobados";
+      if($type == 'pdf'){        
+        $pdf = PDF::loadView('pdf-reports.capacitaciones.r5-tactico', compact('query','text','tipo','aprobados','reprobados','sin_nota'));
+        return $pdf->setPaper('A4','landscape')->stream($text.'.pdf');
+      }
+      elseif ($type == 'excel') {            
+        return Excel::download(new TrainingR5_Export($query,$text,$tipo,$aprobados,$reprobados,$sin_nota),$text.'.xlsx');        
+      }  
   }
   else{
     abort(403,__('Unauthorized'));
@@ -105,7 +168,7 @@ class TrainingController extends Controller
  }
 
  //Reporte de todos los empleados de una capacitación
- public function r6_(){
+ public function r6_($type, $trainingId){
   if(Auth::user()->hasPermissionTo('trainings_tactical')){
 
   }
@@ -113,6 +176,4 @@ class TrainingController extends Controller
     abort(403,__('Unauthorized'));
   }
 }
-
-
 }

@@ -35,7 +35,7 @@
         <div class="row">
             <div class="col-md-12 text-left">
                 <label for="">Capacitación</label>
-                <select required class="form-control" name="" id="option-type">                
+                <select required class="form-control" name="" id="option-type-r4">                
                     @foreach ($trainings as $key => $training)
                       <option value="{{$training->id}}">{{$training->training}}</option>    
                     @endforeach
@@ -49,19 +49,19 @@
         <button type="button" class="btn btn-primary" data-mdb-dismiss="modal">
           <i class="fas fa-window-close fa-2x"></i>
         </button>
-        <button type="button" class="btn btn-success" onclick="reporte1('excel')" name="button"><i class="fas fa-file-excel fa-2x"></i></button>
+        <button type="button" class="btn btn-success" onclick="reporte4('excel')" name="button"><i class="fas fa-file-excel fa-2x"></i></button>
 
-        <button type="button" class="btn btn-danger" onclick="reporte1('pdf')" name="button"><i class="fas fa-file-pdf fa-2x"></i></button>
+        <button type="button" class="btn btn-danger" onclick="reporte4('pdf')" name="button"><i class="fas fa-file-pdf fa-2x"></i></button>
       </div>
     </div>
   </div>
 </div>
 
 <script type="text/javascript">
-function reporte1(type){
+function reporte4(type){
  //var datei =  $("#datei-date").val();
  //var datef  = $("#datef-date").val();
-    var trainingId =$("#option-type").val();
+    var trainingId =$("#option-type-r4").val();
     window.open("{{$help::url()}}training/reports/tactical/r4/" +type+"/"+trainingId, "_blank");
   return false;
  /*if(datei==null ||datei == "")datei = "no";

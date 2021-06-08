@@ -12,17 +12,18 @@ use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
-class TrainingR4_Export implements FromView, WithColumnWidths, WithDrawings//,WithStyles
+class TrainingR5_Export implements FromView, WithColumnWidths, WithDrawings//,WithStyles
 {
     protected $query;
     
-    public function __construct($query,$text,$tipo,$aprobados,$reprobados)
+    public function __construct($query,$text,$tipo,$aprobados,$reprobados,$sin_nota)
     {
         $this->query = $query;
         $this->text = $text;        
         $this->tipo = $tipo;
         $this->aprobados = $aprobados;
         $this->reprobados = $reprobados;
+        $this->sin_nota = $sin_nota;
     }
 
     public function drawings()
@@ -39,12 +40,13 @@ class TrainingR4_Export implements FromView, WithColumnWidths, WithDrawings//,Wi
 
     public function view(): View
     {
-        return view('pdf-reports.capacitaciones.r4-tactico-excel', [
+        return view('pdf-reports.capacitaciones.r5-tactico-excel', [
             'query' => $this->query,
             'text' => $this->text,            
             'tipo' => $this->tipo,
-            'tomados' => $this->aprobados,
-            'no_tomados' => $this->reprobados,
+            'aprobados' => $this->aprobados,
+            'reprobados' => $this->reprobados,
+            'sin_nota' => $this->sin_nota,
         ]);   
     }    
 
@@ -58,7 +60,7 @@ class TrainingR4_Export implements FromView, WithColumnWidths, WithDrawings//,Wi
             'E' => 45,
             'F' => 45,
             'G' => 45,
-            'H' => 45,            
+            'H' => 45,
         ];
     }
 

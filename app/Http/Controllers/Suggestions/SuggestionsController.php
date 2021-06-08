@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Suggestions;
 
-use App\Exports\SuggestionsExport;
+use App\Exports\Suggestions\SuggestionsExport;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\SuggestionType;
@@ -34,7 +34,7 @@ class SuggestionsController extends Controller
 
     //tacticos    
     public function reportSuggestionsByDate($typeId, $format, $fi, $ff){      
-      if(Auth::user()->hasPermissionTo('suggestions_tactico')){
+      if(Auth::user()->hasPermissionTo('suggestions_tactical')){
         $query = '';
         $text = 'Modulo_Sugerencias';      
         $tipo = '';

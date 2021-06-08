@@ -36,7 +36,15 @@ class RoleSeeder extends Seeder
       Permission::create(['name'=>'assign_permissions'])->syncRoles([$tactico,$estrategico,$ambos]);      
 
       //Permisos para módulo sugerencias
-      Permission::create(['name'=>'suggestions_tactico'])->syncRoles([$tactico,$ambos]);
-      Permission::create(['name'=>'suggestions_estratégico'])->syncRoles([$ambos,$estrategico]);
+      Permission::create(['name'=>'suggestions_tactical'])->syncRoles([$tactico,$ambos]);
+      Permission::create(['name'=>'suggestions_estrategic'])->syncRoles([$ambos,$estrategico]);
+
+      //Permisos para módulo capacitaciones
+      Permission::create(['name'=>'trainings_tactical'])->syncRoles([$tactico,$ambos]);
+      Permission::create(['name'=>'trainings_estrategic'])->syncRoles([$ambos,$estrategico]);
+
+      //Permisos para módulo publicaciones
+      Permission::create(['name'=>'publications_tactical'])->syncRoles([$tactico,$ambos]);
+      Permission::create(['name'=>'publicactions_estrategic'])->syncRoles([$ambos,$estrategico]);
     }
 }

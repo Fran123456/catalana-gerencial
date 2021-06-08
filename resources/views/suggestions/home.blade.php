@@ -3,7 +3,7 @@
 
 <br>
 <div class="container">
-  @can('suggestions_estratégico')      
+  @can('suggestions_estrategic')      
     <div class="row">
       <div class="text-center">
         <h4>REPORTES ESTRATEGICOS</h4>
@@ -30,7 +30,7 @@
   @endcan
   <br>
 
-  @can('suggestions_tactico')      
+  @can('suggestions_tactical')      
     <div class="row">
       <div class="text-center">
         <h4>REPORTES TACTICOS</h4>
@@ -53,7 +53,7 @@
     </div>
   @endcan
 
-  @if (auth()->user()->can('suggestions_estratégico') == false && auth()->user()->can('suggestions_tactico') == false)
+  @if (auth()->user()->can('suggestions_estrategic') == false && auth()->user()->can('suggestions_tactical') == false)
   <div class="row">
       <div class="text-center">
         <h4>SIN PERMISOS</h4>

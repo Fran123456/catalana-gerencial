@@ -18,7 +18,7 @@
             </div>
             <div class="col-md-7">
                 <div class="card">
-                    <h4 class="card-title text-center pt-2"> Reporte nivel táctico módulo sugerencias</h4>
+                    <h4 class="card-title text-center pt-2">Reporte de sugerencias realizadas por fechas</h5>
                 </div>        
             </div>
         </div>
@@ -75,9 +75,9 @@
                 <tbody>                              
                 @if ($query->count() == 0)
                     @if ($tipo == "TODAS")
-                    <tr><td colspan="5"><p>No se encontraron sugerencias con los parámetros ingresados</p></td></tr>
+                    <tr><td style="font-size:90%" colspan="6"><p>No se encontraron sugerencias con los parámetros ingresados</p></td></tr>
                     @else
-                    <tr><td colspan="4"><p>No se encontraron sugerencias con los parámetros ingresados</p></td></tr>
+                    <tr><td style="font-size:90%" colspan="5"><p>No se encontraron sugerencias con los parámetros ingresados</p></td></tr>
                     @endif    
                 @else
                     @foreach ($query as $key => $row)
@@ -89,7 +89,7 @@
                             @endif
                             <td style="font-size:90%">{{Carbon\Carbon::createFromTimeString($row->date)->format('d-m-Y H:i:s')}}</td>
                             <td style="font-size:90%">{{$row->employee_id}}</td>
-                            <td>{{$row->employee->names}} {{$row->employee->lastnames}}</td>
+                            <td style="font-size:90%">{{$row->employee->names}} {{$row->employee->lastnames}}</td>
                         </tr>
                     @endforeach
                 @endif

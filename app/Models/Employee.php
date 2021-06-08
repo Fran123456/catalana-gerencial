@@ -42,4 +42,8 @@ class Employee extends Model
     public function publicationEmployee(){
         return $this->hasMany(PublicationEmployee::class);
     }
+
+    public function trainingEmployee(){
+        return $this->hasMany(TrainingEmployee::class);
+    }
 }

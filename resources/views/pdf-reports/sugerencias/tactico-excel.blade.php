@@ -8,26 +8,24 @@
         <tr>
             <td></td>
             <td></td>
-            <td>REPORTE NIVEL TÁCTICO MÓDULO SUGERENCIAS</td>
+            <td><strong>REPORTE DE SUGERENCIAS REALIZADAS POR FECHA</strong></td>
         </tr>
         <tr></tr>
         <tr></tr>
     </tbody>
 </table>
 
-
-
 <table>
     <thead>
         <tr>
-            <th>Parámetros</th>
+            <th><strong>Parámetros</strong></th>
         </tr>
     </thead>
     <tbody>
         <tr>            
-            <th>Fecha inicial</th>
-            <th>Fecha final</th>
-            <th>Tipo de sugerencia</th>
+            <th><strong>Fecha inicial</strong></th>
+            <th><strong>Fecha final</strong></th>
+            <th><strong>Tipo de sugerencia</strong></th>
         </tr>
         <tr>                          
             @if ($fi == 'no')
@@ -49,21 +47,19 @@
     </tbody>
 </table>
 
-
-
 <table>
     <thead>
         <tr>
-            <th>#</th>
+            <th><strong>#</strong></th>
             @if ($tipo == "TODAS")
-                <th>Sugerencia</th>
-                <th>Tipo de sugerencia</th>
+                <th><strong>Sugerencia</strong></th>
+                <th><strong>Tipo de sugerencia</strong></th>
             @else
-                <th>Sugerencia</th>
+                <th><strong>Sugerencia</strong></th>
             @endif             
-            <th>Fecha</th>
-            <th>Id Empleado</th>
-            <th>Empleado</th>
+            <th><strong>Fecha</strong></th>
+            <th><strong>Id Empleado</strong></th>
+            <th><strong>Empleado</strong></th>
         </tr>
     </thead>
     <tbody>                              

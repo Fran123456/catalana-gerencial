@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Exports;
+namespace App\Exports\Trainings;
 
-use App\Models\Suggestion;
+use App\Models\TrainingEmployee;
+use Maatwebsite\Excel\Concerns\FromCollection;
 use Illuminate\Contracts\View\View;
-//use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
 use Maatwebsite\Excel\Concerns\WithDrawings;
@@ -12,19 +12,17 @@ use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
-
-//class SuggestionsExport implements FromCollection
-class SuggestionsExport implements FromView, WithColumnWidths, WithStyles, WithDrawings
+class TrainingR4_Export implements FromView, WithColumnWidths, WithDrawings//,WithStyles
 {
     protected $query;
     
-    public function __construct($query,$text,$fi,$ff,$tipo)
+    public function __construct($query,$text,$tipo,$aprobados,$reprobados)
     {
         $this->query = $query;
-        $this->text = $text;
-        $this->fi = $fi;
-        $this->ff = $ff;
+        $this->text = $text;        
         $this->tipo = $tipo;
+        $this->aprobados = $aprobados;
+        $this->reprobados = $reprobados;
     }
 
     public function drawings()
@@ -41,12 +39,12 @@ class SuggestionsExport implements FromView, WithColumnWidths, WithStyles, WithD
 
     public function view(): View
     {
-        return view('pdf-reports.sugerencias.tactico-excel', [
+        return view('pdf-reports.capacitaciones.r4-tactico-excel', [
             'query' => $this->query,
-            'text' => $this->text,
-            'fi' => $this->fi,
-            'ff' => $this->ff,
-            'tipo' => $this->tipo
+            'text' => $this->text,            
+            'tipo' => $this->tipo,
+            'aprobados' => $this->aprobados,
+            'reprobados' => $this->reprobados,
         ]);   
     }    
 
@@ -54,19 +52,17 @@ class SuggestionsExport implements FromView, WithColumnWidths, WithStyles, WithD
     {
         return [
             'A' => 15,
-            'B' => 60,
-            'C' => 40,
-            'D' => 15,
-            'E' => 15,
-            'F' => 20
+            'B' => 30,
+            'C' => 50,
+            'D' => 20,            
         ];
     }
 
-    public function styles(Worksheet $sheet)
+    /*public function styles(Worksheet $sheet)
     {
         $sheet->getStyle('2')->getFont()->setBold(true);
         $sheet->getStyle('6')->getFont()->setBold(true);
         $sheet->getStyle('7')->getFont()->setBold(true);
         $sheet->getStyle('10')->getFont()->setBold(true);        
-    }    
+    }*/
 }

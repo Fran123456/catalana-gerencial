@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Suggestions;
 
-use App\Exports\Suggestions\SuggestionsExport;
+
+use App\Exports\Suggestions\Tactical\Sheets\SuggestionsR2_Export;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\SuggestionType;
@@ -97,7 +98,7 @@ class SuggestionsController extends Controller
           return $pdf->setPaper('A4','landscape')->stream($text.'.pdf');
         }
         elseif ($format == 'excel') {        
-          return Excel::download(new SuggestionsExport($query,$text,$fi,$ff,$tipo),$text.'.xlsx');
+          return Excel::download(new SuggestionsR2_Export($query,$text,$fi,$ff,$tipo),$text.'.xlsx');
         }
       }
       else{

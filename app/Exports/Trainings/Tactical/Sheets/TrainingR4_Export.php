@@ -1,18 +1,15 @@
 <?php
 
-namespace App\Exports\Trainings;
+namespace App\Exports\Trainings\Tactical\Sheets;
 
-use App\Models\TrainingEmployee;
-use Maatwebsite\Excel\Concerns\FromCollection;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
 use Maatwebsite\Excel\Concerns\WithDrawings;
-use Maatwebsite\Excel\Concerns\WithStyles;
-use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
+use Maatwebsite\Excel\Concerns\WithTitle;
 
-class TrainingR4_Export implements FromView, WithColumnWidths, WithDrawings//,WithStyles
+class TrainingR4_Export implements FromView, WithColumnWidths, WithDrawings, WithTitle
 {
     protected $query;
     
@@ -60,13 +57,10 @@ class TrainingR4_Export implements FromView, WithColumnWidths, WithDrawings//,Wi
             'G' => 45,
             'H' => 45,            
         ];
-    }
+    }    
 
-    /*public function styles(Worksheet $sheet)
+    public function title(): string
     {
-        $sheet->getStyle('2')->getFont()->setBold(true);
-        $sheet->getStyle('6')->getFont()->setBold(true);
-        $sheet->getStyle('7')->getFont()->setBold(true);
-        $sheet->getStyle('10')->getFont()->setBold(true);        
-    }*/
+        return $this->query->training;
+    }
 }

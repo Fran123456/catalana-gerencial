@@ -68,13 +68,13 @@
                                 <th style="font-size:90%"scope="col" width="30px">Nota</th>
                                 <th style="font-size:90%"scope="col" width="150px">Empresa</th>
                                 <th style="font-size:90%"scope="col" width="100px">Área</th>
-                                <th style="font-size:90%"scope="col" width="100px">Depto.</th>
-                                <th style="font-size:90%"scope="col" width="140px">Cargo</th>
+                                {{--<th style="font-size:90%"scope="col" width="100px">Depto.</th>
+                                <th style="font-size:90%"scope="col" width="140px">Cargo</th>--}}
                             </tr>
                         </thead>
                         <tbody>                        
                             @if ($aprobados[$key]->count() == 0)
-                                <tr><td style="font-size:90%" colspan="8"><p>No se encontraron registros</p></td></tr>                
+                                <tr><td style="font-size:90%" colspan="6"><p>No se encontraron registros</p></td></tr>                
                             @else
                                 @foreach ($aprobados[$key] as $num => $apr)
                                     <tr>
@@ -88,8 +88,8 @@
                                         @endif                                    
                                         <td style="font-size:90%">{{$apr->employee->enterprise->enterprise}}</td>
                                         <td style="font-size:90%">{{$apr->employee->area->area}}</td>
-                                        <td style="font-size:90%">{{$apr->employee->department->department}}</td>
-                                        <td style="font-size:90%">{{$apr->employee->position->position}}</td>
+                                        {{--<td style="font-size:90%">{{$apr->employee->department->department}}</td>
+                                       <td style="font-size:90%">{{$apr->employee->position->position}}</td>--}}
                                     </tr>
                                 @endforeach
                                 @php
@@ -111,13 +111,13 @@
                                 <th style="font-size:90%"scope="col" width="30px">Nota</th>
                                 <th style="font-size:90%"scope="col" width="150px">Empresa</th>
                                 <th style="font-size:90%"scope="col" width="100px">Área</th>
-                                <th style="font-size:90%"scope="col" width="100px">Depto.</th>
-                                <th style="font-size:90%"scope="col" width="140px">Cargo</th>                                
+                                {{--<th style="font-size:90%"scope="col" width="100px">Depto.</th>
+                               <th style="font-size:90%"scope="col" width="140px">Cargo</th>--}}
                             </tr>
                         </thead>                        
                         <tbody>        
                             @if ($reprobados[$key]->count() == 0)
-                                <tr><td style="font-size:90%" colspan="8"><p>No se encontraron registros</p></td></tr>                
+                                <tr><td style="font-size:90%" colspan="6"><p>No se encontraron registros</p></td></tr>                
                             @else
                                 @foreach ($reprobados[$key] as $num => $repr)
                                     <tr>
@@ -131,8 +131,8 @@
                                         @endif  
                                         <td style="font-size:90%">{{$repr->employee->enterprise->enterprise}}</td>
                                         <td style="font-size:90%">{{$repr->employee->area->area}}</td>
-                                        <td style="font-size:90%">{{$repr->employee->department->department}}</td>
-                                        <td style="font-size:90%">{{$repr->employee->position->position}}</td>
+                                        {{--<td style="font-size:90%">{{$repr->employee->department->department}}</td>
+                                        <td style="font-size:90%">{{$repr->employee->position->position}}</td>--}}
                                     </tr>
                                 @endforeach                 
                                 @php
@@ -153,13 +153,13 @@
                                 <th style="font-size:90%"scope="col" width="150px">Empleado</th>                                
                                 <th style="font-size:90%"scope="col" width="150px">Empresa</th>
                                 <th style="font-size:90%"scope="col" width="100px">Área</th>
-                                <th style="font-size:90%"scope="col" width="100px">Depto.</th>
-                                <th style="font-size:90%"scope="col" width="140px">Cargo</th>
+                                {{--<th style="font-size:90%"scope="col" width="100px">Depto.</th>
+                               <th style="font-size:90%"scope="col" width="140px">Cargo</th>--}}
                             </tr>
                         </thead>                        
                         <tbody>        
                             @if ($sin_nota[$key]->count() == 0)
-                                <tr><td style="font-size:90%" colspan="7"><p>No se encontraron registros</p></td></tr>                
+                                <tr><td style="font-size:90%" colspan="5"><p>No se encontraron registros</p></td></tr>                
                             @else
                                 @foreach ($sin_nota[$key] as $num => $none)
                                     <tr>
@@ -168,8 +168,8 @@
                                         <td style="font-size:90%">{{$none->employee->names}} {{$none->employee->lastnames}}</td>                                       
                                         <td style="font-size:90%">{{$none->employee->enterprise->enterprise}}</td>
                                         <td style="font-size:90%">{{$none->employee->area->area}}</td>
-                                        <td style="font-size:90%">{{$none->employee->department->department}}</td>
-                                        <td style="font-size:90%">{{$none->employee->position->position}}</td>
+                                        {{--<td style="font-size:90%">{{$none->employee->department->department}}</td>
+                                        <td style="font-size:90%">{{$none->employee->position->position}}</td>--}}
                                     </tr>
                                 @endforeach                                  
                                 @php

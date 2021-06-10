@@ -32,11 +32,12 @@ class SuggestionsController extends Controller
 
     }
 
-    //tacticos    
-    public function reportSuggestionsByDate($typeId, $format, $fi, $ff){      
-      if(Auth::user()->hasPermissionTo('suggestions_tactical')){
+    //tacticos
+    public function reportSuggestionsByDate($typeId, $format, $fi, $ff){
+      //
+      if(Auth::user()->hasPermissionTo('suggestions_tactical')  ){
         $query = '';
-        $text = 'Modulo_Sugerencias';      
+        $text = 'Modulo_Sugerencias';
         $tipo = '';
 
         if($typeId == 0){//flujo cuando son todos los tipos los requeridos
@@ -48,8 +49,8 @@ class SuggestionsController extends Controller
             $text=$text.'_hasta_'.$end_date->format('d-m-Y');
           }
           elseif($fi != 'no' && $ff == 'no') { //cuando hay fecha de inicio pero no final
-            $start_date = Carbon::createFromFormat('Y-m-d H',$fi.'0');            
-            $query = Suggestion::where('date','>=',$start_date)->with('employee')->get();          
+            $start_date = Carbon::createFromFormat('Y-m-d H',$fi.'0');
+            $query = Suggestion::where('date','>=',$start_date)->with('employee')->get();
             $text=$text.'_desde_'.$start_date->format('d-m-Y');
           }
           elseif ($fi == 'no' && $ff == 'no') {
@@ -58,9 +59,9 @@ class SuggestionsController extends Controller
           else{ //cuando hay fechas de inicio y fin
             $end_date = Carbon::createFromFormat('Y-m-d',$ff);
             $start_date = Carbon::createFromFormat('Y-m-d H',$fi.'0');
-            
-            $query = Suggestion::whereBetween('date',array($start_date,$end_date))->with('employee')->get();          
-                                
+
+            $query = Suggestion::whereBetween('date',array($start_date,$end_date))->with('employee')->get();
+
             $text=$text.'_desde_'.$start_date->format('d-m-Y').'_hasta_'.$end_date->format('d-m-Y');
           }
         }
@@ -75,33 +76,33 @@ class SuggestionsController extends Controller
             $text=$text.'_hasta_'.$end_date->format('d-m-Y');
           }
           elseif($fi != 'no' && $ff == 'no') { //cuando hay fecha de inicio pero no final
-            $start_date = Carbon::createFromFormat('Y-m-d H',$fi.'0');            
+            $start_date = Carbon::createFromFormat('Y-m-d H',$fi.'0');
             $query = Suggestion::where('date','>=',$start_date)
-                                ->where('suggestion_type_id','=',$typeId)->with('employee')->get();          
+                                ->where('suggestion_type_id','=',$typeId)->with('employee')->get();
             $text=$text.'_desde_'.$start_date->format('d-m-Y');
           }
           elseif ($fi == 'no' && $ff == 'no') {
-            $query = Suggestion::where('suggestion_type_id','=',$typeId)->with('employee')->get();          
+            $query = Suggestion::where('suggestion_type_id','=',$typeId)->with('employee')->get();
           }
           else{ //cuando hay fechas de inicio y fin
             $end_date = Carbon::createFromFormat('Y-m-d',$ff);
             $start_date = Carbon::createFromFormat('Y-m-d H',$fi.'0');
             $query = Suggestion::whereBetween('date',array($start_date,$end_date))
-                                ->where('suggestion_type_id','=',$typeId)->with('employee')->get();          
+                                ->where('suggestion_type_id','=',$typeId)->with('employee')->get();
             $text=$text.'_desde_'.$start_date->format('d-m-Y').'_hasta_'.$end_date->format('d-m-Y');
-          }        
-        }      
-                      
-        if($format == 'pdf'){        
+          }
+        }
+
+        if($format == 'pdf'){
           $pdf = PDF::loadView('pdf-reports.sugerencias.tactico', compact('query','text','fi','ff','tipo'));
           return $pdf->setPaper('A4','landscape')->stream($text.'.pdf');
         }
-        elseif ($format == 'excel') {        
+        elseif ($format == 'excel') {
           return Excel::download(new SuggestionsExport($query,$text,$fi,$ff,$tipo),$text.'.xlsx');
         }
       }
       else{
         abort(403,__('Unauthorized'));
-      }                
+      }
     }
 }

@@ -68,7 +68,14 @@ class TrainingController extends Controller
          array_push($scores, $aux[0]);
      }
    }
-   return $scores; //resulado
+
+   if($type == 'pdf'){
+     $pdf = PDF::loadView('pdf-reports.capacitaciones.r1-estrategico', compact('scores','yeari','yearf'));
+     return $pdf->stream('Modulo_capacitaciones_promedio_notas_por_capacitacion.pdf');
+   }
+   elseif ($type == 'excel') {
+    // return Excel::download(new TrainingR4_Export_Book($query,$text,$tipo,$tomados,$no_tomados),$text.'.xlsx');
+   }
 
  }
  //report training number of quiz answered and not answered

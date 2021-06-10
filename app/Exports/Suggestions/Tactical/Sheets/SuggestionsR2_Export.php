@@ -1,20 +1,16 @@
 <?php
 
-namespace App\Exports\Suggestions;
+namespace App\Exports\Suggestions\Tactical\Sheets;
 
-use App\Models\Suggestion;
 use Illuminate\Contracts\View\View;
-//use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
 use Maatwebsite\Excel\Concerns\WithDrawings;
-use Maatwebsite\Excel\Concerns\WithStyles;
-use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Maatwebsite\Excel\Concerns\WithTitle;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
 
-//class SuggestionsExport implements FromCollection
-class SuggestionsExport implements FromView, WithColumnWidths, WithDrawings//,WithStyles
+class SuggestionsR2_Export implements FromView, WithColumnWidths, WithDrawings,WithTitle
 {
     protected $query;
     
@@ -61,12 +57,9 @@ class SuggestionsExport implements FromView, WithColumnWidths, WithDrawings//,Wi
             'F' => 20
         ];
     }
-
-    /*public function styles(Worksheet $sheet)
+    
+    public function title(): string
     {
-        $sheet->getStyle('2')->getFont()->setBold(true);
-        $sheet->getStyle('6')->getFont()->setBold(true);
-        $sheet->getStyle('7')->getFont()->setBold(true);
-        $sheet->getStyle('10')->getFont()->setBold(true);        
-    }*/
+        return $this->text;
+    }
 }

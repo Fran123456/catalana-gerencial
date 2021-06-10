@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Suggestions;
 
-use App\Exports\Suggestions\SuggestionsExport;
+
+use App\Exports\Suggestions\Tactical\Sheets\SuggestionsR2_Export;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\SuggestionType;

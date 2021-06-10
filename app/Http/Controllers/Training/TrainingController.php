@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Training;
 use App\Exports\Trainings\Tactical\Books\TrainingR4_Export_Book;
 use App\Exports\Trainings\Tactical\Books\TrainingR5_Export_Book;
 use App\Exports\Trainings\Tactical\Books\TrainingR6_Export_Book;
+use App\Exports\Trainings\Tactical\Books\TrainingR1_Export_Book;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Help\Help;
@@ -74,7 +75,7 @@ class TrainingController extends Controller
      return $pdf->stream('Modulo_capacitaciones_promedio_notas_por_capacitacion.pdf');
    }
    elseif ($type == 'excel') {
-    // return Excel::download(new TrainingR4_Export_Book($query,$text,$tipo,$tomados,$no_tomados),$text.'.xlsx');
+     return \Excel::download(new TrainingR1_Export_Book($scores),'Modulo_capacitaciones_promedio_notas_por_capacitacion.xlsx');
    }
 
  }

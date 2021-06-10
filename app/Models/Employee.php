@@ -50,4 +50,8 @@ class Employee extends Model
     public function trainingEmployee(){
         return $this->hasMany(TrainingEmployee::class);
     }
+
+    public function histories(){
+        return $this->hasMany(History::class);
+    }
 }

@@ -3,13 +3,18 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Archive;
+use App\Models\ArchiveType;
 use App\Models\Area;
+use App\Models\Container;
 use App\Models\Department;
 use App\Models\Employee;
 use App\Models\Enterprise;
+use App\Models\History;
 use App\Models\Position;
 use App\Models\Publication;
 use App\Models\PublicationEmployee;
+use App\Models\Subcontainer;
 use App\Models\Suggestion;
 use App\Models\SuggestionType;
 use App\Models\Training;
@@ -39,6 +44,11 @@ class APIController extends Controller
         $this->getAllTrainingType();
         $this->getAllTraining();
         $this->getAllTrainingEmployee();
+        $this->getAllContainer();
+        $this->getAllSubcontainer();
+        $this->getAllArchiveType();
+        $this->getAllArchive();
+        $this->getAllHistory();
     }
 
     public function getAllEnterprises(){
@@ -397,5 +407,160 @@ class APIController extends Controller
                 TrainingEmployee::destroy($after->id);
             }
         }        
+    }
+
+    public function getAllContainer(){
+        $url = "http://ccpcatalana.com/api/public/api/gerenciales/iso/contenedores/".$this->token;
+
+        $response = Http::get($url)->json();
+
+        foreach ($response as $training) {
+            Container::firstOrCreate([
+                'id' => $training['id'],      
+                'title' => $training['title'],
+                'active' => $training['active'],
+                'code' => $training['code'],
+                'created_at'=>Carbon::createFromTimeString(($training['date'])),
+            ]);
+        }
+        $query = DB::select("SELECT id FROM containers");
+        foreach ($query as $i => $after) {
+            $flag = 0;
+            foreach ($response as $j => $before) {
+                if($after->id == $before['id']){
+                    $flag = 1;
+                    break 1;
+                }
+            }
+            if($flag == 0){
+                Container::destroy($after->id);
+            }
+        }        
+    }
+    
+    public function getAllSubcontainer(){
+        $url = "http://ccpcatalana.com/api/public/api/gerenciales/iso/subcontenedores/".$this->token;
+
+        $response = Http::get($url)->json();
+
+        foreach ($response as $training) {
+            Subcontainer::firstOrCreate([
+                'id' => $training['id'],      
+                'title' => $training['title'],
+                'order' => $training['order'],
+                'back' => $training['back'],                
+                'code' => $training['code'],
+                'container_id' => $training['container_id'],
+                'created_at'=>Carbon::createFromTimeString(($training['date'])),
+            ]);
+        }
+        $query = DB::select("SELECT id FROM subcontainers");
+        foreach ($query as $i => $after) {
+            $flag = 0;
+            foreach ($response as $j => $before) {
+                if($after->id == $before['id']){
+                    $flag = 1;
+                    break 1;
+                }
+            }
+            if($flag == 0){
+                Subcontainer::destroy($after->id);
+            }
+        }        
+    }
+
+    public function getAllArchiveType(){
+        $url = "http://ccpcatalana.com/api/public/api/gerenciales/iso/tipos/".$this->token;
+
+        $response = Http::get($url)->json();
+
+        foreach ($response as $training) {
+            ArchiveType::firstOrCreate([
+                'id' => $training['id'],      
+                'type' => $training['type'],
+                'code' => $training['code'],                
+            ]);
+        }
+        $query = DB::select("SELECT id FROM archive_types");
+        foreach ($query as $i => $after) {
+            $flag = 0;
+            foreach ($response as $j => $before) {
+                if($after->id == $before['id']){
+                    $flag = 1;
+                    break 1;
+                }
+            }
+            if($flag == 0){
+                ArchiveType::destroy($after->id);
+            }
+        }    
+    }
+
+    public function getAllArchive(){
+        $url = "http://ccpcatalana.com/api/public/api/gerenciales/iso/archivos/".$this->token;
+
+        $response = Http::get($url)->json();
+
+        foreach ($response as $training) {
+            Archive::firstOrCreate([
+                'id' => $training['id'],
+                'title' => $training['title'],
+                'version' => $training['version'],
+                'edition' => $training['edition'],
+                'active' => $training['active'],
+                'download_mark' => $training['download_marc'],
+                'download' => $training['download'],
+                'format' => $training['format'],
+                'container_id' => $training['container_id'],                
+                'subcontainer_id' => $training['subcontainer_id'],
+                'archive_type_id' => $training['filetype_id'],
+                'code' => $training['code'],
+                'created_at' => Carbon::createFromTimeString(($training['date'])),
+            ]);
+        }
+        $query = DB::select("SELECT id FROM archives");
+        foreach ($query as $i => $after) {
+            $flag = 0;
+            foreach ($response as $j => $before) {
+                if($after->id == $before['id']){
+                    $flag = 1;
+                    break 1;
+                }
+            }
+            if($flag == 0){
+                Archive::destroy($after->id);
+            }
+        }
+    }   
+    
+    public function getAllHistory() {
+        $url = "http://ccpcatalana.com/api/public/api/gerenciales/iso/historial/".$this->token;
+
+        $response = Http::get($url)->json();
+
+        foreach ($response as $training) {
+            History::firstOrCreate([
+                'id' => $training['id'],                
+                'container_id' => $training['container_id'],                
+                'subcontainer_id' => $training['subcontainer_id'],
+                'archive_type_id' => $training['typeFile_id'],
+                'archive_id' => $training['file_id'],
+                'employee_id' => $training['employee_id'],                
+                'date' => Carbon::createFromTimeString(($training['date'])),
+            ]);
+        }
+        $query = DB::select("SELECT id FROM histories");
+        foreach ($query as $i => $after) {
+            $flag = 0;
+            foreach ($response as $j => $before) {
+                if($after->id == $before['id']){
+                    $flag = 1;
+                    break 1;
+                }
+            }
+            if($flag == 0){
+                History::destroy($after->id);
+            }
+        }
     }
 }

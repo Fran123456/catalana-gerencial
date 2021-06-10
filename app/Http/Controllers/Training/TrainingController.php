@@ -68,7 +68,7 @@ class TrainingController extends Controller
          array_push($scores, $aux[0]);
      }
    }
-   return $scores;
+   return $scores; //resulado
 
  }
  //report training number of quiz answered and not answered

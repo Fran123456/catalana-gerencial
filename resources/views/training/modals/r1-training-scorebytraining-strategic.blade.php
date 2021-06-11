@@ -50,9 +50,10 @@
 function reporte1(type){
  var datei =  $("#datei-date").val();
  var datef  = $("#datef-date").val();
-
- if(datei==null ||datei == "")datei = "no";
- if(datef==null ||datef == "")datef= "no";
+ var fecha = new Date();
+  var year= fecha.getFullYear();
+ if(datei==null ||datei == "")datei = year;
+ if(datef==null ||datef == "")datef= year;
     window.open("{{$help::url()}}training/reports/strategic/r1/" +type+"/"+datei+"/"+datef, "_blank");
    return false;
  }

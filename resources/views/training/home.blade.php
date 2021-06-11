@@ -3,7 +3,7 @@
 
 <br>
 <div class="container">
-  
+
   @can('trainings_estrategic')
   <div class="row">
     <div class="text-center">
@@ -36,7 +36,7 @@
          </span>
         </div>
           <div class="card-body text-center">
-             <h5 class="card-title">Cuestionarios respondidos y no respondidos por periodo</h5>
+             <h5 class="card-title">Estadisticas de capacitaciones por periodo</h5>
              <!--<p class="card-text">
                Cantidad de sugerencias por tipo realizadas por año (Se puede realizar comparativas de varios años)
              </p>-->
@@ -67,7 +67,7 @@
       </div>
     </div>
   </div>
-  @endcan  
+  @endcan
 
   <br>
 
@@ -124,7 +124,7 @@
             </div>
         </div>
       </div>
-    </div>    
+    </div>
   @endcan
 
 
@@ -132,9 +132,9 @@
   <div class="row">
       <div class="text-center">
         <h4>SIN PERMISOS</h4>
-      </div>      
+      </div>
     </div>
-  @endif  
+  @endif
 
 </div>
 </x-app-layout>

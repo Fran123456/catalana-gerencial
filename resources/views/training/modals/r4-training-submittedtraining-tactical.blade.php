@@ -35,9 +35,9 @@
         <div class="row">
             <div class="col-md-12 text-left">
                 <label for="">Capacitación</label>
-                <select required class="form-control" name="" id="option-type-r4">                
+                <select required class="form-control" name="" id="option-type-r4">
                     @foreach ($trainings as $key => $training)
-                      <option value="{{$training->id}}">{{$training->training}}</option>    
+                      <option value="{{$training->id}}">{{$training->training}}</option>
                     @endforeach
                     <option value="0">TODAS</option>
                 </select>
@@ -51,7 +51,7 @@
         </button>
         <button type="button" class="btn btn-success" onclick="reporte4('excel')" name="button"><i class="fas fa-file-excel fa-2x"></i></button>
 
-        <button type="button" class="btn btn-danger" onclick="reporte4('pdf')" name="button"><i class="fas fa-file-pdf fa-2x"></i></button>
+        <button id='pdfr4' type="button" class="btn btn-danger" onclick="reporte4('pdf')" name="button"><i class="fas fa-file-pdf fa-2x"></i></button>
       </div>
     </div>
   </div>
@@ -69,4 +69,17 @@ function reporte4(type){
     window.open("{{$help::url()}}training/reports/tactical/r4/" +type+"/"+datei+"/"+datef, "_blank");
    return false;*/
  }
+
+ $("#option-type-r4").on('change', function (){
+   var x = $('#option-type-r4').val();
+   if(x==0){
+     $('#pdfr4').prop('disabled', true);
+   }else{
+     $('#pdfr4').prop('disabled',false);
+   }
+});
+
+
+
+
 </script>

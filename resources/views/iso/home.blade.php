@@ -37,7 +37,7 @@
             <div class="card-body text-center">
               <h5 class="card-title">Reporte de tipos y sus procesos generados </h5>
               <div>
-
+                  @include('iso.modals.r2')
               </div>
             </div>
         </div>

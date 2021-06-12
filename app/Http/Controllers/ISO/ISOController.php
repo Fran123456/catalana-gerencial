@@ -28,7 +28,8 @@ class ISOController extends Controller
   public function home(){
     $help = new Help();
     $containers = Container::all();
-    return view ('iso.home',compact('help','containers'));
+    $types = ArchiveType::all();
+    return view ('iso.home',compact('help','containers','types'));
   }
 
 
@@ -36,7 +37,7 @@ class ISOController extends Controller
 
       $contenedores = array();
       $titulo = "reporte-general-procesos-".Help::dateYear();
-      if(isset($request->proceso)){
+      if($container!='0'){
         $contenedores = Container::where('id',$container)->get();
         $titulo = "reporte-general-proceso-". Help::replace_char($contenedores[0]->titulo)."-".Help::dateYear();
       }else{
@@ -47,7 +48,23 @@ class ISOController extends Controller
         $pdf = \PDF::loadView('pdf-reports.iso.r1', compact('contenedores','titulo'));
         return $pdf->setPaper('a4', 'landscape')->stream($titulo."-.pdf"  );
       }
-
-
     }
+
+   public function r2_($format, $type){
+     $tipos = array();
+     $titulo = "reporte-por-tipo-documentos-".Help::dateYear();
+      if ($type!='0') {
+               $tipos = ArchiveType::where('id',$type)->get();
+               $titulo = "reporte-por-tipo-documento-". Help::replace_char($tipos[0]->titulo)."-".Help::dateYear();
+      }else{
+             $tipos = ArchiveType::all();
+      }
+
+      if ($format=='pdf') {
+        $pdf = \PDF::loadView('pdf-reports.iso.r2', compact('tipos','titulo'));
+        return $pdf->setPaper('a4', 'landscape')->stream($titulo . "-.pdf"  );
+      }
+   }
+
+
 }

@@ -65,6 +65,7 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('training')->group(funct
 
 Route::middleware(['auth:sanctum', 'verified'])->prefix('iso')->group(function(){
   Route::get('/home', [ISOController::class,'home'])->name('iso-home');
+    Route::get('/reports/tactical/r1/{format}/{container}', [ISOController::class,'r1_'])->name('iso-tactical-r1');
 });
 
 

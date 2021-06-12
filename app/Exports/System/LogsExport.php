@@ -36,8 +36,8 @@ class LogsExport implements FromView, WithColumnWidths, WithDrawings, WithTitle
     {
         return view('pdf-reports.system.logs-excel', [
             'query' => $this->query,
-            'fi' => $this->fi,
-            'ff' => $this->ff,
+            'start_date' => $this->fi,
+            'end_date' => $this->ff,
         ]);   
     }    
 
@@ -47,11 +47,9 @@ class LogsExport implements FromView, WithColumnWidths, WithDrawings, WithTitle
             'A' => 14,
             'B' => 14,
             'C' => 45,
-            'D' => 13,            
+            'D' => 45,
             'E' => 45,
-            'F' => 45,
-            'G' => 45,
-            'H' => 45,            
+            'F' => 45,                        
         ];
     }    
 

@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Archive;
+use App\Models\SubContainer;
 
 class Subcontainer extends Model
 {
@@ -32,4 +34,19 @@ class Subcontainer extends Model
     public function histories(){
         return $this->hasMany(History::class);
     }
+
+   //extra
+   public function activeFile($container){
+    $arc = Archive::where('subcontainer_id', $container)->where('active', true)->first();
+    return $arc;
+  }
+
+  public function next($subcontainer){
+    return SubContainer::where('back', $subcontainer)->first();
+  }
+
+  public function  back($subcontainer){
+     return SubContainer::find($subcontainer);
+  }
+
 }

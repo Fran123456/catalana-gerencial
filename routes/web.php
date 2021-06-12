@@ -7,6 +7,8 @@ use App\Http\Controllers\API\APIController;
 use App\Http\Controllers\Suggestions\SuggestionsController;
 use App\Http\Controllers\Training\TrainingController;
 use App\Http\Controllers\ISO\ISOController;
+use App\Http\Controllers\System\SystemController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -69,7 +71,12 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('iso')->group(function()
     Route::get('/reports/tactical/r2/{format}/{type}', [ISOController::class,'r2_'])->name('iso-tactical-r2');
 });
 
-
+//Sección de sistema
+Route::middleware(['auth:sanctum', 'verified'])->group(function(){
+  Route::get('/system', [SystemController::class,'system'])->name('system');
+  Route::get('/system/print-logs/{format}/{yi}/{yf}', [SystemController::class,'printLogs'])->name('print_logs');
+});
 
 //API
 Route::middleware(['auth:sanctum', 'verified'])->get('api-consumption', [APIController::class,'getAllInformation'])->name('getAllInformation');
+

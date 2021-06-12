@@ -6,6 +6,7 @@ use App\Http\Controllers\Role\RoleController;
 use App\Http\Controllers\API\APIController;
 use App\Http\Controllers\Suggestions\SuggestionsController;
 use App\Http\Controllers\Training\TrainingController;
+use App\Http\Controllers\ISO\ISOController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -55,9 +56,15 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('training')->group(funct
   Route::get('/reports/strategic/r1/{format}/{yi}/{yf}', [TrainingController::class,'r1_'])->name('training-strategic-r1');
   Route::get('/reports/strategic/r2/{format}/{yi}/{yf}', [TrainingController::class,'r2_'])->name('training-strategic-r2');
 //  Route::get('/reports/tactical/date/{typeId}/{format}/{fi}/{ff}', [SuggestionsController::class,'reportSuggestionsByDate'])->name('suggestions-tactical-date');
+  Route::get('/reports/strategic/r3/{format}/{yi}/{yf}', [TrainingController::class,'r3_'])->name('training-strategic-r3');
   Route::get('/reports/tactical/r4/{format}/{trainingId}',[TrainingController::class,'r4_'])->name('training-tactical-r4');
   Route::get('/reports/tactical/r5/{format}/{trainingId}',[TrainingController::class,'r5_'])->name('training-tactical-r5');
   Route::get('/reports/tactical/r6/{format}/{trainingId}',[TrainingController::class,'r6_'])->name('training-tactical-r6');
+});
+
+
+Route::middleware(['auth:sanctum', 'verified'])->prefix('iso')->group(function(){
+  Route::get('/home', [ISOController::class,'home'])->name('iso-home');
 });
 
 

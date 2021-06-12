@@ -63,7 +63,28 @@
           </div>
       </div>
     </div>
+
+
+    <div class="col-md-4">
+      <div class="card ">
+        <div class="text-center mt-3">
+          <span style="font-size: 48px;" class="text-primary">
+          <i class="fas fa-file-download fa-2x"></i>
+         </span>
+        </div>
+          <div class="card-body text-center">
+             <h5 class="card-title">ISO</h5>
+             <p class="card-text">
+             </p>
+             <div>
+                <a href="{!! route('iso-home') !!}"  class="btn btn-primary"><i class="fas fa-chevron-circle-right"></i></a>
+             </div>
+          </div>
+      </div>
+    </div>
   </div>
+
+
 
 
 

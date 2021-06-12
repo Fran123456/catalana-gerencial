@@ -81,8 +81,14 @@ class TrainingController extends Controller
  }
  //report training number of quiz answered and not answered
  public function r2_($type , $yeari, $yearf){
-
+  echo "r2";
  }
+
+
+ public function r3_($type , $yeari, $yearf){
+  echo "r3";
+ }
+
 
  //---------------REPORTES TÁCTICOS----------------------
  //reporte de empleados que resuelve y no una capacitacion

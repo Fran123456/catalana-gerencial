@@ -1,5 +1,5 @@
 <x-app-layout>
- @include('training.navigation')
+ @include('iso.navigation')
 
 <br>
 <div class="container">
@@ -13,7 +13,7 @@
       <div class="card ">
         <div class="text-center mt-3">
           <span style="font-size: 48px;" class="text-primary">
-          <i class="fas fa-chalkboard-teacher fa-2x"></i>
+          <i class="fas fa-file-download fa-2x"></i>
          </span>
         </div>
           <div class="card-body text-center">
@@ -22,7 +22,7 @@
                Cantidad de sugerencias por tipo realizadas por año (Se puede realizar comparativas de varios años)
              </p>-->
              <div>
-                @include('training.modals.r1-training-scorebytraining-strategic')
+
              </div>
           </div>
       </div>
@@ -32,7 +32,7 @@
       <div class="card ">
         <div class="text-center mt-3">
           <span style="font-size: 48px;" class="text-primary">
-          <i class="fas fa-chalkboard-teacher fa-2x"></i>
+          <i class="fas fa-file-download fa-2x"></i>
          </span>
         </div>
           <div class="card-body text-center">
@@ -41,7 +41,7 @@
                Cantidad de sugerencias por tipo realizadas por año (Se puede realizar comparativas de varios años)
              </p>-->
              <div>
-             @include('training.modals.r2-training-quiz-number-strategic')
+
              </div>
           </div>
       </div>
@@ -52,7 +52,7 @@
       <div class="card ">
         <div class="text-center mt-3">
           <span style="font-size: 48px;" class="text-primary">
-          <i class="fas fa-chalkboard-teacher fa-2x"></i>
+          <i class="fas fa-file-download fa-2x"></i>
          </span>
         </div>
           <div class="card-body text-center">
@@ -61,7 +61,7 @@
                Cantidad de sugerencias por tipo realizadas por año (Se puede realizar comparativas de varios años)
              </p>-->
              <div>
-                @include('training.modals.r3-training-number-strategic')
+
              </div>
           </div>
       </div>
@@ -80,13 +80,13 @@
         <div class="card ">
           <div class="text-center mt-3">
             <span style="font-size: 48px;" class="text-primary">
-            <i class="fas fa-chalkboard-teacher fa-2x"></i>
+            <i class="fas fa-file-download fa-2x"></i>
           </span>
           </div>
             <div class="card-body text-center">
               <h5 class="card-title">Reporte de empleados que resuelven y no una capacitación</h5>
               <div>
-                  @include('training.modals.r4-training-submittedtraining-tactical')
+
               </div>
             </div>
         </div>
@@ -97,13 +97,13 @@
         <div class="card ">
           <div class="text-center mt-3">
             <span style="font-size: 48px;" class="text-primary">
-            <i class="fas fa-chalkboard-teacher fa-2x"></i>
+            <i class="fas fa-file-download fa-2x"></i>
           </span>
           </div>
             <div class="card-body text-center">
               <h5 class="card-title">Reporte de lista de notas de empleados aprobados y reprobados por capacitación</h5>
               <div>
-                @include('training.modals.r5-training-scores-tactical')
+
               </div>
             </div>
         </div>
@@ -113,13 +113,13 @@
         <div class="card ">
           <div class="text-center mt-3">
             <span style="font-size: 48px;" class="text-primary">
-            <i class="fas fa-chalkboard-teacher fa-2x"></i>
+            <i class="fas fa-file-download fa-2x"></i>
           </span>
           </div>
             <div class="card-body text-center">
               <h5 class="card-title">Reporte de todos los empleados de una capacitación</h5>
               <div>
-                @include('training.modals.r6-training-employeesbytraining-tactical')
+
               </div>
             </div>
         </div>

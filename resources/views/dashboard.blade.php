@@ -36,8 +36,8 @@
              <p class="card-text">
              </p>
              <div>
-                <a  class="btn btn-primary"><i class="fas fa-chevron-circle-right"></i></a>
-             </div>
+              <a href="{!! route('publications-home') !!} " class="btn btn-primary"><i class="fas fa-chevron-circle-right"></i></a>
+           </div>
           </div>
       </div>
     </div>
@@ -77,7 +77,7 @@
              <p class="card-text">
              </p>
              <div>
-                <a href="{!! route('iso-home') !!}"  class="btn btn-primary"><i class="fas fa-chevron-circle-right"></i></a>
+                {{-- <a href="{!! route('iso-home') !!}"  class="btn btn-primary"><i class="fas fa-chevron-circle-right"></i></a> --}}
              </div>
           </div>
       </div>

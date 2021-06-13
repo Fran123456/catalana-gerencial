@@ -29,9 +29,20 @@ use Illuminate\Support\Facades\Http;
 
 class APIController extends Controller
 {
+
+    public function __construct(){
+      set_time_limit(8000000);
+      ini_set('memory_limit', '1G');
+
+    //  $this->middleware('auth')->exception(['getAllInformation','getAllEnterprises','getAllAreas','getAllDepartments',
+    //  'getAllPositions','getAllEmployees','getAllSuggestionType','getAllSuggestion','getAllPublication','getAllPublicationEmployee',
+    //  'getAllTrainingType','getAllTraining','getAllTrainingEmployee','getAllContainer','getAllSubcontainer','getAllContainer',
+    // 'getAllSubcontainer','getAllArchiveType','getAllArchive','getAllHistory','firstTime']);
+    }
+
     public $token="uDmLdfuTK9bucf9SghFq";
 
-    public function getAllInformation(){        
+    public function getAllInformation(){
 
         $this->getAllEnterprises();
         $this->getAllAreas();
@@ -41,7 +52,7 @@ class APIController extends Controller
         $this->getAllSuggestionType();
         $this->getAllSuggestion();
         $this->getAllPublication();
-        $this->getAllPublicationEmployee();        
+        $this->getAllPublicationEmployee();
         $this->getAllTrainingType();
         $this->getAllTraining();
         $this->getAllTrainingEmployee();
@@ -51,14 +62,14 @@ class APIController extends Controller
         $this->getAllArchive();
         $this->getAllHistory();
         activity('ETL')
-            ->by(Auth::user())                        
+            ->by(Auth::user())
             ->log('El usuario '.Auth::user()->name.' realizó el proceso de ETL.' );
     }
 
     public function getAllEnterprises(){
         $url = "http://ccpcatalana.com/api/public/api/gerenciales/empresas/".$this->token;
 
-        $response = Http::get($url)->json();        
+        $response = Http::get($url)->json();
 
         if($this->firstTime('enterprises')){
             foreach ($response as $enterprise){
@@ -95,7 +106,7 @@ class APIController extends Controller
                     Enterprise::destroy($after->id);
                 }
             }
-        }        
+        }
     }
 
     public function getAllAreas(){
@@ -133,7 +144,7 @@ class APIController extends Controller
                     Area::destroy($after->id);
                 }
             }
-        }        
+        }
     }
 
     public function getAllDepartments(){
@@ -171,7 +182,7 @@ class APIController extends Controller
                     Department::destroy($after->id);
                 }
             }
-        }        
+        }
     }
 
     public function getAllPositions(){
@@ -207,7 +218,7 @@ class APIController extends Controller
                     Position::destroy($after->id);
                 }
             }
-        }        
+        }
     }
 
     public function getAllEmployees(){
@@ -217,7 +228,7 @@ class APIController extends Controller
 
         if($this->firstTime('employees')){
             foreach ($response as $employee) {
-                Employee::create([                
+                Employee::create([
                     'id' => $employee['id'],
                     'names' => $employee['nombres'],
                     'lastnames' => $employee['apellidos'],
@@ -236,7 +247,7 @@ class APIController extends Controller
         }
         else{
             foreach ($response as $employee) {
-                Employee::firstOrCreate([                
+                Employee::firstOrCreate([
                     'id' => $employee['id'],
                     'names' => $employee['nombres'],
                     'lastnames' => $employee['apellidos'],
@@ -265,7 +276,7 @@ class APIController extends Controller
                     Employee::destroy($after->id);
                 }
             }
-        }        
+        }
     }
 
     public function getAllSuggestionType(){
@@ -303,7 +314,7 @@ class APIController extends Controller
                     SuggestionType::destroy($after->id);
                 }
             }
-        }                
+        }
     }
 
     public function getAllSuggestion(){
@@ -314,26 +325,26 @@ class APIController extends Controller
         if($this->firstTime('suggestions')){
             foreach ($response as $suggestion) {
                 Suggestion::create([
-                    'id' => $suggestion['id'],                
+                    'id' => $suggestion['id'],
                     'suggestion' => $suggestion['sugerencia'],
                     'suggestion_type_id'=>intval($suggestion['tipo_id']),
                     'suggestion_type'=>$suggestion['tipo'],
                     'date'=>Carbon::createFromTimeString(($suggestion['fecha'])),
                     'reading'=>$suggestion['lectura'],
-                    'employee_id'=>$suggestion['empleado_id'],                
+                    'employee_id'=>$suggestion['empleado_id'],
                 ]);
             }
         }
         else{
             foreach ($response as $suggestion) {
                 Suggestion::firstOrCreate([
-                    'id' => $suggestion['id'],                
+                    'id' => $suggestion['id'],
                     'suggestion' => $suggestion['sugerencia'],
                     'suggestion_type_id'=>intval($suggestion['tipo_id']),
                     'suggestion_type'=>$suggestion['tipo'],
                     'date'=>Carbon::createFromTimeString(($suggestion['fecha'])),
                     'reading'=>$suggestion['lectura'],
-                    'employee_id'=>$suggestion['empleado_id'],                
+                    'employee_id'=>$suggestion['empleado_id'],
                 ]);
             }
             $query = DB::select("SELECT id FROM suggestions");
@@ -349,7 +360,7 @@ class APIController extends Controller
                     Suggestion::destroy($after->id);
                 }
             }
-        }        
+        }
     }
 
     public function getAllPublication(){
@@ -360,18 +371,18 @@ class APIController extends Controller
         if($this->firstTime('publications')){
             foreach ($response as $publication) {
                 Publication::create([
-                    'id' => $publication['id'],      
+                    'id' => $publication['id'],
                     'title' => $publication['titulo'],
                     'type'=>$publication['tipo'],
                     'date'=>Carbon::createFromTimeString(($publication['fecha'])),
                     'year'=>intval($publication['year']),
                 ]);
             }
-        }    
+        }
         else{
             foreach ($response as $publication) {
                 Publication::firstOrCreate([
-                    'id' => $publication['id'],      
+                    'id' => $publication['id'],
                     'title' => $publication['titulo'],
                     'type'=>$publication['tipo'],
                     'date'=>Carbon::createFromTimeString(($publication['fecha'])),
@@ -392,13 +403,13 @@ class APIController extends Controller
                     }
                 }
             }
-        }            
+        }
     }
-    
+
     public function getAllPublicationEmployee(){
         $url = "http://ccpcatalana.com/api/public/api/gerenciales/empleadosPublicaciones/".$this->token;
         $response = Http::get($url)->json();
-        
+
         if($this->firstTime('publication_employees')){
             foreach ($response as $publication) {
                 if($publication['vista']=='si'){
@@ -407,7 +418,7 @@ class APIController extends Controller
                         'publication_id' => $publication['publicacion_id'],
                         'employee_id'=>$publication['empleado_id'],
                         'seen' => 1
-                    ]);        
+                    ]);
                 }
                 else{
                     PublicationEmployee::create([
@@ -416,7 +427,7 @@ class APIController extends Controller
                         'employee_id'=>$publication['empleado_id'],
                         'seen' => 0
                     ]);
-                }            
+                }
             }
         }
         else{
@@ -427,7 +438,7 @@ class APIController extends Controller
                         'publication_id' => $publication['publicacion_id'],
                         'employee_id'=>$publication['empleado_id'],
                         'seen' => 1
-                    ]);        
+                    ]);
                 }
                 else{
                     PublicationEmployee::firstOrCreate([
@@ -436,14 +447,14 @@ class APIController extends Controller
                         'employee_id'=>$publication['empleado_id'],
                         'seen' => 0
                     ]);
-                }            
+                }
             }
             $query = DB::select("SELECT id FROM publication_employees");
             foreach ($query as $i => $after) {
                 $flag = 0;
                 foreach ($response as $j => $before) {
                     if($after->id == $before['id']){
-                        $flag = 1;                    
+                        $flag = 1;
                         break 1;
                     }
                 }
@@ -451,7 +462,7 @@ class APIController extends Controller
                     PublicationEmployee::destroy($after->id);
                 }
             }
-        }        
+        }
     }
 
     public function getAllTrainingType(){
@@ -461,7 +472,7 @@ class APIController extends Controller
 
         if($this->firstTime('training_types')){
             foreach ($response as $i => $type) {
-                TrainingType::create([                
+                TrainingType::create([
                     'text'=>array_pop($type),
                     'training_type' => array_pop($type),
                     'id' => $i+1
@@ -470,7 +481,7 @@ class APIController extends Controller
         }
         else{
             foreach ($response as $i => $type) {
-                TrainingType::firstOrCreate([                
+                TrainingType::firstOrCreate([
                     'text'=>array_pop($type),
                     'training_type' => array_pop($type),
                     'id' => $i+1
@@ -489,8 +500,8 @@ class APIController extends Controller
                 if($flag == 0){
                     DB::select('DELETE FROM training_types WHERE type = ?',[$after->training_type]);
                 }
-            }        
-        }        
+            }
+        }
     }
 
     public function getAllTraining(){
@@ -501,27 +512,27 @@ class APIController extends Controller
         if($this->firstTime('trainings')){
             foreach ($response as $training){
                 Training::create([
-                    'id' => $training['id'],      
+                    'id' => $training['id'],
                     'training' => $training['capacitacion'],
                     'training_type'=>$training['tipo'],
                     'start_date'=>$training['fecha_inicio'],
                     'end_date'=>$training['fecha_fin'],
                     'hour'=> $training['hora'],
                     'year'=>intval($training['year']),
-                ]);                        
+                ]);
             }
-        }    
+        }
         else{
             foreach ($response as $training){
                 Training::firstOrCreate([
-                    'id' => $training['id'],      
+                    'id' => $training['id'],
                     'training' => $training['capacitacion'],
                     'training_type'=>$training['tipo'],
                     'start_date'=>$training['fecha_inicio'],
                     'end_date'=>$training['fecha_fin'],
                     'hour'=> $training['hora'],
                     'year'=>intval($training['year']),
-                ]);                        
+                ]);
             }
             $query = DB::select("SELECT id FROM trainings");
             foreach ($query as $i => $after) {
@@ -535,8 +546,8 @@ class APIController extends Controller
                 if($flag == 0){
                     Training::destroy($after->id);
                 }
-            }        
-        }            
+            }
+        }
     }
 
     public function getAllTrainingEmployee(){
@@ -547,7 +558,7 @@ class APIController extends Controller
         if($this->firstTime('training_employees')){
             foreach ($response as $training) {
                 TrainingEmployee::create([
-                    'id' => $training['id'],      
+                    'id' => $training['id'],
                     'employee_id' => $training['empleado_id'],
                     'training_id' => $training['capacitacion_id'],
                     //'date'=>Carbon::createFromTimeString(($training['fecha'])),
@@ -560,7 +571,7 @@ class APIController extends Controller
         else{
             foreach ($response as $training) {
                 TrainingEmployee::firstOrCreate([
-                    'id' => $training['id'],      
+                    'id' => $training['id'],
                     'employee_id' => $training['empleado_id'],
                     'training_id' => $training['capacitacion_id'],
                     //'date'=>Carbon::createFromTimeString(($training['fecha'])),
@@ -581,8 +592,8 @@ class APIController extends Controller
                 if($flag == 0){
                     TrainingEmployee::destroy($after->id);
                 }
-            }        
-        }        
+            }
+        }
     }
 
     public function getAllContainer(){
@@ -593,7 +604,7 @@ class APIController extends Controller
         if($this->firstTime('containers')){
             foreach ($response as $training) {
                 Container::create([
-                    'id' => $training['id'],      
+                    'id' => $training['id'],
                     'title' => $training['title'],
                     'active' => $training['active'],
                     'code' => $training['code'],
@@ -604,7 +615,7 @@ class APIController extends Controller
         else{
             foreach ($response as $training) {
                 Container::firstOrCreate([
-                    'id' => $training['id'],      
+                    'id' => $training['id'],
                     'title' => $training['title'],
                     'active' => $training['active'],
                     'code' => $training['code'],
@@ -623,10 +634,10 @@ class APIController extends Controller
                 if($flag == 0){
                     Container::destroy($after->id);
                 }
-            }                    
-        }        
+            }
+        }
     }
-    
+
     public function getAllSubcontainer(){
         $url = "http://ccpcatalana.com/api/public/api/gerenciales/iso/subcontenedores/".$this->token;
 
@@ -635,10 +646,10 @@ class APIController extends Controller
         if($this->firstTime('subcontainers')){
             foreach ($response as $training) {
                 Subcontainer::create([
-                    'id' => $training['id'],      
+                    'id' => $training['id'],
                     'title' => $training['title'],
                     'order' => $training['order'],
-                    'back' => $training['back'],                
+                    'back' => $training['back'],
                     'code' => $training['code'],
                     'container_id' => $training['container_id'],
                     'created_at'=>Carbon::createFromTimeString(($training['date'])),
@@ -648,10 +659,10 @@ class APIController extends Controller
         else{
             foreach ($response as $training) {
                 Subcontainer::firstOrCreate([
-                    'id' => $training['id'],      
+                    'id' => $training['id'],
                     'title' => $training['title'],
                     'order' => $training['order'],
-                    'back' => $training['back'],                
+                    'back' => $training['back'],
                     'code' => $training['code'],
                     'container_id' => $training['container_id'],
                     'created_at'=>Carbon::createFromTimeString(($training['date'])),
@@ -670,7 +681,7 @@ class APIController extends Controller
                     Subcontainer::destroy($after->id);
                 }
             }
-        }        
+        }
     }
 
     public function getAllArchiveType(){
@@ -681,18 +692,18 @@ class APIController extends Controller
         if($this->firstTime('archive_types')){
             foreach ($response as $training) {
                 ArchiveType::create([
-                    'id' => $training['id'],      
+                    'id' => $training['id'],
                     'type' => $training['type'],
-                    'code' => $training['code'],                
+                    'code' => $training['code'],
                 ]);
             }
         }
         else{
             foreach ($response as $training) {
                 ArchiveType::firstOrCreate([
-                    'id' => $training['id'],      
+                    'id' => $training['id'],
                     'type' => $training['type'],
-                    'code' => $training['code'],                
+                    'code' => $training['code'],
                 ]);
             }
             $query = DB::select("SELECT id FROM archive_types");
@@ -708,7 +719,7 @@ class APIController extends Controller
                     ArchiveType::destroy($after->id);
                 }
             }
-        }        
+        }
     }
 
     public function getAllArchive(){
@@ -727,13 +738,13 @@ class APIController extends Controller
                     'download_mark' => $training['download_marc'],
                     'download' => $training['download'],
                     'format' => $training['format'],
-                    'container_id' => $training['container_id'],                
+                    'container_id' => $training['container_id'],
                     'subcontainer_id' => $training['subcontainer_id'],
                     'archive_type_id' => $training['filetype_id'],
                     'code' => $training['code'],
                     'created_at' => Carbon::createFromTimeString(($training['date'])),
                 ]);
-            }            
+            }
         }
         else{
             foreach ($response as $training) {
@@ -746,7 +757,7 @@ class APIController extends Controller
                     'download_mark' => $training['download_marc'],
                     'download' => $training['download'],
                     'format' => $training['format'],
-                    'container_id' => $training['container_id'],                
+                    'container_id' => $training['container_id'],
                     'subcontainer_id' => $training['subcontainer_id'],
                     'archive_type_id' => $training['filetype_id'],
                     'code' => $training['code'],
@@ -766,9 +777,9 @@ class APIController extends Controller
                     Archive::destroy($after->id);
                 }
             }
-        }        
-    }   
-    
+        }
+    }
+
     public function getAllHistory() {
         $url = "http://ccpcatalana.com/api/public/api/gerenciales/iso/historial/".$this->token;
 
@@ -777,12 +788,12 @@ class APIController extends Controller
         if($this->firstTime('histories')){
             foreach ($response as $training) {
                 History::create([
-                    'id' => $training['id'],                
-                    'container_id' => $training['container_id'],                
+                    'id' => $training['id'],
+                    'container_id' => $training['container_id'],
                     'subcontainer_id' => $training['subcontainer_id'],
                     'archive_type_id' => $training['typeFile_id'],
                     'archive_id' => $training['file_id'],
-                    'employee_id' => $training['employee_id'],                
+                    'employee_id' => $training['employee_id'],
                     'date' => Carbon::createFromTimeString(($training['date'])),
                 ]);
             }
@@ -790,12 +801,12 @@ class APIController extends Controller
         else{
             foreach ($response as $training) {
                 History::firstOrCreate([
-                    'id' => $training['id'],                
-                    'container_id' => $training['container_id'],                
+                    'id' => $training['id'],
+                    'container_id' => $training['container_id'],
                     'subcontainer_id' => $training['subcontainer_id'],
                     'archive_type_id' => $training['typeFile_id'],
                     'archive_id' => $training['file_id'],
-                    'employee_id' => $training['employee_id'],                
+                    'employee_id' => $training['employee_id'],
                     'date' => Carbon::createFromTimeString(($training['date'])),
                 ]);
             }
@@ -812,9 +823,9 @@ class APIController extends Controller
                     History::destroy($after->id);
                 }
             }
-        }        
+        }
     }
-    
+
     public function firstTime($table){
         $count = DB::table($table)->count();
         if ($count == 0){

@@ -17,35 +17,53 @@ class RoleSeeder extends Seeder
   {
     $tactico =  Role::create(['name' => 'Tactico']);
     $estrategico =  Role::create(['name' => 'Estategico']);
-    $ambos =  Role::create(['name' => 'Tactico y Estrategico']);
-    $recovery = Role::create(['name' => 'Recovery']);
+    //$ambos =  Role::create(['name'=>'Tactico y Estrategico']);
+    $admin = Role::create(['name' => 'Administrador']);
 
     //Permiso Página de inicio
-    Permission::create(['name' => 'dashboard'])->syncRoles([$tactico, $estrategico, $ambos, $recovery]);
+    Permission::create(['name' => 'dashboard'])->syncRoles([$tactico, $estrategico, $admin]);
+
+    //Permiso sistema
+    Permission::create(['name' => 'system'])->syncRoles([$admin]);
+    Permission::create(['name' => 'logs'])->syncRoles([$admin]);
+    Permission::create(['name' => 'backup'])->syncRoles([$admin]);
+
 
     //Permisos imprimir reporte de usuarios
-    Permission::create(['name' => 'print_users'])->syncRoles([$ambos]);
+    Permission::create(['name' => 'retrieve_users'])->syncRoles([$admin]);
+    Permission::create(['name' => 'create_users'])->syncRoles([$admin]);
+    Permission::create(['name' => 'edit_users'])->syncRoles([$admin]);
+    Permission::create(['name' => 'delete_users'])->syncRoles([$admin]);
+    Permission::create(['name' => 'print_users'])->syncRoles([$admin]);
 
     //Permisos para ver,crear,editar y borrar roles
-    Permission::create(['name' => 'retrieve_roles'])->syncRoles([$tactico, $estrategico, $ambos, $recovery]);
-    Permission::create(['name' => 'create_roles'])->syncRoles([$tactico, $estrategico, $ambos, $recovery]);
-    Permission::create(['name' => 'edit_roles'])->syncRoles([$tactico, $estrategico, $ambos, $recovery]);
-    Permission::create(['name' => 'delete_roles'])->syncRoles([$tactico, $estrategico, $ambos, $recovery]);
+    Permission::create(['name' => 'retrieve_roles'])->syncRoles([$admin]);
+    Permission::create(['name' => 'create_roles'])->syncRoles([$admin]);
+    Permission::create(['name' => 'edit_roles'])->syncRoles([$admin]);
+    Permission::create(['name' => 'delete_roles'])->syncRoles([$admin]);
 
     //Permisos para ver y asignar permisos
-    Permission::create(['name' => 'retrieve_permissions'])->syncRoles([$tactico, $estrategico, $ambos]);
-    Permission::create(['name' => 'assign_permissions'])->syncRoles([$tactico, $estrategico, $ambos]);
+    Permission::create(['name' => 'retrieve_permissions'])->syncRoles([$admin]);
+    Permission::create(['name' => 'assign_permissions'])->syncRoles([$admin]);
 
     //Permisos para módulo sugerencias
-    Permission::create(['name' => 'suggestions_tactical'])->syncRoles([$tactico, $ambos]);
-    Permission::create(['name' => 'suggestions_estrategic'])->syncRoles([$ambos, $estrategico]);
+    Permission::create(['name' => 'suggestions_tactical'])->syncRoles([$tactico, $admin, $estrategico]);
+    Permission::create(['name' => 'suggestions_estrategic'])->syncRoles([$admin, $estrategico]);
 
     //Permisos para módulo capacitaciones
-    Permission::create(['name' => 'trainings_tactical'])->syncRoles([$tactico, $ambos]);
-    Permission::create(['name' => 'trainings_estrategic'])->syncRoles([$ambos, $estrategico]);
+    Permission::create(['name' => 'trainings_tactical'])->syncRoles([$tactico, $admin, $estrategico]);
+    Permission::create(['name' => 'trainings_estrategic'])->syncRoles([$admin, $estrategico]);
 
     //Permisos para módulo publicaciones
-    Permission::create(['name' => 'publications_tactical'])->syncRoles([$tactico, $ambos]);
-    Permission::create(['name' => 'publications_estrategic'])->syncRoles([$ambos, $estrategico]);
+    Permission::create(['name' => 'publications_tactical'])->syncRoles([$tactico, $admin, $estrategico]);
+    Permission::create(['name' => 'publications_estrategic'])->syncRoles([$admin, $estrategico]);
+
+    //Permisos para módulo iso
+    Permission::create(['name' => 'iso_tactical'])->syncRoles([$tactico, $admin, $estrategico]);
+    Permission::create(['name' => 'iso_estrategic'])->syncRoles([$admin, $estrategico]);
+
+    //Permisos para módulo reloj-marcación
+    Permission::create(['name' => 'clock_tactical'])->syncRoles([$tactico, $admin, $estrategico]);
+    Permission::create(['name' => 'clock_estrategic'])->syncRoles([$admin, $estrategico]);
   }
 }

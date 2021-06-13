@@ -49,5 +49,7 @@
   "Permission":"Permiso",
   "Permissions for role :data":"Permisos para el rol :data",
   "Permissions' name":"Nombre del permiso",
-  "Assigned":"Asignados"
+  "Assigned":"Asignados",
+  "System":"Sistema"
+  
 }

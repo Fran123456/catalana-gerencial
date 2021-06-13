@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\URL;
 use Barryvdh\DomPDF\Facade as PDF;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Activitylog\Models\Activity;
 
 class SuggestionsController extends Controller
 {
@@ -24,7 +25,10 @@ class SuggestionsController extends Controller
 
     public function home(){
        $types = SuggestionType::all();
-       $help = new Help();
+       $help = new Help();           
+      activity('/suggestions/home')
+      ->by(Auth::user())
+      ->log('El usuario '.Auth::user()->name.' visitó /suggestions/home.');
       return view ('suggestions.home',compact('types','help'));
     }
 
@@ -96,10 +100,16 @@ class SuggestionsController extends Controller
 
         if($format == 'pdf'){
           $pdf = PDF::loadView('pdf-reports.sugerencias.tactico', compact('query','text','fi','ff','tipo'));
+          activity('suggestion/reports/strategic/types/'.$typeId."/".$format."/".$fi."/".$ff)
+          ->by(Auth::user())
+          ->log('El usuario '.Auth::user()->name.' generó el reporte táctico del módulo de sugerencias "Reporte de sugerencias realizadas por fechas" en formato PDF.');
           return $pdf->setPaper('A4','landscape')->stream($text.'.pdf');
         }
         elseif ($format == 'excel') {
-          return Excel::download(new SuggestionsExport($query,$text,$fi,$ff,$tipo),$text.'.xlsx');
+          activity('suggestion/reports/strategic/types/'.$typeId."/".$format."/".$fi."/".$ff)
+          ->by(Auth::user())
+          ->log('El usuario '.Auth::user()->name.' generó el reporte táctico del módulo de sugerencias "Reporte de sugerencias realizadas por fechas" en formato XLSX.');
+          return Excel::download(new SuggestionsR2_Export($query,$text,$fi,$ff,$tipo),$text.'.xlsx');
         }
       }
       else{

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Roles;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -75,21 +76,35 @@ class Roles extends Component
         ]);            
         session()->flash('message-update', ':data successfully updated');
         $this->emit("update");
+        
+        activity('/roles')
+        ->by(Auth::user())
+        ->on(Role::find($this->role_id))            
+        ->log('El usuario '.Auth::user()->name.' modificó el rol '.$this->role_name.'.');
       }
       
       public function store(){                  
         $this->validate();     
-        Role::create([
+        $new_created_role = Role::create([
           'name' => $this->role_name,
           'guard_name' => 'web'
         ]);          
         session()->flash('message', ':data created successfully');
+        activity('/roles')
+        ->by(Auth::user())
+        ->on($new_created_role)
+        ->log('El usuario '.Auth::user()->name.' creó un nuevo rol llamado '.$new_created_role->name.'.');
         $this->clean();
         $this->emit("send");
       }      
 
       public function destroy($id){
+        $role = Role::find($id);
         Role::destroy($id);
+        activity('/roles')
+        ->by(Auth::user())
+        ->on($role)
+        ->log('El usuario '.Auth::user()->name.' eliminó el rol '.$role->name.'.');
         session()->flash('message-destroy', ':data successfully removed');
         $this->emit("destroy");
       }      

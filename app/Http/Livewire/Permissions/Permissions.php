@@ -57,17 +57,25 @@ class Permissions extends Component
 
     public function updateCheckbox(){
         if(Auth::user()->hasPermissionTo('assign_permissions')){
+            $var = [];
             foreach ($this->checkboxes as $key => $checkbox) {
                 $permission = Permission::find($key+1);            
                 if($this->selected_role->hasPermissionTo($permission->name) && $checkbox == false){
                     $this->selected_role->revokePermissionTo($permission->name);
+                    array_push($var,[$permission->name => 'revocado']);
                 }
                 if($this->selected_role->hasPermissionTo($permission->name) == false && $checkbox == true){                
                     $this->selected_role->givePermissionTo($permission->name);
-                }
+                    array_push($var,[$permission->name => 'asignado']);
+                }                
             }        
             session()->flash('message-update', ':data successfully updated');        
             $this->emit("showFlashMessage");
+            activity('/roles')
+            ->by(Auth::user())
+            ->on($this->selected_role)
+            ->withProperties($var)
+            ->log('El usuario '.Auth::user()->name.' modificó los permisos del rol '.$this->selected_role->name.'.');
         }        
     }
     public function closingModal(){

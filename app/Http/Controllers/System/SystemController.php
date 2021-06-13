@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\Models\Activity;
 use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Support\Facades\Artisan;
 use Maatwebsite\Excel\Facades\Excel;
 
 class SystemController extends Controller
@@ -100,7 +101,45 @@ class SystemController extends Controller
 
         else{
             abort(403,__('Unauthorized'));        
+        }    
+    }
+
+    public function backupDatabase(){
+        if(Auth::user()->hasPermissionTo('backup')){
+            Artisan::call('backup:clean --disable-notifications');
+            Artisan::call('backup:run --only-db --disable-notifications');
+            $path = storage_path('app/Laravel/*');
+            $latest_ctime = 0;
+            $latest_filename = '';
+            $files = glob($path);
+            foreach($files as $file)
+            {
+                    if (is_file($file) && filectime($file) > $latest_ctime)
+                    {
+                            $latest_ctime = filectime($file);
+                            $latest_filename = $file;
+                    }
+            }
+            return response()->download($latest_filename);            
+        }            
+        else{
+            abort(403,__('Unauthorized'));
         }
-    
+    }
+
+    public function importDatabase(Request $request){
+        if(Auth::user()->hasPermissionTo('backup')){                          
+
+            //$file = $request->file('file')->getClientOriginalName();
+            $file = $request->file('file');
+            $request->file('file')->store('public');
+            //dd($request->hasFile('file'));            
+            //DB::statement( file_get_contents(public_path().'/import/'.$file));
+            DB::unprepared( file_get_contents($file));
+
+        }
+        else{
+            abort(403,__('Unauthorized'));
+        }
     }
 }

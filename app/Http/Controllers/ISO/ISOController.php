@@ -15,6 +15,8 @@ use App\Models\SubContainer;
 use App\Models\Archive;
 use App\Models\ArchiveType;
 use App\Models\History;
+use App\Exports\ISO\ISOR1_Export;
+use App\Exports\ISO\ISOR2_Export;
 
 class ISOController extends Controller
 {
@@ -47,6 +49,8 @@ class ISOController extends Controller
       if($format =='pdf'){
         $pdf = \PDF::loadView('pdf-reports.iso.r1', compact('contenedores','titulo'));
         return $pdf->setPaper('a4', 'landscape')->stream($titulo."-.pdf"  );
+      }else{
+         return \Excel::download(new ISOR1_Export($contenedores),$titulo.'.xlsx');
       }
     }
 
@@ -63,6 +67,8 @@ class ISOController extends Controller
       if ($format=='pdf') {
         $pdf = \PDF::loadView('pdf-reports.iso.r2', compact('tipos','titulo'));
         return $pdf->setPaper('a4', 'landscape')->stream($titulo . "-.pdf"  );
+      }else{
+         return \Excel::download(new ISOR2_Export($tipos),$titulo.'.xlsx');
       }
    }
 

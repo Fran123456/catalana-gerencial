@@ -72,9 +72,11 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('iso')->group(function()
 });
 
 //Sección de sistema
-Route::middleware(['auth:sanctum', 'verified'])->group(function(){
-  Route::get('/system', [SystemController::class,'system'])->name('system');
-  Route::get('/system/print-logs/{format}/{yi}/{yf}', [SystemController::class,'printLogs'])->name('print_logs');
+Route::middleware(['auth:sanctum', 'verified'])->prefix('system')->group(function(){
+  Route::get('/', [SystemController::class,'system'])->name('system');
+  Route::get('/print-logs/{format}/{yi}/{yf}', [SystemController::class,'printLogs'])->name('print_logs');
+  Route::get('/database/backup', [SystemController::class,'backupDatabase'])->name('backup-database');      
+  Route::post('/database/import',[SystemController::class,'importDatabase'])->name('import-database');
 });
 
 //API

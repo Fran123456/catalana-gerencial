@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\Models\Activity;
 use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 
 class SystemController extends Controller
@@ -90,7 +92,7 @@ class SystemController extends Controller
             }            
 
             if($format == 'pdf'){
-                $pdf = PDF::loadView('pdf-reports.system.logs', compact('query','text','start_date','end_date'));                
+                $pdf = PDF::loadView('pdf-reports.system.logs', compact('query','text','start_date','end_date'));                                
                 return $pdf->setPaper('A4','landscape')->stream($text.'.pdf');
               }
               elseif ($format == 'excel') {                
@@ -100,7 +102,31 @@ class SystemController extends Controller
 
         else{
             abort(403,__('Unauthorized'));        
-        }
-    
+        }    
     }
+
+    public function backupDatabase(){
+        if(Auth::user()->hasPermissionTo('backup')){
+            if(Storage::exists('Laravel')){
+                Storage::deleteDirectory('Laravel');
+            }            
+            Artisan::call('backup:run',['--disable-notifications' => true , '--only-db' => true]);
+            $path = storage_path('app\Laravel\*');            
+            $latest_ctime = 0;
+            $latest_filename = '';
+            $files = glob($path);
+            foreach($files as $file)
+            {
+                    if (is_file($file) && filectime($file) > $latest_ctime)
+                    {
+                            $latest_ctime = filectime($file);
+                            $latest_filename = $file;
+                    }
+            }                        
+            return response()->download($latest_filename);            
+        }            
+        else{
+            abort(403,__('Unauthorized'));
+        }
+    }        
 }

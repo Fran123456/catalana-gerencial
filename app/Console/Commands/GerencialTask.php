@@ -3,6 +3,8 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Models\LogDB;
+use App\Http\Controllers\API;
 
 class GerencialTask extends Command
 {
@@ -37,7 +39,13 @@ class GerencialTask extends Command
      */
     public function handle()
     {
+      $c =New \App\Http\Controllers\API\APIController();
+      $c->getAllInformation();
       $txt = date("Y-m-d H:i:s") . " - Actualizaciones en la base de datos";
-      Storage::append("arc.txt", $txt);
+      $log= LogDB::create(['log'=> $txt]);
+
+
+
+
     }
 }

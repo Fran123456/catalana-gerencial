@@ -25,7 +25,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();        
-        //$schedule->command('backup:run')->weekly()->saturdays()->at('01:30');
+        $schedule->command('backup:run --only-db --disable-notifications')->weekly()->saturdays()->at('01:30');    
     }
 
     /**

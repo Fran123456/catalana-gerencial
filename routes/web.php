@@ -75,8 +75,7 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('iso')->group(function()
 Route::middleware(['auth:sanctum', 'verified'])->prefix('system')->group(function(){
   Route::get('/', [SystemController::class,'system'])->name('system');
   Route::get('/print-logs/{format}/{yi}/{yf}', [SystemController::class,'printLogs'])->name('print_logs');
-  Route::get('/database/backup', [SystemController::class,'backupDatabase'])->name('backup-database');    
-  //Route::get('/system/database/import',[SystemController::class,'importDatabase'])->name('import-database');  
+  Route::get('/database/backup', [SystemController::class,'backupDatabase'])->name('backup-database');      
   Route::post('/database/import',[SystemController::class,'importDatabase'])->name('import-database');
 });
 

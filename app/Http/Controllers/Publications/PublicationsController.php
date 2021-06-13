@@ -65,9 +65,7 @@ class PublicationsController extends Controller
         $publicaciones = Publication::where('year', $year)->get();
         $titulo = "Modulo_publicaciones_ALCANCE_DE_" . $year;
 
-        if (!$publicaciones->count()) {
-            abort(200, 'No hay publicaciones correspondientes al año ' . $year);
-        }
+        abort_if(!$publicaciones->count(), 200, 'No hay publicaciones correspondientes al año ' . $year);
 
         if ($format == 'pdf') {
             $pdf = PDF::loadView('pdf-reports.publicaciones.publicaciones-tactico', compact('publicacion', 'titulo', 'year'));

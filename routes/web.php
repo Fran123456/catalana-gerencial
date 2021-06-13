@@ -64,6 +64,19 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('publications')->group(f
 
 //Training
 
+Route::middleware(['auth:sanctum', 'verified'])->prefix('training')->group(function () {
+  Route::get('/home', [TrainingController::class, 'home'])->name('training-home');
+  Route::get('/reports/strategic/r1/{format}/{yi}/{yf}', [TrainingController::class, 'r1_'])->name('training-strategic-r1');
+  Route::get('/reports/strategic/r2/{format}/{yi}/{yf}', [TrainingController::class, 'r2_'])->name('training-strategic-r2');
+  //  Route::get('/reports/tactical/date/{typeId}/{format}/{fi}/{ff}', [SuggestionsController::class,'reportSuggestionsByDate'])->name('suggestions-tactical-date');
+  Route::get('/reports/strategic/r3/{format}/{yi}/{yf}', [TrainingController::class, 'r3_'])->name('training-strategic-r3');
+  Route::get('/reports/tactical/r4/{format}/{trainingId}', [TrainingController::class, 'r4_'])->name('training-tactical-r4');
+  Route::get('/reports/tactical/r5/{format}/{trainingId}', [TrainingController::class, 'r5_'])->name('training-tactical-r5');
+  Route::get('/reports/tactical/r6/{format}/{trainingId}', [TrainingController::class, 'r6_'])->name('training-tactical-r6');
+});
+
+//ISO
+
 Route::middleware(['auth:sanctum', 'verified'])->prefix('iso')->group(function () {
   Route::get('/home', [ISOController::class, 'home'])->name('iso-home');
   Route::get('/reports/tactical/r1/{format}/{container}', [ISOController::class, 'r1_'])->name('iso-tactical-r1');

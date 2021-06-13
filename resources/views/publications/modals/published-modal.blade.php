@@ -24,7 +24,7 @@
         <div class="row">
           <div class="col-md-6 text-left">
             <label for="">Año</label>
-            <input id="date1" class="form-control" required type="number" min="2000"  name="" value="{{$help::yearToday()}}">
+            <input id="date1" class="form-control" required type="number" min="2000"  name="" value="{{$help::yearToday()}}" max="{{$help::yearToday()}}">
           </div>
         </div>
 

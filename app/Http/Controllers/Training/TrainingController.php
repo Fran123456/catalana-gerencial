@@ -6,6 +6,8 @@ use App\Exports\Trainings\Tactical\Books\TrainingR4_Export_Book;
 use App\Exports\Trainings\Tactical\Books\TrainingR5_Export_Book;
 use App\Exports\Trainings\Tactical\Books\TrainingR6_Export_Book;
 use App\Exports\Trainings\Tactical\Books\TrainingR1_Export_Book;
+use App\Exports\Trainings\Tactical\Books\TrainingR2_Export_Book;
+use App\Exports\Trainings\Tactical\Books\TrainingR3_Export_Book;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Help\Help;
@@ -79,14 +81,41 @@ class TrainingController extends Controller
    }
 
  }
- //report training number of quiz answered and not answered
+ //report training number of quiz answered and not answered by year
  public function r2_($type , $yeari, $yearf){
-  echo "r2";
+
+    $data =  Training::join('training_employees','training_employees.training_id','trainings.id')
+            ->whereBetween('trainings.year',[$yeari,$yearf])
+            ->select('trainings.year','trainings.id','trainings.training as capacitacion', DB::raw('COUNT(trainings.training) AS total') ,  DB::raw('COUNT( taken= '.'"si"'.') realizados') )
+            ->groupBy('trainings.id','trainings.training','trainings.year')
+            ->orderBy('trainings.year')
+            ->get();
+
+    if($type == 'pdf'){
+        $pdf = PDF::loadView('pdf-reports.capacitaciones.r2-estrategico-pdf', compact('data','yeari','yearf'));
+        return $pdf->download('Periodo_'.$yeari.'--'.$yearf.'_Modulo_capacitaciones_cuestionarios_respondidos_y_no_respondidos.pdf');
+      }
+      elseif ($type == 'excel') {
+        return \Excel::download(new TrainingR2_Export_Book($data, $yeari, $yearf),'Periodo_'.$yeari.'--'.$yearf.'_Modulo_capacitaciones_cuestionarios_respondidos_y_no_respondidos.xlsx');
+      }
  }
 
 
  public function r3_($type , $yeari, $yearf){
-  echo "r3";
+            $data =  Training::join('training_employees','training_employees.training_id','trainings.id')
+            ->whereBetween('trainings.year',[$yeari,$yearf])
+            ->select('trainings.year','trainings.id','trainings.training as capacitacion' )
+            ->groupBy('trainings.id','trainings.training','trainings.year')
+            ->orderBy('trainings.year')
+            ->get();
+
+        if($type == 'pdf'){
+        $pdf = PDF::loadView('pdf-reports.capacitaciones.r3-estrategico-pdf', compact('data','yeari','yearf'));
+        return $pdf->download('Periodo_'.$yeari.'--'.$yearf.'_Modulo_capacitaciones_realizadas.pdf');
+        }
+        elseif ($type == 'excel') {
+        return \Excel::download(new TrainingR3_Export_Book($data, $yeari, $yearf),'Periodo_'.$yeari.'--'.$yearf.'_Modulo_capacitaciones_realizadas.xlsx');
+        }
  }
 
 

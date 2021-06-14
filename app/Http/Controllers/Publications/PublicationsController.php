@@ -39,11 +39,9 @@ class PublicationsController extends Controller
         $publicaciones = Publication::where('year', $year)->get();
         $titulo = "Modulo_publicaciones_REALIZADAS_EN_" . $year;
 
-        abort_if(!$publicaciones->count(), 200, 'No hay publicaciones correspondientes al año ' . $year);
-
-
+        //return view('pdf-reports.publicaciones.publicaciones-anio-estrategico', compact('publicaciones', 'titulo', 'year'));
         if ($format == 'pdf') {
-            $pdf = PDF::loadView('pdf-reports.publicaciones.publicaciones-tactico', compact('publicacion', 'titulo', 'year'));
+            $pdf = PDF::loadView('pdf-reports.publicaciones.publicaciones-anio-estrategico', compact('publicaciones', 'titulo', 'year'));
             return $pdf->setPaper('A4', 'landscape')->stream($titulo . '.pdf');
         }
 
@@ -68,7 +66,7 @@ class PublicationsController extends Controller
         abort_if(!$publicaciones->count(), 200, 'No hay publicaciones correspondientes al año ' . $year);
 
         if ($format == 'pdf') {
-            $pdf = PDF::loadView('pdf-reports.publicaciones.publicaciones-tactico', compact('publicacion', 'titulo', 'year'));
+            $pdf = PDF::loadView('pdf-reports.publicaciones.publicaciones-tactico', compact('publicaciones', 'titulo', 'year'));
             return $pdf->setPaper('A4', 'landscape')->stream($titulo . '.pdf');
         }
 

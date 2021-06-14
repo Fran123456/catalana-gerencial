@@ -23,7 +23,7 @@
             </div>
             <div class="col-md-7">
                 <div class="card">
-                    <h5 class="card-title text-center pt-3"> Reporte de los empleados que han visto o no una publicación</h5>
+                    <h5 class="card-title text-center pt-3">Reporte de los empleados que han visto o no una publicación</h5>
                 </div>        
             </div>
         </div>

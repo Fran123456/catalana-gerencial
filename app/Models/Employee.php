@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Employee extends Model
 {
@@ -12,7 +13,7 @@ class Employee extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'id',        
+        'id',
         'names',
         'lastnames',
         'dui',
@@ -27,31 +28,48 @@ class Employee extends Model
         'boss_list',
     ];
 
-    public function enterprise(){
+    public function enterprise()
+    {
         return $this->belongsTo(Enterprise::class);
     }
 
-    public function area(){
+    public function area()
+    {
         return $this->belongsTo(Area::class);
     }
 
-    public function department(){
+    public function department()
+    {
         return $this->belongsTo(Department::class);
     }
 
-    public function position(){
+    public function position()
+    {
         return $this->belongsTo(Position::class);
     }
 
-    public function publicationEmployee(){
+    public function publicationEmployee()
+    {
         return $this->hasMany(PublicationEmployee::class);
     }
 
-    public function trainingEmployee(){
+    public function trainingEmployee()
+    {
         return $this->hasMany(TrainingEmployee::class);
     }
 
-    public function histories(){
+    public function histories()
+    {
         return $this->hasMany(History::class);
+    }
+
+    public function empleados(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Publication::class,
+            'publication_employees',
+            'employee_id',
+            'publication_id'
+        )->withPivot('seen')->as('detalle');
     }
 }

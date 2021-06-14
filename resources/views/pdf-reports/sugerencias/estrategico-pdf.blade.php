@@ -17,8 +17,14 @@
                 <img src="{{asset('images/logos/catalana.jpg')}}" height="70px" width="175px" alt="">
             </div>
             <div class="col-md-7">
-                <h5 class="text-center ">Reporte de Capacitaciones realizadas</h5>
-                <h5 class="text-center">{{$yeari}}-{{$yearf}}</h5>
+                <h5 class="text-center" >Reporte de Sugerencias. </h5>
+                @if ($typeId == 0 )
+                <h5 class="text-center">Tipo: {{$tipo}} </h5>
+                @else
+                <h5 class="text-center">Tipo: {{$tipo->suggestion_type}} </h5>
+                @endif
+
+                <h5 class="text-center" >{{$yi}}-{{$yf}}</h5>
             </div>
         </div>
     </div>
@@ -27,7 +33,8 @@
            <thead class="thead-light">
                <tr>
                    <th>Año</th>
-                   <th>Capacitacion</th>
+                   <th>Tipo</th>
+                   <th>Visualizaciones</th>
 
                </tr>
            </thead>
@@ -36,7 +43,8 @@
 
                 <tr>
                     <td>{{$item->year}}</td>
-                    <td>{{$item->capacitacion}}</td>
+                    <td>{{$item->tipo}}</td>
+                    <td>{{$item->lectura}}</td>
 
                 </tr>
               @endforeach

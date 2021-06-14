@@ -22,21 +22,23 @@
       </div>
       <div class="modal-body">
         <div class="row">
-          <div class="col-md-12 text-left">
+          <div class="text-left col-md-12">
             <label>Tipo de sugerencia</label>
             <select required class="form-control" name="" id="option-type">
+
               @foreach ($types as $key => $value)
                 <option value="{{$value->id}}">{{$value->suggestion_type}}</option>
               @endforeach
+              <option value="0">TODAS</option>
             </select>
           </div>
-          <div class="col-md-6 text-left">
+          <div class="text-left col-md-6">
             <br>
             <label for="">Año inicial</label>
             <input id="yeari-type" class="form-control" required type="number" min="2000" name="" value="{{$help::yearToday()}}">
           </div>
 
-          <div class="col-md-6 text-left">
+          <div class="text-left col-md-6">
             <br>
             <label for="">Año final</label>
             <input id="yearf-type" class="form-control" required type="number" min="2000" name="" value="{{$help::yearToday()}}">

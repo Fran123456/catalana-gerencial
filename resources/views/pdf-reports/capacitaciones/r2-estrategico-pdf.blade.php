@@ -17,10 +17,9 @@
                 <img src="{{asset('images/logos/catalana.jpg')}}" height="70px" width="175px" alt="">
             </div>
             <div class="col-md-7">
-                <div class="card">
-                    <h4 class="pt-2 text-center card-title">Reporte de Cantidad de cuestionarios respondidos y no respondidos</h5>
-                    <h4 class="pt-2 text-center card-title">{{$yeari}}-{{$yearf}}</h5>
-                </div>
+                <h5 class="text-center">Reporte de Cantidad de cuestionarios</h5>
+                <h5 class="text-center"> respondidos y no respondidos</h5>
+                <h5 class="text-center">{{$yeari}}-{{$yearf}}</h5>
             </div>
         </div>
     </div>

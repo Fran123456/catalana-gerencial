@@ -11,12 +11,12 @@
     </div>
     <div class="col-md-4">
       <div class="card ">
-        <div class="text-center mt-3">
+        <div class="mt-3 text-center">
           <span style="font-size: 48px;" class="text-primary">
           <i class="fas fa-chalkboard-teacher fa-2x"></i>
          </span>
         </div>
-          <div class="card-body text-center">
+          <div class="text-center card-body">
              <h5 class="card-title">Promedio de notas por capacitación por periodo</h5>
              <!--<p class="card-text">
                Cantidad de sugerencias por tipo realizadas por año (Se puede realizar comparativas de varios años)
@@ -30,12 +30,12 @@
 
     <div class="col-md-4">
       <div class="card ">
-        <div class="text-center mt-3">
+        <div class="mt-3 text-center">
           <span style="font-size: 48px;" class="text-primary">
           <i class="fas fa-chalkboard-teacher fa-2x"></i>
          </span>
         </div>
-          <div class="card-body text-center">
+          <div class="text-center card-body">
              <h5 class="card-title">Estadisticas de capacitaciones por periodo</h5>
              <!--<p class="card-text">
                Cantidad de sugerencias por tipo realizadas por año (Se puede realizar comparativas de varios años)
@@ -50,12 +50,12 @@
 
     <div class="col-md-4">
       <div class="card ">
-        <div class="text-center mt-3">
+        <div class="mt-3 text-center">
           <span style="font-size: 48px;" class="text-primary">
           <i class="fas fa-chalkboard-teacher fa-2x"></i>
          </span>
         </div>
-          <div class="card-body text-center">
+          <div class="text-center card-body">
              <h5 class="card-title">Reporte de capacitaciones realizadas por periodo</h5>
              <!--<p class="card-text">
                Cantidad de sugerencias por tipo realizadas por año (Se puede realizar comparativas de varios años)
@@ -78,12 +78,12 @@
       </div>
       <div class="col-md-4">
         <div class="card ">
-          <div class="text-center mt-3">
+          <div class="mt-3 text-center">
             <span style="font-size: 48px;" class="text-primary">
             <i class="fas fa-chalkboard-teacher fa-2x"></i>
           </span>
           </div>
-            <div class="card-body text-center">
+            <div class="text-center card-body">
               <h5 class="card-title">Reporte de empleados que resuelven y no una capacitación</h5>
               <div>
                   @include('training.modals.r4-training-submittedtraining-tactical')
@@ -95,12 +95,12 @@
 
       <div class="col-md-4">
         <div class="card ">
-          <div class="text-center mt-3">
+          <div class="mt-3 text-center">
             <span style="font-size: 48px;" class="text-primary">
             <i class="fas fa-chalkboard-teacher fa-2x"></i>
           </span>
           </div>
-            <div class="card-body text-center">
+            <div class="text-center card-body">
               <h5 class="card-title">Reporte de lista de notas de empleados aprobados y reprobados por capacitación</h5>
               <div>
                 @include('training.modals.r5-training-scores-tactical')
@@ -111,12 +111,12 @@
 
       <div class="col-md-4">
         <div class="card ">
-          <div class="text-center mt-3">
+          <div class="mt-3 text-center">
             <span style="font-size: 48px;" class="text-primary">
             <i class="fas fa-chalkboard-teacher fa-2x"></i>
           </span>
           </div>
-            <div class="card-body text-center">
+            <div class="text-center card-body">
               <h5 class="card-title">Reporte de todos los empleados de una capacitación</h5>
               <div>
                 @include('training.modals.r6-training-employeesbytraining-tactical')

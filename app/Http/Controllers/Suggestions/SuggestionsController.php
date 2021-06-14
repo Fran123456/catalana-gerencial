@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Suggestions;
 
 
 use App\Exports\Suggestions\Tactical\Sheets\SuggestionsR2_Export;
+use App\Exports\Trainings\Tactical\Books\SugestionStrategic;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\SuggestionType;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\URL;
 use Barryvdh\DomPDF\Facade as PDF;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\Models\Activity;
 
 class SuggestionsController extends Controller
@@ -25,7 +27,7 @@ class SuggestionsController extends Controller
 
     public function home(){
        $types = SuggestionType::all();
-       $help = new Help();           
+       $help = new Help();
       activity('/suggestions/home')
       ->by(Auth::user())
       ->log('El usuario '.Auth::user()->name.' visitó /suggestions/home.');
@@ -33,8 +35,38 @@ class SuggestionsController extends Controller
     }
 
     //report strategicos
-    public function reportSuggestionsByType($typeId, $format, $yi, $yf){
+    public function reportSuggestionsByType($typeId, $type, $yi, $yf){
+        $tipo = null; $data = null;
+        if ($typeId == 0) {
+            $tipo = 'TODOS LOS TIPOS';
+        $data =  Suggestion::join('suggestion_types','suggestion_types.id','suggestions.suggestion_type_id')
+            ->whereBetween( DB::raw('year(suggestions.date)'),[$yi,$yf])
+            // ->where('suggestions.suggestion_type_id',$typeId)
+            ->select( DB::raw('year(suggestions.date) as year') ,'suggestions.suggestion_type_id AS id_sugerencia','suggestions.suggestion_type as tipo', DB::raw('COUNT(suggestions.reading) AS lectura')  )
+            ->groupBy('year','suggestions.suggestion_type_id','suggestions.suggestion_type')
+            ->orderBy('tipo')
+            ->get();
+        }else {
 
+            $tipo = SuggestionType::find($typeId);
+            $data =  Suggestion::join('suggestion_types','suggestion_types.id','suggestions.suggestion_type_id')
+                ->whereBetween( DB::raw('year(suggestions.date)'),[$yi,$yf])
+                ->where('suggestions.suggestion_type_id',$typeId)
+                ->select( DB::raw('year(suggestions.date) as year') ,'suggestions.suggestion_type_id AS id_sugerencia','suggestions.suggestion_type as tipo', DB::raw('COUNT(suggestions.reading) AS lectura')  )
+                ->groupBy('year','suggestions.suggestion_type_id','suggestions.suggestion_type')
+                ->orderBy('tipo')
+                ->get();
+        }
+
+
+
+    if($type == 'pdf'){
+        $pdf = PDF::loadView('pdf-reports.sugerencias.estrategico-pdf', compact('data','yi','yf','tipo','typeId'));
+        return $pdf->download('Periodo_'.$yi.'--'.$yf.'_Modulo_sugerencias_por_tipo.pdf');
+      }
+      elseif ($type == 'excel') {
+        return \Excel::download(new SugestionStrategic($data, $yi, $yf, $tipo, $typeId),'Periodo_'.$yi.'--'.$yf.'_Modulo_sugerencias_por_tipo.xlsx');
+      }
     }
 
     //tacticos

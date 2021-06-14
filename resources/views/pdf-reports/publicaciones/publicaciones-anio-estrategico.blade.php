@@ -43,7 +43,7 @@
                                 <td style="font-size:90%" colspan="1">{{$year}}</td>                  
                         </tr>
                         <tr>
-                          <td style="font-size:90%" colspan="1"><strong>Publicacion</strong></td>
+                          <td style="font-size:90%" colspan="1"><strong># de Publicaciones</strong></td>
                           <td style="font-size:90%" colspan="1">{{$publicaciones->count()}}</td>                  
                       </tr>
                     </tbody>

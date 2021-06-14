@@ -29,7 +29,7 @@
       <th></th>
       <th ></th>
       <th><strong>#</strong></th>
-      <th><strong>Publicacion</strong></th>
+      <th><strong>Titulo</strong></th>
       <th><strong>Tipo</strong></th>
       <th><strong>Población</strong></th>
     </tr>

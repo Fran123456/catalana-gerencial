@@ -39,16 +39,12 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td style="font-size:90%" colspan="1"><strong>Publicacion</strong></td>
-                                <td style="font-size:90%" colspan="1">{{$publicacion->title}}</td>                  
-                        </tr>
-                        <tr>
-                            <td style="font-size:90%" colspan="1"><strong>Tipo</strong></td>
-                                <td style="font-size:90%" colspan="1">{{$publicacion->type}}</td>                  
-                        </tr>
-                        <tr>
                             <td style="font-size:90%" colspan="1"><strong>Año</strong></td>
-                                <td style="font-size:90%" colspan="1">{{$publicacion->year}}</td>                  
+                                <td style="font-size:90%" colspan="1">{{$year}}</td>                  
+                        </tr>
+                        <tr>
+                            <td style="font-size:90%" colspan="1"><strong># de Publicaciones</strong></td>
+                            <td style="font-size:90%" colspan="1">{{$publicaciones->count()}}</td>                  
                         </tr>
                     </tbody>
                 </table>
@@ -62,28 +58,33 @@
                         <thead class="thead-dark">
                             <tr>
                                 <th style="font-size:90%"scope="col" width="25px">#</th>
-                                <th style="font-size:90%"scope="col" width="150px">Empleado</th>                                
-                                <th style="font-size:90%"scope="col" width="150px">DUI</th>
-                                <th style="font-size:90%"scope="col" width="150px">Empresa</th>
-                                <th style="font-size:90%"scope="col" width="100px">Área</th>
-                                <th style="font-size:90%"scope="col" width="100px">Vista</th>
+                                <th style="font-size:90%"scope="col" width="150px">Titulo</th>
+                                <th style="font-size:90%"scope="col" width="100px">Tipo</th>
+                                <th style="font-size:90%"scope="col" width="100px">Vistas</th>
+                                <th style="font-size:90%"scope="col" width="100px">No vistas</th>
+                                <th style="font-size:90%"scope="col" width="100px">Población</th>
+                                <th style="font-size:90%"scope="col" width="100px">Alcance (%)</th>
                             </tr>
                         </thead>
                         <tbody>                        
-                            @if ($publicacion->empleados->count() == 0)
-                                <tr><td style="font-size:90%" colspan="5"><p>No se encontraron registros</p></td></tr>                
-                            @else
-                                @foreach ($publicacion->empleados as $id => $empleado)
-                                    <tr>
-                                        <td style="font-size:90%">{{$loop->iteration}}</td>
-                                        <td style="font-size:90%">{{$empleado->names}} {{$empleado->lastnames}}</td>
-                                        <td style="font-size:90%">{{$empleado->dui}}</td>
-                                        <td style="font-size:90%">{{$empleado->enterprise->enterprise}}</td>
-                                        <td style="font-size:90%">{{$empleado->area->area}}</td>
-                                        <td style="font-size:90%">{{($empleado->detalle->seen ? 'SI' : 'NO')}}</td>
-                                    </tr>
-                                @endforeach
-                            @endif
+                            @if ($publicaciones->count() == 0)
+                            <tr><td style="font-size:90%" colspan="5"><p>No se encontraron registros</p></td></tr>                
+                        @else
+                            @foreach ($publicaciones as $id => $publicacion)
+                                <tr>
+                                    <td style="font-size:90%">{{$loop->iteration}}</td>
+                                    <td style="font-size:90%">{{$publicacion->title}}</td>
+                                    <td style="font-size:90%">{{$publicacion->type}}</td>
+                                    <td style="font-size:90%">{{strval($publicacion->empleados()->wherePivot('seen','=','1')->count())}}</td>
+                                    <td style="font-size:90%">{{strval($publicacion->empleados()->wherePivot('seen','=','0')->count())}}</td>
+                                    <td style="font-size:90%">{{strval($publicacion->empleados->count())}}</td>
+                                    <td style="font-size:90%">
+                                        {{round(($publicacion->empleados()->wherePivot('seen', '=', '1')->count() / 
+                                                   $publicacion->empleados()->wherePivot('seen', '=', '0')->count())*100, 2)}}
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endif
                         </tbody>
                     </table>                    
                         <div class="page-break"></div>       

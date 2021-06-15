@@ -17,7 +17,7 @@
          </span>
         </div>
           <div class="text-center card-body">
-             <h5 class="card-title">Promedio de notas por capacitación por periodo</h5>
+             <h5 class="card-title">Reporte de promedio de notas por capacitación por periodo</h5>
              <!--<p class="card-text">
                Cantidad de sugerencias por tipo realizadas por año (Se puede realizar comparativas de varios años)
              </p>-->
@@ -36,7 +36,7 @@
          </span>
         </div>
           <div class="text-center card-body">
-             <h5 class="card-title">Estadisticas de capacitaciones por periodo</h5>
+             <h5 class="card-title">Reporte de estadísticas de capacitaciones por periodo</h5>
              <!--<p class="card-text">
                Cantidad de sugerencias por tipo realizadas por año (Se puede realizar comparativas de varios años)
              </p>-->

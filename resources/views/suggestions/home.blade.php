@@ -16,10 +16,7 @@
           </span>
           </div>
             <div class="text-center card-body">
-              <h5 class="card-title">Sugerencias realizadas por tipo</h5>
-              <!--<p class="card-text">
-                Cantidad de sugerencias por tipo realizadas por año (Se puede realizar comparativas de varios años)
-              </p>-->
+              <h5 class="card-title">Reporte de sugerencias realizadas por tipo</h5>              
               <div>
                   @include('suggestions.modals.suggestions-type-modal')
               </div>
@@ -43,7 +40,7 @@
           </span>
           </div>
             <div class="text-center card-body">
-              <h5 class="card-title">Sugerencias realizadas por fechas</h5>
+              <h5 class="card-title">Reporte de sugerencias realizadas por fechas</h5>
               <div>
                   @include('suggestions.modals.suggestions-date-modal')
               </div>
@@ -61,8 +58,4 @@
     </div>
   @endif
 </div>
-
-
-
-
 </x-app-layout>

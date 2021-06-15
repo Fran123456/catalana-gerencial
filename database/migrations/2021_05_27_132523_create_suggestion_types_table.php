@@ -15,8 +15,7 @@ class CreateSuggestionTypesTable extends Migration
     {
         Schema::create('suggestion_types', function (Blueprint $table) {
             $table->unsignedBigInteger('id')->primary();            
-            $table->string('suggestion_type',200)->nullable();
-            //$table->smallInteger('status')->nullable();
+            $table->string('suggestion_type',200)->nullable();            
             $table->boolean('status')->nullable();
         });
     }

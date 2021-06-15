@@ -6,7 +6,7 @@
   @can('publications_estrategic')      
     <div class="row">
       <div class="text-center">
-        <h4>REPORTES ESTRATEGICOS</h4>
+        <h4>REPORTES ESTRATÉGICOS</h4>
       </div>
       <div class="col-md-4">
         <div class="card ">
@@ -16,7 +16,7 @@
           </span>
           </div>
             <div class="card-body text-center">
-              <h5 class="card-title">Publicaciones realizadas por año</h5>
+              <h5 class="card-title">Reporte de publicaciones realizadas por año</h5>
               <div>
                   @include('publications.modals.published-modal')
               </div>
@@ -32,7 +32,7 @@
           </span>
           </div>
             <div class="card-body text-center">
-              <h5 class="card-title">Alcance de las publicaciones por año</h5>
+              <h5 class="card-title">Reporte de alcance de las publicaciones por año</h5>
               <div>
                   @include('publications.modals.reach-modal')
               </div>
@@ -46,7 +46,7 @@
   @can('suggestions_tactical')      
     <div class="row">
       <div class="text-center">
-        <h4>REPORTES TACTICOS</h4>
+        <h4>REPORTES TÁCTICOS</h4>
       </div>
       <div class="col-md-4">
         <div class="card ">

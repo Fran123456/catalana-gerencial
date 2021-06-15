@@ -86,13 +86,7 @@ class APIController extends Controller
                     'id' => $enterprise['id'],
                 ]);
             }
-
-            foreach ($response as $enterprise){
-                Enterprise::firstOrCreate([
-                    'enterprise' => $enterprise['empresa'],
-                    'id' => $enterprise['id'],
-                ]);
-            }
+          
             $query = DB::select("SELECT id,enterprise as empresa FROM enterprises");
             foreach ($query as $i => $after) {
                 $flag = 0;

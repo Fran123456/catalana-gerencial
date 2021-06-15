@@ -23,7 +23,7 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-md-12 text-left">
-            <label for="">Preceso</label>
+            <label for="">Proceso</label>
             <select id="option-iso-r1" class="form-control" name="">
               @foreach ($containers as $key => $value)
                 <option value="{{$value->id}}">{{$value->title}}</option>

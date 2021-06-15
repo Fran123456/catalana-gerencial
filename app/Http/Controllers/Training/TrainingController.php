@@ -40,7 +40,8 @@ class TrainingController extends Controller
 
  //report training scorebytraining = strategic
  public function r1_($type , $yeari, $yearf){
-   $total=$yearf-$yeari;
+  if(Auth::user()->hasPermissionTo('trainings_estrategic')){
+    $total=$yearf-$yeari;
    $trainingsArray=array();
    if($total==0){
      $trainingsArray[0]=Training::where('year', $yearf)->get();
@@ -72,24 +73,39 @@ class TrainingController extends Controller
      }
    }
 
+   activity('Generación de reporte estratégico')
+    ->by(Auth::user())
+    ->log('El usuario '.Auth::user()->name.' generó el reporte de promedio de notas por capacitación por periodo del módulo de capacitaciones.');
+
    if($type == 'pdf'){
      $pdf = PDF::loadView('pdf-reports.capacitaciones.r1-estrategico', compact('scores','yeari','yearf'));
      return $pdf->stream('Modulo_capacitaciones_promedio_notas_por_capacitacion.pdf');
    }
    elseif ($type == 'excel') {
      return \Excel::download(new TrainingR1_Export_Book($scores),'Modulo_capacitaciones_promedio_notas_por_capacitacion.xlsx');
-   }
-
+   }   
+  }
+  else{
+    activity('Acceso denegado')
+    ->by(Auth::user())
+    ->log('El usuario '.Auth::user()->name.' intentó generar el reporte de promedio de notas por capacitación por periodo del módulo de capacitaciones.');
+    abort(403,__('Unauthorized'));
+  }
+   
  }
  //report training number of quiz answered and not answered by year
  public function r2_($type , $yeari, $yearf){
-
+  if(Auth::user()->hasPermissionTo('trainings_estrategic')){
     $data =  Training::join('training_employees','training_employees.training_id','trainings.id')
             ->whereBetween('trainings.year',[$yeari,$yearf])
             ->select('trainings.year','trainings.id','trainings.training as capacitacion', DB::raw('COUNT(trainings.training) AS total') ,  DB::raw('COUNT( taken= '.'"si"'.') realizados') )
             ->groupBy('trainings.id','trainings.training','trainings.year')
             ->orderBy('trainings.year')
             ->get();
+
+      activity('Generación de reporte estratégico')
+      ->by(Auth::user())
+      ->log('El usuario '.Auth::user()->name.' generó el reporte de estadísticas de capacitaciones por periodo del módulo de capacitaciones.');
 
     if($type == 'pdf'){
         $pdf = PDF::loadView('pdf-reports.capacitaciones.r2-estrategico-pdf', compact('data','yeari','yearf'));
@@ -98,16 +114,29 @@ class TrainingController extends Controller
       elseif ($type == 'excel') {
         return \Excel::download(new TrainingR2_Export_Book($data, $yeari, $yearf),'Periodo_'.$yeari.'--'.$yearf.'_Modulo_capacitaciones_cuestionarios_respondidos_y_no_respondidos.xlsx');
       }
+  }
+  else{
+    activity('Acceso denegado')
+    ->by(Auth::user())
+    ->log('El usuario '.Auth::user()->name.' intentó generar el reporte de estadísticas de capacitaciones por periodo del módulo de capacitaciones.');
+    abort(403,__('Unauthorized'));
+  }
+    
  }
 
 
  public function r3_($type , $yeari, $yearf){
-            $data =  Training::join('training_employees','training_employees.training_id','trainings.id')
-            ->whereBetween('trainings.year',[$yeari,$yearf])
-            ->select('trainings.year','trainings.id','trainings.training as capacitacion' )
-            ->groupBy('trainings.id','trainings.training','trainings.year')
-            ->orderBy('trainings.year')
-            ->get();
+    if(Auth::user()->hasPermissionTo('trainings_estrategic')){
+        $data =  Training::join('training_employees','training_employees.training_id','trainings.id')
+        ->whereBetween('trainings.year',[$yeari,$yearf])
+        ->select('trainings.year','trainings.id','trainings.training as capacitacion' )
+        ->groupBy('trainings.id','trainings.training','trainings.year')
+        ->orderBy('trainings.year')
+        ->get();
+
+        activity('Generación de reporte estratégico')
+        ->by(Auth::user())
+        ->log('El usuario '.Auth::user()->name.' generó el reporte de capacitaciones realizadas por periodo del módulo de capacitaciones.');
 
         if($type == 'pdf'){
         $pdf = PDF::loadView('pdf-reports.capacitaciones.r3-estrategico-pdf', compact('data','yeari','yearf'));
@@ -116,6 +145,13 @@ class TrainingController extends Controller
         elseif ($type == 'excel') {
         return \Excel::download(new TrainingR3_Export_Book($data, $yeari, $yearf),'Periodo_'.$yeari.'--'.$yearf.'_Modulo_capacitaciones_realizadas.xlsx');
         }
+    }
+    else{
+      activity('Acceso denegado')
+      ->by(Auth::user())
+      ->log('El usuario '.Auth::user()->name.' intentó generar el reporte de capacitaciones realizadas por periodo del módulo de capacitaciones.');
+      abort(403,__('Unauthorized'));
+     
  }
 
 
@@ -161,6 +197,11 @@ class TrainingController extends Controller
                           ->get();
           array_push($no_tomados,$unsubmitted);
         }
+
+        activity('Generación de reporte táctico')
+        ->by(Auth::user())
+        ->log('El usuario '.Auth::user()->name.' generó el reporte de empleados que resuelven y no una capacitación del módulo de capacitaciones.');
+
         if($type == 'pdf'){
           $pdf = PDF::loadView('pdf-reports.capacitaciones.r4-tactico', compact('query','text','tipo','tomados','no_tomados'));
           return $pdf->setPaper('A4','landscape')->stream($text.'.pdf');
@@ -170,6 +211,9 @@ class TrainingController extends Controller
         }
   }
   else{
+    activity('Acceso denegado')
+    ->by(Auth::user())
+    ->log('El usuario '.Auth::user()->name.' intentó generar el reporte de empleados que resuelven y no una capacitación del módulo de capacitaciones.');
     abort(403,__('Unauthorized'));
   }
  }
@@ -233,6 +277,10 @@ class TrainingController extends Controller
 
       $text = $text."_aprobados_y_reprobados";
 
+      activity('Generación de reporte táctico')
+      ->by(Auth::user())
+      ->log('El usuario '.Auth::user()->name.' generó el reporte de lista de notas de empleados aprobados y reprobados por capacitación del módulo de capacitaciones.');
+
       if($type == 'pdf'){
         $pdf = PDF::loadView('pdf-reports.capacitaciones.r5-tactico', compact('query','text','tipo','aprobados','reprobados','sin_nota'));
         return $pdf->setPaper('A4','landscape')->stream($text.'.pdf');
@@ -243,6 +291,9 @@ class TrainingController extends Controller
       }
   }
   else{
+    activity('Acceso denegado')
+    ->by(Auth::user())
+    ->log('El usuario '.Auth::user()->name.' intentó generar el reporte de lista de notas de empleados aprobados y reprobados por capacitación del módulo de capacitaciones.');
     abort(403,__('Unauthorized'));
   }
  }
@@ -292,6 +343,10 @@ class TrainingController extends Controller
 
       $text = $text."_todos_empleados_asignados";
 
+      activity('Generación de reporte táctico')
+      ->by(Auth::user())
+      ->log('El usuario '.Auth::user()->name.' generó el reporte de todos los empleados de una capacitación del módulo de capacitaciones.');
+
       if($type == 'pdf'){
         $pdf = PDF::loadView('pdf-reports.capacitaciones.r6-tactico', compact('query','text','tipo','empleados'));
         return $pdf->setPaper('A4','landscape')->stream($text.'.pdf');
@@ -301,7 +356,10 @@ class TrainingController extends Controller
       }
   }
   else{
-    abort(403,__('Unauthorized'));
+    activity('Acceso denegado')
+    ->by(Auth::user())
+    ->log('El usuario '.Auth::user()->name.' intentó generar el reporte de todos los empleados de una capacitación del módulo de capacitaciones.');    
+    abort(403,__('Unauthorized'));    
   }
 }
 }

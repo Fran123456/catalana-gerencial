@@ -46,18 +46,15 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">                
-                <button  wire:click="closingModal" type="button" class="btn btn-danger" data-dismiss="modal">
-                <i class="fas fa-arrow-left"></i>
-                </button>                
+            <div class="modal-footer">                  
+                <div wire:loading.remove>
+                    <button wire:click="closingModal" type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-arrow-left"></i></button>                
+                </div>                
                 <div wire:target="updateCheckbox">
                     <button wire:loading.remove wire:click="updateCheckbox" data-bs-dismiss="modal" class="btn btn-primary"><i class="fas fa-save"></i></button>
                 </div>                
                 <div wire:loading wire:target="updateCheckbox">
-                {{--<button disabled data-bs-dismiss="modal" class="btn btn-primary"><i class="fas fa-save"></i></button>--}}
-                    <button data-bs-dismiss="modal" class="btn btn-primary" disabled>
-                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                    </button>
+                    <button data-bs-dismiss="modal" class="btn btn-primary" disabled><i class="fas fa-save"></i></button>
                 </div>
             </div>
         </div>

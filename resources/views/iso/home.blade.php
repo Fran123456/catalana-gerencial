@@ -5,7 +5,7 @@
 <div class="container">
 
 
-  @can('trainings_tactical')
+  @can('iso_tactical')
     <div class="row">
       <div class="text-center">
         <h4>REPORTES TÁCTICOS</h4>
@@ -62,7 +62,7 @@
   @endcan
 
 
-  @if (auth()->user()->can('trainings_estrategic') == false && auth()->user()->can('trainings_tactical') == false)
+  @if (auth()->user()->can('iso_tactical') == false)
   <div class="row">
       <div class="text-center">
         <h4>SIN PERMISOS</h4>

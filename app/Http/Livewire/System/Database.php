@@ -34,10 +34,19 @@ class Database extends Component
             DB::unprepared( file_get_contents(storage_path('app\public\\').$file));            
             
             session()->flash('message','Base de datos restaurada exitosamente.');
+            activity('Restauración base de datos')
+            ->by(Auth::user())
+            ->log('El usuario '.Auth::user()->name.' restauró la base de datos.');
+
+            abort(403,__('Unauthorized'));
             
             $this->dispatchBrowserEvent('redireccionar');
         }
         else{
+            activity('Acceso denegado')
+            ->by(Auth::user())
+            ->log('El usuario '.Auth::user()->name.' intentó restaurar la base de datos.');        
+
             abort(403,__('Unauthorized'));
         }
     }    

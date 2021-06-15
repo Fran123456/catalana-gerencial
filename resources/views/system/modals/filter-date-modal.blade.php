@@ -22,14 +22,12 @@
       </div>
       <div class="modal-body">
         <div class="row">          
-          <div class="col-md-6 text-left">
-            <br>
+          <div class="col-md-6 text-left">            
             <label for="">Fecha inicial</label>
             <input id="datei-date" class="form-control" required type="date"  name="" value="{{$help::dateYear()}}">
           </div>
 
-          <div class="col-md-6 text-left">
-            <br>
+          <div class="col-md-6 text-left">            
             <label for="">Fecha final</label>
             <input id="datef-date" class="form-control" required type="date"  name="" value="{{$help::dateYear()}}">
           </div>

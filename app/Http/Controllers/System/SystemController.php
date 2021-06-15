@@ -26,11 +26,17 @@ class SystemController extends Controller
       }
 
       public function system(){
-        if(Auth::user()->hasPermissionTo('logs')){
-            $help = new Help();        
+        if(Auth::user()->hasPermissionTo('system')){
+            $help = new Help();
+            activity('Visita')
+            ->by(Auth::user())
+            ->log('El usuario '.Auth::user()->name.' visitó /system');
             return view('system.system',compact('help'));
         }
         else{
+            activity('Acceso denegado')
+            ->by(Auth::user())
+            ->log('El usuario '.Auth::user()->name.' intentó visitar /system sin permiso para hacerlo.');
             abort(403,__('Unauthorized'));
         }        
     }
@@ -42,7 +48,7 @@ class SystemController extends Controller
             $start_date = 'no';
             $end_date = 'no';            
 
-            activity('system/print-logs/'.$format."/".$yi."/".$yf)
+            activity('Generación de reporte de bitácora de sistema')
             ->by(Auth::user())
             ->log('El usuario '.Auth::user()->name.' generó el reporte de bitácora del sistema.');
 
@@ -101,12 +107,19 @@ class SystemController extends Controller
         }
 
         else{
+            activity('Acceso denegado')
+            ->by(Auth::user())
+            ->log('El usuario '.Auth::user()->name.' intentó generar el reporte de bitácora del sistema sin permiso para hacerlo.');
             abort(403,__('Unauthorized'));        
         }    
     }
 
     public function backupDatabase(){
         if(Auth::user()->hasPermissionTo('backup')){
+            activity('Generación de respaldo de base de datos')
+            ->by(Auth::user())
+            ->log('El usuario '.Auth::user()->name.' generó un respaldo de la base de datos.'); 
+            
             if(Storage::exists('Laravel')){
                 Storage::deleteDirectory('Laravel');
             }            
@@ -126,6 +139,9 @@ class SystemController extends Controller
             return response()->download($latest_filename);            
         }            
         else{
+            activity('Acceso denegado')
+            ->by(Auth::user())
+            ->log('El usuario '.Auth::user()->name.' intentó realizar un respaldo a la base de datos sin permiso para hacerlo.');
             abort(403,__('Unauthorized'));
         }
     }        

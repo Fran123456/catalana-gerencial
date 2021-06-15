@@ -55,10 +55,10 @@
                 <thead class="thead-dark">                    
                     <tr>
                         <th style="font-size:90%"scope="col" width="30px">#</th>                                                
-                        <th style="font-size:90%" scope="col" width="30px">ID</th>
-                        <th style="font-size:90%" scope="col" width="200px">User</th>
+                        <th style="font-size:90%" scope="col" width="90px">ID Usuario</th>
+                        <th style="font-size:90%" scope="col" width="150px">Usuario</th>
                         <th style="font-size:90%" scope="col" width="300px">Descripción</th>
-                        <th style="font-size:90%" scope="col" width="100px">Ruta</th>
+                        <th style="font-size:90%" scope="col" width="100px">Acción</th>
                         <th style="font-size:90%">Fecha</th>                        
                     </tr>
                 </thead>
@@ -72,8 +72,8 @@
                             <td style="font-size:90%">{{$row->causer_id}}</td>                                                        
                             <td style="font-size:90%">{{$row->name}}</td>
                             <td style="font-size:90%">{{$row->description}}</td>
-                            <td style="font-size:90%">{{$row->log_name}}</td>
-                            <td style="font-size:90%">{{$row->created_at}}</td>
+                            <td style="font-size:90%">{{$row->log_name}}</td>                            
+                            <td style="font-size:90%">{{Carbon\Carbon::createFromTimeString($row->created_at)->format('d-m-Y H:i:s')}}</td>
                         </tr>
                     @endforeach
                 @endif

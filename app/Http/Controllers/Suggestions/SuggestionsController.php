@@ -26,47 +26,59 @@ class SuggestionsController extends Controller
     }
 
     public function home(){
-       $types = SuggestionType::all();
-       $help = new Help();
-      activity('/suggestions/home')
-      ->by(Auth::user())
-      ->log('El usuario '.Auth::user()->name.' visitó /suggestions/home.');
-      return view ('suggestions.home',compact('types','help'));
+        $types = SuggestionType::all();
+        $help = new Help();
+        activity('Visita')
+        ->by(Auth::user())
+        ->log('El usuario '.Auth::user()->name.' visitó /suggestions/home.');
+        return view ('suggestions.home',compact('types','help'));
     }
 
     //report strategicos
     public function reportSuggestionsByType($typeId, $type, $yi, $yf){
-        $tipo = null; $data = null;
-        if ($typeId == 0) {
-            $tipo = 'TODOS LOS TIPOS';
-        $data =  Suggestion::join('suggestion_types','suggestion_types.id','suggestions.suggestion_type_id')
-            ->whereBetween( DB::raw('year(suggestions.date)'),[$yi,$yf])
-            // ->where('suggestions.suggestion_type_id',$typeId)
-            ->select( DB::raw('year(suggestions.date) as year') ,'suggestions.suggestion_type_id AS id_sugerencia','suggestions.suggestion_type as tipo', DB::raw('COUNT(suggestions.reading) AS lectura')  )
-            ->groupBy('year','suggestions.suggestion_type_id','suggestions.suggestion_type')
-            ->orderBy('tipo')
-            ->get();
-        }else {
+      if(Auth::user()->hasPermissionTo('suggestions_estrategic')){
+          $tipo = null; $data = null;
+          if ($typeId == 0) {
+              $tipo = 'TODOS LOS TIPOS';
+          $data =  Suggestion::join('suggestion_types','suggestion_types.id','suggestions.suggestion_type_id')
+              ->whereBetween( DB::raw('year(suggestions.date)'),[$yi,$yf])
+              // ->where('suggestions.suggestion_type_id',$typeId)
+              ->select( DB::raw('year(suggestions.date) as year') ,'suggestions.suggestion_type_id AS id_sugerencia','suggestions.suggestion_type as tipo', DB::raw('COUNT(suggestions.reading) AS lectura')  )
+              ->groupBy('year','suggestions.suggestion_type_id','suggestions.suggestion_type')
+              ->orderBy('tipo')
+              ->get();
+          }else {
 
-            $tipo = SuggestionType::find($typeId);
-            $data =  Suggestion::join('suggestion_types','suggestion_types.id','suggestions.suggestion_type_id')
-                ->whereBetween( DB::raw('year(suggestions.date)'),[$yi,$yf])
-                ->where('suggestions.suggestion_type_id',$typeId)
-                ->select( DB::raw('year(suggestions.date) as year') ,'suggestions.suggestion_type_id AS id_sugerencia','suggestions.suggestion_type as tipo', DB::raw('COUNT(suggestions.reading) AS lectura')  )
-                ->groupBy('year','suggestions.suggestion_type_id','suggestions.suggestion_type')
-                ->orderBy('tipo')
-                ->get();
+              $tipo = SuggestionType::find($typeId);
+              $data =  Suggestion::join('suggestion_types','suggestion_types.id','suggestions.suggestion_type_id')
+                  ->whereBetween( DB::raw('year(suggestions.date)'),[$yi,$yf])
+                  ->where('suggestions.suggestion_type_id',$typeId)
+                  ->select( DB::raw('year(suggestions.date) as year') ,'suggestions.suggestion_type_id AS id_sugerencia','suggestions.suggestion_type as tipo', DB::raw('COUNT(suggestions.reading) AS lectura')  )
+                  ->groupBy('year','suggestions.suggestion_type_id','suggestions.suggestion_type')
+                  ->orderBy('tipo')
+                  ->get();
+          }
+
+          activity('Generación de reporte estratégico')
+          ->by(Auth::user())
+          ->log('El usuario '.Auth::user()->name.' generó el reporte de sugerencias realizadas por tipo del módulo de sugerencias.');
+
+
+      if($type == 'pdf'){
+          $pdf = PDF::loadView('pdf-reports.sugerencias.estrategico-pdf', compact('data','yi','yf','tipo','typeId'));
+          return $pdf->download('Periodo_'.$yi.'--'.$yf.'_Modulo_sugerencias_por_tipo.pdf');
         }
-
-
-
-    if($type == 'pdf'){
-        $pdf = PDF::loadView('pdf-reports.sugerencias.estrategico-pdf', compact('data','yi','yf','tipo','typeId'));
-        return $pdf->download('Periodo_'.$yi.'--'.$yf.'_Modulo_sugerencias_por_tipo.pdf');
+        elseif ($type == 'excel') {
+          return \Excel::download(new SugestionStrategic($data, $yi, $yf, $tipo, $typeId),'Periodo_'.$yi.'--'.$yf.'_Modulo_sugerencias_por_tipo.xlsx');
+        }
+      }      
+      else{
+        activity('Acceso denegado')
+        ->by(Auth::user())
+        ->log('El usuario '.Auth::user()->name.' intentó generar el reporte de sugerencias realizadas por tipo del módulo de sugerencias.');
+        abort(403,__('Unauthorized'));
       }
-      elseif ($type == 'excel') {
-        return \Excel::download(new SugestionStrategic($data, $yi, $yf, $tipo, $typeId),'Periodo_'.$yi.'--'.$yf.'_Modulo_sugerencias_por_tipo.xlsx');
-      }
+        
     }
 
     //tacticos
@@ -130,21 +142,22 @@ class SuggestionsController extends Controller
           }
         }
 
+        activity('Generación de reporte táctico')
+        ->by(Auth::user())
+        ->log('El usuario '.Auth::user()->name.' generó el reporte de sugerencias realizadas por fechas del módulo de sugerencias.');
+
         if($format == 'pdf'){
-          $pdf = PDF::loadView('pdf-reports.sugerencias.tactico', compact('query','text','fi','ff','tipo'));
-          activity('suggestion/reports/strategic/types/'.$typeId."/".$format."/".$fi."/".$ff)
-          ->by(Auth::user())
-          ->log('El usuario '.Auth::user()->name.' generó el reporte táctico del módulo de sugerencias "Reporte de sugerencias realizadas por fechas" en formato PDF.');
+          $pdf = PDF::loadView('pdf-reports.sugerencias.tactico', compact('query','text','fi','ff','tipo'));          
           return $pdf->setPaper('A4','landscape')->stream($text.'.pdf');
         }
-        elseif ($format == 'excel') {
-          activity('suggestion/reports/strategic/types/'.$typeId."/".$format."/".$fi."/".$ff)
-          ->by(Auth::user())
-          ->log('El usuario '.Auth::user()->name.' generó el reporte táctico del módulo de sugerencias "Reporte de sugerencias realizadas por fechas" en formato XLSX.');
+        elseif ($format == 'excel') {          
           return Excel::download(new SuggestionsR2_Export($query,$text,$fi,$ff,$tipo),$text.'.xlsx');
         }
       }
       else{
+        activity('Acceso denegado')
+        ->by(Auth::user())
+        ->log('El usuario '.Auth::user()->name.' intentó generar el reporte de sugerencias realizadas por fechas del módulo de sugerencias.');
         abort(403,__('Unauthorized'));
       }
     }

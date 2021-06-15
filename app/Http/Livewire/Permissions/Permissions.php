@@ -71,7 +71,7 @@ class Permissions extends Component
             }        
             session()->flash('message-update', ':data successfully updated');        
             $this->emit("showFlashMessage");
-            activity('/roles')
+            activity('Actualización')
             ->by(Auth::user())
             ->on($this->selected_role)
             ->withProperties($var)

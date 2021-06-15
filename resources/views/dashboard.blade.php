@@ -1,9 +1,9 @@
 <x-app-layout>
 
   <div class="row">
-    <div class="col-md-4">
+    {{--<div class="col-md-4">
         <livewire:data.data/>
-    </div>
+    </div>--}}
 
     <div class="col-md-4">
       <div class="card ">
@@ -42,10 +42,6 @@
       </div>
     </div>
 
-
-  </div>
-  <br>
-  <div class="row">
     <div class="col-md-4">
       <div class="card ">
         <div class="text-center mt-3">
@@ -64,7 +60,10 @@
       </div>
     </div>
 
-
+  </div>
+  <br>
+  <div class="row">
+    
     <div class="col-md-4">
       <div class="card ">
         <div class="text-center mt-3">
@@ -77,7 +76,7 @@
              <p class="card-text">
              </p>
              <div>
-                {{-- <a href="{!! route('iso-home') !!}"  class="btn btn-primary"><i class="fas fa-chevron-circle-right"></i></a> --}}
+                <a href="{!! route('iso-home') !!}"  class="btn btn-primary"><i class="fas fa-chevron-circle-right"></i></a>
              </div>
           </div>
       </div>

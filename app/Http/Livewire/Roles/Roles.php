@@ -66,10 +66,7 @@ class Roles extends Component
         $this->role_id = $role->id;
       }
 
-      public function update(){
-        /*$this->validate([
-          'role_name'=>'required|unique:roles,name',
-        ]);*/
+      public function update(){        
         $this->validate();
         Role::where('id', $this->role_id)->update([
           'name' => $this->role_name,          
@@ -77,7 +74,7 @@ class Roles extends Component
         session()->flash('message-update', ':data successfully updated');
         $this->emit("update");
         
-        activity('/roles')
+        activity('Actualización')
         ->by(Auth::user())
         ->on(Role::find($this->role_id))            
         ->log('El usuario '.Auth::user()->name.' modificó el rol '.$this->role_name.'.');
@@ -90,7 +87,7 @@ class Roles extends Component
           'guard_name' => 'web'
         ]);          
         session()->flash('message', ':data created successfully');
-        activity('/roles')
+        activity('Creación')
         ->by(Auth::user())
         ->on($new_created_role)
         ->log('El usuario '.Auth::user()->name.' creó un nuevo rol llamado '.$new_created_role->name.'.');
@@ -101,7 +98,7 @@ class Roles extends Component
       public function destroy($id){
         $role = Role::find($id);
         Role::destroy($id);
-        activity('/roles')
+        activity('Eliminación')
         ->by(Auth::user())
         ->on($role)
         ->log('El usuario '.Auth::user()->name.' eliminó el rol '.$role->name.'.');

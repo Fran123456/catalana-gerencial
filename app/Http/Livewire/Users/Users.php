@@ -59,14 +59,27 @@ class Users extends Component
         'password' => Hash::make($this->password)
       ]);
       $u->assignRole($this->role);
+      
+      activity('Creación')
+      ->by(Auth::user())
+      ->on($u)
+      ->log('El usuario '.Auth::user()->name.' creó un nuevo usuario llamado '.$u->name.'.');
+
       session()->flash('message', ':data created successfully');
       $this->clean();
       $this->emit("send");
     }
 
     public function destroy($id){
+      $user = User::find($id);
       User::destroy($id);
       session()->flash('message-destroy', ':data successfully removed');
+
+      activity('Eliminación')
+      ->by(Auth::user())
+      ->on($user)            
+      ->log('El usuario '.Auth::user()->name.' eliminó el usuario '.$user->name.'.');
+
       $this->emit("destroy");
     }
 
@@ -90,6 +103,11 @@ class Users extends Component
         $user->removeRole($user->roles[0]->name);
         $user->assignRole($this->role);
       }
+
+      activity('Actualización')
+        ->by(Auth::user())
+        ->on($user)            
+        ->log('El usuario '.Auth::user()->name.' modificó el usuario '.$user->name.'.');
 
       session()->flash('message-update', ':data successfully updated');
       $this->emit("update");

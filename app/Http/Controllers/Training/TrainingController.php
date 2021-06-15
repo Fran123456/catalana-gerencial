@@ -151,7 +151,7 @@ class TrainingController extends Controller
       ->by(Auth::user())
       ->log('El usuario '.Auth::user()->name.' intentó generar el reporte de capacitaciones realizadas por periodo del módulo de capacitaciones.');
       abort(403,__('Unauthorized'));
-     
+    }  
  }
 
 

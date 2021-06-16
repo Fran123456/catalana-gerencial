@@ -43,7 +43,7 @@
         </div>
       </div>
 
-      <div class="col-md-4">
+      {{--<div class="col-md-4">
         <div class="card ">
           <div class="text-center mt-3">
             <span style="font-size: 48px;" class="text-primary">
@@ -58,7 +58,7 @@
             </div>
         </div>
       </div>
-    </div>
+    </div>--}}
   @endcan
 
 

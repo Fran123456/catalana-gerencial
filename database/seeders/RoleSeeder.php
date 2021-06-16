@@ -15,9 +15,8 @@ class RoleSeeder extends Seeder
    */
   public function run()
   {
-    $tactico =  Role::create(['name' => 'Tactico']);
-    $estrategico =  Role::create(['name' => 'Estategico']);
-    //$ambos =  Role::create(['name'=>'Tactico y Estrategico']);
+    $tactico =  Role::create(['name' => 'Táctico']);
+    $estrategico =  Role::create(['name' => 'Estratégico']);    
     $admin = Role::create(['name' => 'Administrador']);
 
     //Permiso Página de inicio

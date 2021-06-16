@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class Users extends Component
@@ -19,7 +20,7 @@ class Users extends Component
    public $idUser;
    public $search;
    public $role;
-   public $status;
+   public $status;   
    protected $queryString=['search' => ['except'=>'']];
   // public $users;
 
@@ -32,8 +33,19 @@ class Users extends Component
      $this->role ="";
     }
 
+    public function cleanCreate(){//de sistema
+      $this->name= "";
+      $this->email= "";
+      $this->password= "";
+      $this->idUser ="";
+      $this->search ="";
+      $this->mount();
+     }
+    
+
     public function mount(){
-    //  $this->role =  Auth::user()->roles[0]->name;
+      //$this->role =  Auth::user()->roles[0]->name;      
+      $this->role = Role::where('name','=','Tactico')->get()->first()->name;
     }
 
     public function render()
@@ -43,21 +55,25 @@ class Users extends Component
         $users = User::orderBy('id','desc')->paginate(5);
       }else{
         $users =User::where('name','like', '%'.$this->search.'%')->orderBy('id','desc')->paginate(5);
-      }
+      }      
        return view('livewire.users.users', compact('users','roles'));
     }
 
     public function store(){
+      
       $this->validate([
         'name'=>'required',
-        'email'=>'required|email',
+        'email'=>'required|email|unique:users,email',
         'password'=> 'required',
+        
       ]);
        $u =User::create([
         'name' => $this->name,
         'email' => $this->email,
         'password' => Hash::make($this->password)
       ]);
+      
+      
       $u->assignRole($this->role);
       
       activity('Creación')

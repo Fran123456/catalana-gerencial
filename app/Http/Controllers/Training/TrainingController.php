@@ -34,6 +34,9 @@ class TrainingController extends Controller
   public function home(){
     $help = new Help();
     $trainings = Training::all();
+    activity('Visita')
+    ->by(Auth::user())
+    ->log('El usuario '.Auth::user()->name.' visitó /trainings/home.');
     return view ('training.home',compact('help','trainings'));
   }
 

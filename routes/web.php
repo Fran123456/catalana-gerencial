@@ -4,11 +4,15 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Role\RoleController;
 use App\Http\Controllers\API\APIController;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\Suggestions\SuggestionsController;
 use App\Http\Controllers\Training\TrainingController;
 use App\Http\Controllers\ISO\ISOController;
 use App\Http\Controllers\Publications\PublicationsController;
 use App\Http\Controllers\System\SystemController;
+use App\Http\Controllers\Dashboard\DashboardController;
+use App\Providers\Dashboard;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,10 +29,10 @@ Route::get('/', function () {
   return view('welcome');
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-  return view('dashboard');
+Route::middleware(['auth:sanctum', 'verified'])->get('dashboard', function(){
+  event( new Dashboard(Auth::user()));
+  return view('dashboard');  
 })->name('dashboard');
-
 
 //user
 Route::middleware(['auth:sanctum', 'verified'])->get('users', [UserController::class, 'users'])->name('users');

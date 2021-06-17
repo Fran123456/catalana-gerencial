@@ -56,9 +56,10 @@ class ISOController extends Controller
             $pdf = \PDF::loadView('pdf-reports.iso.r1', compact('contenedores','titulo'));
             return $pdf->setPaper('a4', 'landscape')->stream($titulo."-.pdf"  );
           }else{
+
             return \Excel::download(new ISOR1_Export($contenedores),$titulo.'.xlsx');
           }
-      } 
+      }
       else{
         activity('Acceso denegado')
         ->by(Auth::user())
@@ -86,14 +87,14 @@ class ISOController extends Controller
           return $pdf->setPaper('a4', 'landscape')->stream($titulo . "-.pdf"  );
         }else{
           return \Excel::download(new ISOR2_Export($tipos),$titulo.'.xlsx');
-        }      
+        }
       }
       else{
         activity('Acceso denegado')
         ->by(Auth::user())
         ->log('El usuario '.Auth::user()->name.' intentó generar el reporte de procesos generados y documento activo del módulo ISO.');
         abort(403,__('Unauthorized'));
-      } 
+      }
    }
 
 }

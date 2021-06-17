@@ -43,7 +43,7 @@
                   $back2 = $archivo->subcontainer->back($archivo->subcontainer->back);
                 @endphp
                   <tr style="font-size: 80%">
-                    <th width="20px" scope="row">{{$key + 1}}</th>
+                    <th  scope="row">{{$key + 1}}</th>
                     <td>{{$archivo->container->title}} ({{$archivo->container->code}}) </td>
                     <td>{{$back2->back($back2->back)->title}} ({{$back2->back($back2->back)->code}}) / {{$back2->title}} </td> <!--/ -->
                     <td> {{ $archivo->title . '-'. $archivo->code.".".$archivo->format}}  </td>

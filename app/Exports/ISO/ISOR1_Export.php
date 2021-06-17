@@ -17,6 +17,8 @@ class ISOR1_Export implements FromView, ShouldAutoSize
         $this->data= $data;
     }
 
+
+
     public function view(): View
     {
 

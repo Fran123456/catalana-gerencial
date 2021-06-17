@@ -26,8 +26,8 @@
               <th scope="col" >#</th>
               <th scope="col">Sub Proceso</th>
               <th scope="col">Documento Activo</th>
-              <th scope="col" width="50px">Edición</th>
-              <th scope="col" width="100px">Codigo</th>
+              <th scope="col" >Edición</th>
+              <th scope="col" >Codigo</th>
               <th scope="col">Tipo Documento</th>
             </tr>
           </thead>
@@ -38,12 +38,12 @@
             @foreach ($contenedor->subcontainers as $key => $subcontenedor)
               @if ($subcontenedor->order == 3)
                 @php
-                  $arc =$subcontenedor->activeFile($subcontenedor->id);
-                  $back2 = $subcontenedor->back($subcontenedor->back);
-                  $back1 = $back2->back($back2->back);
-                @endphp
+                   $arc =$subcontenedor->activeFile($subcontenedor->id);
+                   $back2 = $subcontenedor->back($subcontenedor->back);
+                   $back1 = $back2->back($back2->back);
+                 @endphp
                 <tr style="font-size: 80%">
-                  <th width="20px" scope="row">{{$c + 1}}</th>
+                  <th scope="row">{{$key+1}}</th>
                   <td> {{$back1->title}} ({{$back1->code}}) / {{$back2->title}}  </td>
                   @if ($arc != null)
                   <td> {{ $arc->title . '-'. $arc->code.".".$arc->format}}</td>
@@ -55,11 +55,7 @@
                     <td></td> <td></td> <td></td><td></td>
                   @endif
                 </tr>
-                @php
-                  $c++;
-                @endphp
               @endif
-
             @endforeach
           </tbody>
         </table>
